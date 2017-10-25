@@ -5,8 +5,9 @@ int main()
 {
     int i;
     cout<<"hello,world"<<endl;
-    cout<<"test"<<endl;
+    cout<<"te"<<endl;
     for(i=0;i<10;i++)
         cout<<i <<endl;
-    return 0;
+    cout<<"same time"<<endl;
+
 }
