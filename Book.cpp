@@ -9,6 +9,6 @@ int main()
     for(i=0;i<10;i++)
         for(j=0;j<10;j++)
         cout<<i <<endl;
-    cout<<"same time"<<endl;
+    cout<<"same"<<endl;
     return 0;
 }
