@@ -46,5 +46,5 @@ Private:
 
 int main()
 {
-	cout<<"******"<<endl;
+	cout<<"******"<<endl<<endl;
 }
