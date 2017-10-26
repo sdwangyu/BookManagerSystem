@@ -1,30 +1,30 @@
-1.����ע��github�˺�
+﻿1.请先注册github账号
 https://github.com/
 
-2.ע����ɺ�
-����������� ��֤�˺�
+2.注册完成后
+进入个人邮箱 验证账号
 
-3.��װGitHubDesktop
+3.安装GitHubDesktop
 
-4.������û�����������Ⱥ��
-���Ұ�����뵽��Ŀ
+4.把你的用户名发到讨论群里
+等我把你加入到项目
 
-5.��github ��¼
+5.打开github 登录
 
-6.������Ͻ�File  ѡ��Clone....
+6.点击左上角File  选择Clone....
 
-7.ѡ��sdwangyu/BookManagerSystem ѡ�������Ŀ�ڱ��ص��Ե�λ�� Ȼ��ȷ��
+7.选中sdwangyu/BookManagerSystem 选好你的项目在本地电脑的位置 然后确认
 
-ʹ�ù�������
+使用过程如下
 
-д����֮ǰ�ȴ�githubdesktop
+写代码之前先打开githubdesktop
 
-���Pull Origin ������λ��
+点击Pull Origin 在右上位置
 
-����ʾ���и��£�����û�У� ����и��� �ٵ��һ��
+会提示你有更新（或者没有） 如果有更新 再点击一次
 
-Ȼ�����ı����ļ��� ��д����
+然后打开你的本地文件夹 编写代码
 
-��д��ɺ� ���� ��githubdesktop д�����½� summary����д����ʲô���ģ� ���commit to master 
+编写完成后 保存 打开githubdesktop 写好左下角 summary（填写做了什么更改） 点击commit to master 
 
-Ȼ���ٴε���Ǹ�Pull Origin��ť ������ ���
+然后再次点击那个Pull Origin按钮 点两次 完成
