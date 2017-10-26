@@ -48,6 +48,6 @@ Private:
 
 int main()
 {
-
+	cout << "恕我直言，大家都是胖子~";
 	cout<<"%%%%%%%"<<endl<<endl;
 }
