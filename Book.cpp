@@ -16,7 +16,6 @@ Private：
 Class Library {
 Public:
 Void charge(Card card);//(充值）
-void change();
 Void bookLend(Book book);//(借书）
 Void bookReturn(Book book);//(还书）
 Void bookOrder(Book book);//（预约）
