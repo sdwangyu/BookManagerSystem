@@ -48,5 +48,10 @@ Private:
 
 int main()
 {
-	cout<<"******"<<endl<<endl;
+<<<<<<< HEAD
+	cout<<"*"<<endl<<endl;
+
+=======
+	cout<<"%%%%%%%"<<endl<<endl;
+>>>>>>> 93461c32c9bab36db5df9c609f7ea33d4682ba09
 }
