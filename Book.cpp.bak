@@ -43,8 +43,3 @@ Void updatePassword();
 Private:
 
 }
-
-int main()
-{
-	cout<<"******"<<endl;
-}
