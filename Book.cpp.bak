@@ -35,7 +35,9 @@ Private:
 
 Class Record {
 Public:
-Void login();
+Void login(){
+	cout<<endl;
+};
 Void register();
 Void updatePassword();
 
