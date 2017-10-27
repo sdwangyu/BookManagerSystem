@@ -54,8 +54,8 @@ Private:
     char publisher[20];
     short storage;
     bool bookState;
-    short bookMan;
-    short tStorage;
+    short bookMan; //预约人数
+    short tStorage;  //临时库存 
     char flag[1];  //图书是否可用
 
 };
@@ -73,13 +73,13 @@ Public:
     Private：
     char cardID[11];
     char aPassword[20];
-    short lendedCount;
-    short lendingCount;
+    short lendedCount;//已借本数
+    short lendingCount;//可借本数
     char cardHolder[10];
     char cardState[1];   //账号冻结状态
     double balance;
     double oweMoney;   //违约金
-    short bookedCount;
+    short bookedCount;//预约本数    已借+可借+预约=10 提示不可借不可预约
     char cID[18];  //身份证号
     char cPhone[11];
     char flag[1];  //账号是否可用
@@ -94,6 +94,7 @@ Public:
     void bookLend(Book book);
     void bookReturn(Book book);
     void bookOrder(Book book);
+    void bookorderCancel(Card card);
     void bookRenew(Book book);
 
 private:
@@ -107,11 +108,10 @@ Public:
 
     void addBook(Book book);
     void deleteBook(Book book);
-    void newStorage(Card card);
+    void newStorage(Book book);
     void searchRecord();
     void operateCard(Card card);
 
-Private:
     char cardID[11];
     char aPassword[20];
     char cardHolder[10];
@@ -124,11 +124,13 @@ Class Record
 {
 Public:
 
-    void bookLendRecord();
-    void bookReturnRecord();
-    void bookOrderRecord();
+    void bookLendRecord(Book book，Card card);
+    void bookReturnRecord(Book book，Card card);
+    void bookOrderRecord(Book book，Card card);
     void bookRenewRecord();
-
+    void bookOrderCancelRecord(Book book，Card card);//取消预约记录
+    void bookOrderNoRecord(Book book，Card card);//预约失效记录
+    void bookOrderDelete(Book book，Card card);//预约删除记录
 
 Private:
 
