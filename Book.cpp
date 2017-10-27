@@ -4,22 +4,22 @@ using namespace std;
 Class Book{
 Public:
 Private:
-}£»
+}ï¼›
 
 Class Card {
 Public:
 
-Private£º
+Privateï¼š
 
 }
 
 Class Library {
 Public:
-Void charge(Card card);//(³äÖµ£©
-Void bookLend(Book book);//(½èÊé£©
-Void bookReturn(Book book);//(»¹Êé£©
-Void bookOrder(Book book);//£¨Ô¤Ô¼£©
-Void bookRenew(Book book);//£¨Ðø½è£©
+Void charge(Card card);//(å……å€¼ï¼‰
+Void bookLend(Book book);//(å€Ÿä¹¦ï¼‰
+Void bookReturn(Book book);//(è¿˜ä¹¦ï¼‰
+Void bookOrder(Book book);//ï¼ˆé¢„çº¦ï¼‰
+Void bookRenew(Book book);//ï¼ˆç»­å€Ÿï¼‰
 }
 
 Class Administrator {
