@@ -7,7 +7,7 @@ using namespace std;
 Class Book
 {
 Public:
-    Book(char char BookID[20],BookName[20],char Author[20],char Publisher[20],short Storage,bool BookState,short BookMan,short TStorage)
+    Book(char char BookID[20],BookName[20],char Author[20],char Publisher[20],short Storage,char BookState[1],short BookMan,short TStorage,char Flag[1])
     {
         int i;
         for(i=0; i<20; i++)
@@ -27,9 +27,10 @@ Public:
             publisher[i]=Publisher[i];
         }
         storage=Storage;
-        BookState=bookState;
+        bookState[0]=BookState[0];
         bookMan=BookMan;
         tStorage=TStorage;
+        flag[0]=Flag[0];
     }
     char *getbookID(char BookID[20])
     {
@@ -43,7 +44,30 @@ Public:
     {
         return author;
     }
-
+    char *getpublisher()
+    {
+        return publisher;
+    }
+    short getstorage()
+    {
+        return storage;
+    }
+    char *getbookState()
+    {
+        return bookState;
+    }
+    short getbookMan()
+    {
+        return bookMan;
+    }
+    short tStorage()
+    {
+        return tStorage;
+    }
+    char *getflag()
+    {
+        return flag;
+    }
 //继续编写
 
 
@@ -53,11 +77,10 @@ Private:
     char author[20];
     char publisher[20];
     short storage;
-    bool bookState;
+    char bookState[1];
     short bookMan; //预约人数
-    short tStorage;  //临时库存 
-    char flag[1];  //图书是否可用
-
+    short tStorage;  //临时库存
+    char flag[1];  //图书是否存在
 };
 
 
@@ -137,6 +160,7 @@ Private:
 
 }
 
-void login();
-void register();
+void signIn();
+void signUp();
+void signOut();
 void update();
