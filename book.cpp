@@ -2,7 +2,8 @@
 #include<string.h>
 using namespace std;
 
-
+int allcard=5000;
+int allbook=100000;
 
 Class Book
 {
@@ -86,32 +87,16 @@ Public:
 };
 
 
-Class Library
-{
-Public:
-
-    void charge(Card card);
-    void bookLend(Book book);
-    void bookReturn(Book book);
-    void bookOrder(Book book);
-    void bookorderCancel(Card card);
-    void bookRenew(Book book);
-
-private:
-
-
-};
-
 Class Administrator
 {
 Public:
 
-    void addBook(Book book);
-    void deleteBook(Book book);
-    void newStorage(Book book);
-    void searchRecord();
-    void operateCard(Card card);
-
+    void addBook(Book book);//增加书
+    //void deleteBook(Book book);老师说不要删书
+    void newStorage(Book book);//新设库存
+    void searchRecord();//查询记录
+    //void operateCard(Card card);老师说不要删卡 听老师的
+Private：
     char account[11];
     char aPassword[20];
     char accountHolder[10];
@@ -120,23 +105,41 @@ Public:
 
 }
 
-Class Record
+
+Class Library
 {
 Public:
-
-    void bookLendRecord(Book book，Card card);
-    void bookReturnRecord(Book book，Card card);
-    void bookOrderRecord(Book book，Card card);
-    void bookRenewRecord();
+    void signIn();//用户和管理员登陆
+    void signUp();//用户注册
+    void signOut();//用户注销
+    void update();//函数用于用户进入系统时 对缓冲区进行更新
+    void charge();//充值函数
+    void Rcharge();//处理用户违约金
+    void resetCard();//更新修改卡信息 姓名 身份证 手机
+    void Search();//查询书本函数
+    void PersonalIformation();//用户信息 显示当前借书和预约状态
+    void bookLend(Book book);//借书
+    void bookReturn(Book book);//还书
+    void bookOrder(Book book);//预约
+    void bookorderCancel(Card card);//取消预约
+    void bookRenew(Book book);//续借
+    void bookLendRecord(Book book，Card card);//借书记录
+    void bookReturnRecord(Book book，Card card);//还书记录
+    void bookOrderRecord(Book book，Card card);//预定记录
+    void bookRenewRecord();//续借记录
     void bookOrderCancelRecord(Book book，Card card);//取消预约记录
     void bookOrderNoRecord(Book book，Card card);//预约失效记录
     void bookOrderDelete(Book book，Card card);//预约删除记录
 
 Private:
+    Book book;
+    Card card;
 
 
-}
+};
 
-void login();
-void register();
-void update();
+
+
+
+
+
