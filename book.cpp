@@ -95,7 +95,7 @@ Public:
 // 需要编写
     Private：
     char cardID[11];
-    char aPassword[20];
+    char cPassword[20];
     short lendedCount;//已借本数
     short lendingCount;//可借本数
     char cardHolder[10];
@@ -135,11 +135,11 @@ Public:
     void searchRecord();
     void operateCard(Card card);
 
-    char cardID[11];
+    char account[11];
     char aPassword[20];
-    char cardHolder[10];
-    char cID[18];
-    char cPhone[11];
+    char accountHolder[10];
+    char aID[18];
+    char aPhone[11];
 
 }
 
