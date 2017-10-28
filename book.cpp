@@ -1,5 +1,4 @@
 #include<iostream>
-#include<string.h>
 using namespace std;
 
 int allcard=5000;
@@ -8,7 +7,7 @@ int allbook=100000;
 Class Book
 {
 Public:
-    Book(char char BookID[20],BookName[20],char Author[20],char Publisher[20],short Storage,bool BookState,short BookMan,short TStorage)
+    Book(char char BookID[20],BookName[20],char Author[20],char Publisher[20],short Storage,char BookState[1],short BookMan,short TStorage,char Flag[1])
     {
         int i;
         for(i=0; i<20; i++)
@@ -28,9 +27,10 @@ Public:
             publisher[i]=Publisher[i];
         }
         storage=Storage;
-        BookState=bookState;
+        bookState[0]=BookState[0];
         bookMan=BookMan;
         tStorage=TStorage;
+        flag[0]=Flag[0];
     }
     char *getbookID(char BookID[20])
     {
@@ -44,7 +44,30 @@ Public:
     {
         return author;
     }
-
+    char *getpublisher()
+    {
+        return publisher;
+    }
+    short getstorage()
+    {
+        return storage;
+    }
+    char *getbookState()
+    {
+        return bookState;
+    }
+    short getbookMan()
+    {
+        return bookMan;
+    }
+    short tStorage()
+    {
+        return tStorage;
+    }
+    char *getflag()
+    {
+        return flag;
+    }
 //继续编写
 
 
@@ -54,11 +77,10 @@ Private:
     char author[20];
     char publisher[20];
     short storage;
-    bool bookState;
+    char bookState[1];
     short bookMan; //预约人数
-    short tStorage;  //临时库存 
-    char flag[1];  //图书是否可用
-
+    short tStorage;  //临时库存
+    char flag[1];  //图书是否存在
 };
 
 
@@ -96,19 +118,20 @@ Public:
     void newStorage(Book book);//新设库存
     void searchRecord();//查询记录
     //void operateCard(Card card);老师说不要删卡 听老师的
-Private：
+    Private：
     char account[11];
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
     char aPhone[11];
 
-}
+};
 
 
 Class Library
 {
 Public:
+
     void signIn();//用户和管理员登陆
     void signUp();//用户注册
     void signOut();//用户注销
@@ -137,9 +160,6 @@ Private:
 
 
 };
-
-
-
 
 
 
