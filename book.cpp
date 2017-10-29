@@ -1,13 +1,15 @@
 #include<iostream>
 using namespace std;
 
-int allcard=5000;
-int allbook=100000;
+int allcard;//从文件中读取 修改后重新写入文件  用户注册 ++
+int allbook;//增加图书 ++
 
-Class Book
+int compareDate();//匹配
+
+class Book//构造函数 复制构造函数
 {
 Public:
-    Book(char char BookID[20],BookName[20],char Author[20],char Publisher[20],short Storage,char BookState[1],short BookMan,short TStorage,char Flag[1])
+    Book(char char BookID[20],BookName[20],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)
     {
         int i;
         for(i=0; i<20; i++)
@@ -26,13 +28,14 @@ Public:
         {
             publisher[i]=Publisher[i];
         }
+        BookState='1';   //所有标记 0表示不存在 1表示存在
         storage=Storage;
         bookState[0]=BookState[0];
         bookMan=BookMan;
         tStorage=TStorage;
-        flag[0]=Flag[0];
+        flag='1';
     }
-    char *getbookID(char BookID[20])
+    char *getbookID()
     {
         return bookID;
     }
@@ -76,15 +79,14 @@ Private:
     char bookName[20];
     char author[20];
     char publisher[20];
-    short storage;
-    char bookState[1];
+    short storage; 
     short bookMan; //预约人数
     short tStorage;  //临时库存
-    char flag[1];  //图书是否存在
+    char flag;  //图书是否存在
 };
 
 
-Class Card
+class Card//构造函数  复制构造函数
 {
 Public:
     Card();
@@ -109,14 +111,14 @@ Public:
 };
 
 
-Class Administrator
+class Administrator
 {
 Public:
 
     void addBook(Book book);//增加书
     //void deleteBook(Book book);老师说不要删书
     void newStorage(Book book);//新设库存
-    void searchRecord();//查询记录
+    void searchRecord();//查询记录   1.
     //void operateCard(Card card);老师说不要删卡 听老师的
     Private：
     char account[11];
@@ -128,35 +130,69 @@ Public:
 };
 
 
-Class Library
+
+class Record
+{
+Public:
+    Record(Book book1,Card card1)
+    {
+        book=book1;
+        card=card2;
+        //获取当前系统日期 自行查询方法 读入当前year month day
+    }
+
+    void bookLendRecord();//借书记录
+    void bookReturnRecord();//还书记录
+    void bookOrderRecord();//预约记录
+    void bookRenewRecord();//续借记录
+    void bookOrderCancelRecord();//取消预约记录
+    void bookOrderNoRecord();//预约失效记录
+    void signInRecord();//登陆记录
+    void signOutRecord();//注销记录
+    void signUpRecord();//注册记录
+
+Private：
+    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录  
+    Book book;
+    Card card;
+    int year;
+    int month;
+    int day;
+    char flag2;//用于缓冲区   1对预约记录表示它已经写入记录文件 1对续借记录表示该书已续借
+
+
+};
+
+class Library
 {
 Public:
 
-    void signIn();//用户和管理员登陆
+    void signInUser();//用户登陆
+    void signInAdmin();//管理员登陆
     void signUp();//用户注册
     void signOut();//用户注销
+    void matchCid();//身份证ID匹配
+    void ResetPassward();//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
     void charge();//充值函数
     void Rcharge();//处理用户违约金
     void resetCard();//更新修改卡信息 姓名 身份证 手机
+
+
     void Search();//查询书本函数
-    void PersonalIformation();//用户信息 显示当前借书和预约状态
-    void bookLend(Book book);//借书
-    void bookReturn(Book book);//还书
-    void bookOrder(Book book);//预约
-    void bookorderCancel(Card card);//取消预约
-    void bookRenew(Book book);//续借
-    void bookLendRecord(Book book，Card card);//借书记录
-    void bookReturnRecord(Book book，Card card);//还书记录
-    void bookOrderRecord(Book book，Card card);//预定记录
-    void bookRenewRecord();//续借记录
-    void bookOrderCancelRecord(Book book，Card card);//取消预约记录
-    void bookOrderNoRecord(Book book，Card card);//预约失效记录
-    void bookOrderDelete(Book book，Card card);//预约删除记录
+
+    
+    void bookLend();//借书
+    void bookReturn();//还书
+    void bookOrder();//预约
+    void bookorderCancel();//取消预约
+    void bookRenew();//续借
+
 
 Private:
     Book book;
     Card card;
+
 
 
 };
