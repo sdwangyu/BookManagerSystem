@@ -124,11 +124,19 @@ Public:
     		flag=newflag;
     }
 Private:
+<<<<<<< HEAD
     char bookID[10];//图书编号
     char bookName[50];//书名
     char author[20];//作者
     char publisher[20];//出版商
     short storage; //库存
+=======
+    char bookID[10];
+    char bookName[50];
+    char author[20];
+    char publisher[20];
+    short storage; 
+>>>>>>> 43befdf82e3d619d5b2214a5480a809c1b4f6897
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
