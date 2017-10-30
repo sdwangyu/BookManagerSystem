@@ -9,7 +9,7 @@ int compareDate();//匹配
 class Book//构造函数 复制构造函数
 {
 Public:
-    Book(char char BookID[10],BookName[50],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)//构造函数
+    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)//构造函数
     {
         
         for(int i=0; i<10; i++)
@@ -29,8 +29,8 @@ Public:
             publisher[i]=Publisher[i];
         }
         storage=Storage;
-        bookMan=BookMan;
-        tStorage=TStorage;
+        bookMan=0;
+        tStorage=0;
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
     }
     Book(Book &book){//复制构造函数
@@ -124,19 +124,11 @@ Public:
     		flag=newflag;
     }
 Private:
-<<<<<<< HEAD
     char bookID[10];//图书编号
     char bookName[50];//书名
     char author[20];//作者
     char publisher[20];//出版商
     short storage; //库存
-=======
-    char bookID[10];
-    char bookName[50];
-    char author[20];
-    char publisher[20];
-    short storage; 
->>>>>>> 43befdf82e3d619d5b2214a5480a809c1b4f6897
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
@@ -146,7 +138,7 @@ Private:
 class Card//构造函数  复制构造函数
 {
 Public:
-    Card(char CardID[11],char CPassword[20],char CardHolder[10]double Balance,double OweMoney,char CID[18],char CPhone[11]){//构造函数
+    Card(char CardID[11],char CPassword[20],char CardHolder[10],double Balance,char CID[18],char CPhone[11]){//构造函数
     		for(int i=0; i<11; i++)
         {
             cardID[i]=CardID[i];
@@ -163,7 +155,7 @@ Public:
         }
         bookState='1';//1表示未冻结
         balance=Balance;
-        ownMoney=OwnMoney;
+        ownMoney=0;
         bookedCount=0;//初始预约本数为0
         for(int i=0; i<18; i++)
         {

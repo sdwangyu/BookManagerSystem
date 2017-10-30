@@ -9,14 +9,14 @@ int compareDate();//匹配
 class Book//构造函数 复制构造函数
 {
 Public:
-    Book(char char BookID[10],BookName[20],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)//构造函数
+    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)//构造函数
     {
         
         for(int i=0; i<10; i++)
         {
             bookID[i]=BookID[i];
         }
-        for(int i=0; i<20; i++)
+        for(int i=0; i<50; i++)
         {
             bookName[i]=BookName[i];
         }
@@ -38,7 +38,7 @@ Public:
         {
             bookID[i]=book.bookID[i];
         }
-        for(int i=0; i<20; i++)
+        for(int i=0; i<50; i++)
         {
             bookName[i]=bbok.bookName[i];
         }
@@ -59,7 +59,7 @@ Public:
     {
         return bookID;
     }
-    void setbookID(char *newbookID){
+    void setbookID(char newbookID[10]){
     		for(int i=0; i<10; i++)
         {
             bookID[i]=newbookID[i];
@@ -69,8 +69,8 @@ Public:
     {
         return bookName;
     }
-    void setbookName(char *newbookName){
-    		for(int i=0; i<20; i++)
+    void setbookName(char newbookName[50]){
+    		for(int i=0; i<50; i++)
         {
             bookName[i]=newbookName[i];
         }
@@ -79,7 +79,7 @@ Public:
     {
         return author;
     }
-    void setauthor(char *newauthor){
+    void setauthor(char newauthor[20]){
     		for(int i=0; i<20; i++)
         {
             author[i]=newauthor[i];
@@ -89,7 +89,7 @@ Public:
     {
         return publisher;
     }
-    void setpublisher(char *newpublisher){
+    void setpublisher(char newpublisher[20]){
     		for(int i=0; i<20; i++)
         {
             publisher[i]=newpublisher[i];
@@ -124,11 +124,19 @@ Public:
     		flag=newflag;
     }
 Private:
+<<<<<<< HEAD
     char bookID[10];//图书编号
     char bookName[50];//书名
     char author[20];//作者
     char publisher[20];//出版商
     short storage; //库存
+=======
+    char bookID[10];
+    char bookName[50];
+    char author[20];
+    char publisher[20];
+    short storage; 
+>>>>>>> 43befdf82e3d619d5b2214a5480a809c1b4f6897
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
