@@ -75,8 +75,8 @@ Public:
 
 
 Private:
-    char bookID[20];
-    char bookName[20];
+    char bookID[10];
+    char bookName[50];
     char author[20];
     char publisher[20];
     short storage; 
