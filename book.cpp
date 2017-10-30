@@ -379,10 +379,45 @@ Public:
 Private:
     Book book;
     Card card;
-
-
-
 };
 
+void Library::signInUser(){
 
+}
+
+void Library::signInAdmin(){
+
+}
+
+void Library::signUp(){
+
+}
+
+void Library::signOut(){
+
+}
+
+void Library::matchCid(){
+
+}
+
+void Library::ResetPassword(){
+
+}
+
+void Library::update(){
+
+}
+
+void Library::charge(){
+
+}
+
+void Library::Rcharge(){
+
+}
+
+void Library::resetCard(){
+
+}
 
