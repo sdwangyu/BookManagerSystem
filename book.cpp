@@ -1,10 +1,21 @@
 #include<time.h>
 #include<iostream>
 
-#define BOOK_LEND_RECORD record.txt;//10.30 Record借书记录对应文件
-#define BOOK_RENEW_RECORD renewrecord.txt;//10.30 .Record续借记录对应文件
-#define BOOK_ORDER_RECORD order.txt;//10.30 Record预约取消预约预约到期记录对应文件
-#define SIGN_UP_IN_OUT_RECORD sign.txt;//10.30 Record登陆注册注销记录对应文件
+#define ALLNUM allNum//存放allcard和allbook
+#define BOOKINFORMATION bookInformation//全部图书信息
+#define CARDINFORMATION cardInformation//全部用户信息
+#define BOOK_LEND_RECORD bookLendRecord//10.30 Record借书记录对应文件
+#define BOOK_RENEW_RECORD bookRenewRecord//10.30 .Record续借记录对应文件
+#define BOOK_ORDER_RECORD bookOrderRecord//预约记录
+#define BOOK_ORDER_CANCEL_RECORD bookOrderCancelRecord//10.30 取消预约预约到期记录对应文件
+#define SIGN_IN_RECORD signInRecord//10.30 Record登陆记录对应文件
+#define SIGN_UP_RECORD signUpRecord//注册记录文件
+#define SIGN_OUT_RECORD signOutRecord//注销记录文件
+#define BUFFERZONE bufferZone//缓冲区文件
+#define SEARCHRESULT searchResult//查询结果文件
+#define SEARCHRESULTTEMP searchResultTmp//查询结果临时文件
+#define LOG log;//图书馆大日志
+
 using namespace std;
 
 int allcard;//从文件中读取 修改后重新写入文件  用户注册 ++
@@ -15,7 +26,7 @@ int compareDate();//匹配
 class Book//构造函数 复制构造函数
 {
 Public:
-    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20])//构造函数
+    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],char Storage)//构造函数
     {
         
         for(int i=0; i<10; i++)
@@ -34,7 +45,7 @@ Public:
         {
             publisher[i]=Publisher[i];
         }
-        storage=10;//初始库存为10本
+        storage=Storage;//初始库存为10本
         bookMan=0;//初始预约人数为0
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
