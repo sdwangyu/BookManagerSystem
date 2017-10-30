@@ -350,7 +350,7 @@ Public:
     void signInAdmin();//管理员登陆
     void signUp();//用户注册
     void signOut();//用户注销
-    void matchCid();//身份证ID匹配
+   // void matchCid();//身份证ID匹配
     void ResetPassward();//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
     void charge();//充值函数
@@ -371,45 +371,48 @@ Public:
 Private:
     Book book;
     Card card;
+	Administrator admin;
 };
 
-void Library::signInUser(){
+void Library::signInUser(){		//用户登录
+	char cardIDt[11];
+	char cPasswordt[20];
+	
+}
+
+void Library::signInAdmin(){	//管理员登录
 
 }
 
-void Library::signInAdmin(){
+void Library::signUp(){			//用户注册
 
 }
 
-void Library::signUp(){
+void Library::signOut(){		//用户注销
 
 }
 
-void Library::signOut(){
+/*void Library::matchCid(){		//身份证ID匹配
+
+}*/
+
+void Library::ResetPassword(){	//输入新密码后重设密码写入原位置
 
 }
 
-void Library::matchCid(){
+void Library::update(){			//函数用于用户进入系统时 对缓冲区进行更新
 
 }
 
-void Library::ResetPassword(){
+void Library::charge(){			//充值函数
 
 }
 
-void Library::update(){
+void Library::Rcharge(){		//处理用户违约金
 
 }
 
-void Library::charge(){
-
-}
-
-void Library::Rcharge(){
-
-}
-
-void Library::resetCard(){
+void Library::resetCard(){		//更新修改卡信息 姓名 身份证 手机
 
 }
 
