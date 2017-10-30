@@ -1,4 +1,10 @@
+#include<time.h>
 #include<iostream>
+
+#define BOOK_LEND_RECORD record.txt;//10.30 Record借书记录对应文件
+#define BOOK_RENEW_RECORD renewrecord.txt;//10.30 .Record续借记录对应文件
+#define BOOK_ORDER_RECORD order.txt;//10.30 Record预约取消预约预约到期记录对应文件
+#define SIGN_UP_IN_OUT_RECORD sign.txt;//10.30 Record登陆注册注销记录对应文件
 using namespace std;
 
 int allcard;//从文件中读取 修改后重新写入文件  用户注册 ++
@@ -9,7 +15,7 @@ int compareDate();//匹配
 class Book//构造函数 复制构造函数
 {
 Public:
-    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)//构造函数
+    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20])//构造函数
     {
         
         for(int i=0; i<10; i++)
@@ -28,9 +34,9 @@ Public:
         {
             publisher[i]=Publisher[i];
         }
-        storage=Storage;
-        bookMan=0;
-        tStorage=0;
+        storage=10;//初始库存为10本
+        bookMan=0;//初始预约人数为0
+        tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
     }
     Book(Book &book){//复制构造函数
@@ -292,8 +298,7 @@ Public:
 
 class Administrator
 {
-Public:
-
+Public
     void addBook(Book book);//增加书
     //void deleteBook(Book book);老师说不要删书
     void newStorage(Book book);//新设库存
@@ -309,16 +314,31 @@ Public:
 };
 
 
-
 class Record
 {
 Public:
-    Record(Book book1,Card card1)
+	//10.30 构造函数更改
+    Record(Book book1,Card card1,char flag1,int Year,int Month,int Day,char flag2)
     {
         book=book1;
         card=card2;
+		flag1 = '1';
+		Year = year;
+		Month = month;
+		Day = day;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
+	Record(Card card1, int Year, int Month, int Day, char flag1) 
+	{
+		card = card2;
+		Year = year;
+		Month = month;
+		Day = day;
+		flag2 = '1';
+	
+	}
+	//复制构造函数
+	Record(Record &R);
 
     void bookLendRecord();//借书记录
     void bookReturnRecord();//还书记录
@@ -328,9 +348,30 @@ Public:
     void bookOrderNoRecord();//预约失效记录
     void signInRecord();//登陆记录
     void signOutRecord();//注销记录
-    void signUpRecord();//注册记录
+	void signUpRecord();//注册记录
 
-Private：
+	char getflag1() 
+	{
+		return flag1;
+	}
+	int getyear()
+	{
+		return year;
+	}
+	int getmonth()
+	{
+		return month;
+	}
+	int getday()
+	{
+		return day;
+	}
+	char getflag2()
+	{
+		return flag2;
+	}
+	private：
+
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录  
     Book book;
     Card card;
@@ -338,9 +379,28 @@ Private：
     int month;
     int day;
     char flag2;//用于缓冲区   1对预约记录表示它已经写入记录文件 1对续借记录表示该书已续借
-
-
 };
+//Record类内部函数的实现
+void Record::bookLendRecord()
+{
+	FILE *fp;
+	if (NULL == (fp = fopen("BOOK_LEND_RECORD", "wb")))
+	{
+		fprintf(stderr, "Can not open file");
+		return 1;
+	}
+	int i = 1;
+	fseek(fp, i*sizeof(struct book), 0);
+	fread(&abc, sizeof(struct book), 1, fp);
+	printf("%s %s %s \n", book.bookID, book.bookName, book.Publisher);
+	fseek(fp, i*sizeof(struct book), 0);
+	if (fwrite(&abc, sizeof(struct book), 1, fp) != 1)
+		printf("file write error\n");
+	fread(&abc, sizeof(struct book), 1, fp);
+	fclose(fp);
+	return 0;
+}
+
 
 class Library
 {
