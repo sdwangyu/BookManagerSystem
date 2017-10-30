@@ -9,7 +9,7 @@ int compareDate();//匹配
 class Book//构造函数 复制构造函数
 {
 Public:
-    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],short Storage,short BookMan,short TStorage)//构造函数
+    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20])//构造函数
     {
         
         for(int i=0; i<10; i++)
@@ -28,9 +28,9 @@ Public:
         {
             publisher[i]=Publisher[i];
         }
-        storage=Storage;
-        bookMan=BookMan;
-        tStorage=TStorage;
+        storage=10;//初始库存为10本
+        bookMan=0;//初始预约人数为0
+        tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
     }
     Book(Book &book){//复制构造函数
