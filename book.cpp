@@ -138,7 +138,7 @@ Private:
 class Card//构造函数  复制构造函数
 {
 Public:
-    Card(char CardID[11],char CPassword[20],char CardHolder[10]double Balance,double OweMoney,char CID[18],char CPhone[11]){//构造函数
+    Card(char CardID[11],char CPassword[20],char CardHolder[10],double Balance,char CID[18],char CPhone[11]){//构造函数
     		for(int i=0; i<11; i++)
         {
             cardID[i]=CardID[i];
@@ -155,7 +155,7 @@ Public:
         }
         bookState='1';//1表示未冻结
         balance=Balance;
-        ownMoney=OwnMoney;
+        ownMoney=0;
         bookedCount=0;//初始预约本数为0
         for(int i=0; i<18; i++)
         {
@@ -371,10 +371,45 @@ Public:
 Private:
     Book book;
     Card card;
-
-
-
 };
 
+void Library::signInUser(){
 
+}
+
+void Library::signInAdmin(){
+
+}
+
+void Library::signUp(){
+
+}
+
+void Library::signOut(){
+
+}
+
+void Library::matchCid(){
+
+}
+
+void Library::ResetPassword(){
+
+}
+
+void Library::update(){
+
+}
+
+void Library::charge(){
+
+}
+
+void Library::Rcharge(){
+
+}
+
+void Library::resetCard(){
+
+}
 

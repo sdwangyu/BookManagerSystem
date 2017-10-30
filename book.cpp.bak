@@ -28,9 +28,15 @@ Public:
         {
             publisher[i]=Publisher[i];
         }
-        storage=10;//库存为10本
+<<<<<<< HEAD
+        storage=10;//初始库存为10本
+        bookMan=0;//初始预约人数为0
+        tStorage=0;//初始预约该书的人数为0
+=======
+        storage=Storage;
         bookMan=0;
         tStorage=0;
+>>>>>>> 73fdf5ea59acab2c7cb4ad09dbed9d8b04f804e2
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
     }
     Book(Book &book){//复制构造函数
@@ -138,7 +144,7 @@ Private:
 class Card//构造函数  复制构造函数
 {
 Public:
-    Card(char CardID[11],char CPassword[20],char CardHolder[10]double Balance,double OweMoney,char CID[18],char CPhone[11]){//构造函数
+    Card(char CardID[11],char CPassword[20],char CardHolder[10],double Balance,char CID[18],char CPhone[11]){//构造函数
     		for(int i=0; i<11; i++)
         {
             cardID[i]=CardID[i];
@@ -155,7 +161,7 @@ Public:
         }
         bookState='1';//1表示未冻结
         balance=Balance;
-        ownMoney=OwnMoney;
+        ownMoney=0;
         bookedCount=0;//初始预约本数为0
         for(int i=0; i<18; i++)
         {
@@ -371,10 +377,45 @@ Public:
 Private:
     Book book;
     Card card;
-
-
-
 };
 
+void Library::signInUser(){
 
+}
+
+void Library::signInAdmin(){
+
+}
+
+void Library::signUp(){
+
+}
+
+void Library::signOut(){
+
+}
+
+void Library::matchCid(){
+
+}
+
+void Library::ResetPassword(){
+
+}
+
+void Library::update(){
+
+}
+
+void Library::charge(){
+
+}
+
+void Library::Rcharge(){
+
+}
+
+void Library::resetCard(){
+
+}
 
