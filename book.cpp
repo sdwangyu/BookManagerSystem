@@ -193,16 +193,18 @@ Public:
         {
             cardID[i]=CardID[i];
         }
+
         for(int i=0; i<20; i++)
         {
             cPassword[i]=CPassword[i];
         }
-        lendedCount=0;//初始已借本数为0
-        lendingCount=10;//初始可借本数为10
+
         for(int i=0; i<10; i++)
         {
             cardHolder[i]=CardHolder[i];
         }
+        lendedCount=0;//初始已借本数为0
+        lendingCount=10;//初始可借本数为10        
         bookState='1';//1表示未冻结
         balance=Balance;
         ownMoney=0;
@@ -244,6 +246,37 @@ Public:
             cPhone[i]=card.cPhone[i];
         }
     }
+    Card()
+    {
+        int i=0;
+        for(i=0;i<11<i++)
+        {
+            cardID[i]=' ';
+        }
+        for(i=0;i<20;i++)
+        {
+            cPassword[i]=' ';
+        }
+        for(i=0;i<10;i++)
+        {
+            cardHolder[i]=' ';
+        }
+        balance=0;
+        for(i=0;i<18;i++)
+        {
+            cID[i]=' ';
+        }    
+        for(i=0;i<11;i++)
+        {
+            cPhone=' ';
+        }
+        lendedCount=0;//初始已借本数为0
+        lendingCount=10;//初始可借本数为10        
+        bookState='1';//1表示未冻结
+        ownMoney=0;
+        bookedCount=0;//初始预约本数为0
+    }
+
    	char *getcardID(){
    			return cardID;
    	}
