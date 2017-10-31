@@ -25,10 +25,10 @@ int compareDate();//匹配
 
 class Book//构造函数 复制构造函数
 {
-Public:
+public:
     Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],char Storage)//构造函数
     {
-        
+
         for(int i=0; i<10; i++)
         {
             bookID[i]=BookID[i];
@@ -50,14 +50,39 @@ Public:
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
     }
-    Book(Book &book){//复制构造函数
-    		for(int i=0; i<10; i++)
+    Book()
+    {
+        for(int i=0; i<10; i++)
+        {
+            bookID[i]=' ';
+        }
+        for(int i=0; i<50; i++)
+        {
+            bookName[i]=' ';
+        }
+        for(int i=0; i<20; i++)
+        {
+            author[i]=' ';
+        }
+        for(int i=0; i<20; i++)
+        {
+            publisher[i]=' ';
+        }
+        storage=10;//初始库存为10本
+        bookMan=0;//初始预约人数为0
+        tStorage=0;//初始预约该书的人数为0
+        flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
+    }
+
+    Book(Book &book) //复制构造函数
+    {
+        for(int i=0; i<10; i++)
         {
             bookID[i]=book.bookID[i];
         }
         for(int i=0; i<50; i++)
         {
-            bookName[i]=bbok.bookName[i];
+            bookName[i]=book.bookName[i];
         }
         for(int i=0; i<20; i++)
         {
@@ -76,8 +101,9 @@ Public:
     {
         return bookID;
     }
-    void setbookID(char newbookID[10]){
-    		for(int i=0; i<10; i++)
+    void setbookID(char newbookID[10])
+    {
+        for(int i=0; i<10; i++)
         {
             bookID[i]=newbookID[i];
         }
@@ -86,8 +112,9 @@ Public:
     {
         return bookName;
     }
-    void setbookName(char newbookName[50]){
-    		for(int i=0; i<50; i++)
+    void setbookName(char newbookName[50])
+    {
+        for(int i=0; i<50; i++)
         {
             bookName[i]=newbookName[i];
         }
@@ -96,8 +123,9 @@ Public:
     {
         return author;
     }
-    void setauthor(char newauthor[20]){
-    		for(int i=0; i<20; i++)
+    void setauthor(char newauthor[20])
+    {
+        for(int i=0; i<20; i++)
         {
             author[i]=newauthor[i];
         }
@@ -106,8 +134,9 @@ Public:
     {
         return publisher;
     }
-    void setpublisher(char newpublisher[20]){
-    		for(int i=0; i<20; i++)
+    void setpublisher(char newpublisher[20])
+    {
+        for(int i=0; i<20; i++)
         {
             publisher[i]=newpublisher[i];
         }
@@ -116,49 +145,40 @@ Public:
     {
         return storage;
     }
-    void setstorage(short newstorage){
-    		storage=newstorage;
+    void setstorage(short newstorage)
+    {
+        storage=newstorage;
     }
     short getbookMan()
     {
         return bookMan;
     }
-<<<<<<< HEAD
-=======
-    void setbookMan(short newbookMan){
-    		bookMan=newbookMan;
+    void setbookMan(short newbookMan)
+    {
+        bookMan=newbookMan;
     }
->>>>>>> 0c0a639e3830f348dbb3449509f6576eb5024efe
     short gettStorage()
     {
         return tStorage;
     }
-    void settStorage(short newtStorage){
-    		tStorage=newStorage;
+    void settStorage(short newStorage)
+    {
+        tStorage=newStorage;
     }
     char getflag()
     {
         return flag;
     }
-<<<<<<< HEAD
-//继续编写
-Private:
-    char bookID[20];
-    char bookName[20];
-    char author[20];
-    char publisher[20];
-    short storage;
-=======
-    void setflag(char newflag){
-    		flag=newflag;
+    void setflag(char newflag)
+    {
+        flag=newflag;
     }
-Private:
+private:
     char bookID[10];//图书编号
     char bookName[50];//书名
     char author[20];//作者
     char publisher[20];//出版商
     short storage; //库存
->>>>>>> 0c0a639e3830f348dbb3449509f6576eb5024efe
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
@@ -306,25 +326,16 @@ Public:
         }
    	}
     Private：
-<<<<<<< HEAD
-    char cardID[11];
-    char cPassword[20];
-    short lendedCount;//已借本数  已借+可借=10
-=======
+
     char cardID[11];//卡号
     char cPassword[20];//密码
     short lendedCount;//已借本数
->>>>>>> 0c0a639e3830f348dbb3449509f6576eb5024efe
     short lendingCount;//可借本数
     char cardHolder[10];//持卡人姓名
     char cardState;   //账号冻结状态
     double balance;//余额
     double oweMoney;   //违约金
-<<<<<<< HEAD
-    short bookedCount;//预约本数5    提示不可借不可预约
-=======
     short bookedCount;//预约本数（最多可预约本数）  已借+可借+预约=10 提示不可借不可预约
->>>>>>> 0c0a639e3830f348dbb3449509f6576eb5024efe
     char cID[18];  //身份证号
     char cPhone[11];//持卡人手机号
 };
@@ -404,13 +415,7 @@ Public:
 		return flag2;
 	}
 	private：
-
-<<<<<<< HEAD
-Private：
-    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录
-=======
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录  
->>>>>>> 0c0a639e3830f348dbb3449509f6576eb5024efe
     Book book;
     Card card;
     int year;
@@ -443,12 +448,19 @@ void Record::bookLendRecord()
 class Library
 {
 Public:
-    void (Book book1,Card card1) {
+    void Library(Book book1,Card card1) {
         book = book1;
         card = card1;
     }
-    void (Card card1) {
+    void Library(Card card1) {
         card = card1;
+    }
+    void Library()
+    {
+        Book book1;
+        Card card1;
+        card=card1;
+        book=book1;
     }
     void signInUser();//用户登陆
     void signInAdmin();//管理员登陆
@@ -472,7 +484,6 @@ Public:
 Private:
     Book book;
     Card card;
-<<<<<<< HEAD
 };
 
 void Library::bookLend() { //借书 1.直接借书  2.通过预约借书？？？
@@ -593,7 +604,6 @@ void Library::bookRenew(){//图书续借
     cout<<"续借成功"<<endl;
     record.bookRenewRecord();//生成一条续借记录
 }
-=======
 	Administrator admin;
 };
 
@@ -636,7 +646,6 @@ void Library::Rcharge(){		//处理用户违约金
 }
 
 void Library::resetCard(){		//更新修改卡信息 姓名 身份证 手机
->>>>>>> 0c0a639e3830f348dbb3449509f6576eb5024efe
 
 }
 
