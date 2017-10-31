@@ -498,7 +498,7 @@ Public:
         book=book1;
     }
     void signInUser(char*username_PutIn, char*password_PutIn);//用户登陆
-    void signInAdmin(char*username_PutIn, char*password_PutIn);//管理员登陆
+	void signInAdmin(char*adminname_PutIn, char*password_PutIn);//管理员登陆
     void signUp();//用户注册
     void signOut();//用户注销
    // void matchCid();//身份证ID匹配
@@ -519,6 +519,7 @@ Public:
 Private:
     Book book;
     Card card;
+	Administrator admin;
 };
 
 void Library::bookLend() { //借书 1.直接借书  2.通过预约借书？？？
@@ -661,7 +662,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 	while (fp != fpEnd){
 		fseek(fp, i * sizeof(Card), SEEK_SET);
 		fread(&card_temp, sizeof(Card), 1, fp);
-		if ((string)card_temp.getcardID() == (string)username_PutIn){	//如果找到对应的card就用复制构造函数把找到的值赋值给私有成员card
+		if ((string)card_temp.getcardID() == (string)username_PutIn){	//如果找到对应的card就用复制构造函数把找到的值赋值给一个暂时的变量card_find，以便于后面的密码匹配
 			Card card_find(card_temp);
 			break;
 		}
@@ -677,8 +678,39 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 	}
 }
 
-void Library::signInAdmin(){	//管理员登录
+void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理员登录
+	//将管理员输入的id和密码传到形参以便进行账号和密码的匹配
+	FILE*fpEnd = fopen("admininformation", "rb+");	//用于标志文件的末尾，以控制查找时的循环变量的控制。
+	if (fpEnd == NULL) {
+		printf("file error\n");
+		exit(1);
+	}
+	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾
+	FILE*fp = fopen("admininformation", "rb+");		//在循环时每一次往后移动的指针
+	if (fp == NULL) {
+		printf("file error\n");
+		exit(1);
+	}
 
+	Administrator admin_temp;
+	int i = 0;	//循环变量，用于将fp向后移动
+	while (fp != fpEnd){
+		fseek(fp, i * sizeof(Administrator), SEEK_SET);
+		fread(&admin_temp, sizeof(Administrator), 1, fp);
+		if ((string)admin_temp.getAccount() == (string)adminname_PutIn){	//如果找到对应的admin就用复制构造函数把找到的值赋值给一个暂时的变量admin_find，以便于后面的密码匹配
+			Administrator admin_find(admin_temp);
+			break;
+		}
+		i++;
+	}
+	if (((string)admin_find.getAccount() == (string)adminname_PutIn) && ((string)admin_find.getcPassword() == (string)password_PutIn)){
+		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的admin_find赋值给私有成员admin
+		admin(admin_find);
+		return;
+	}
+	else {
+		return;
+	}
 }
 
 void Library::signUp(){			//用户注册
