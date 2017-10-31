@@ -1,11 +1,13 @@
-#include<time.h>
+#include<iostream>
 #include<stdio.h>
 #include<string>
-#include<iostream>
+#include<time.h>
+#include<windows.h>
 
 #define ALLNUM allNum//存放allcard和allbook
 #define BOOKINFORMATION bookInformation//全部图书信息
 #define CARDINFORMATION cardInformation//全部用户信息
+#define ADMININFORMATION adminInformation//全部管理员信息
 #define BOOK_LEND_RECORD bookLendRecord//10.30 Record借书记录对应文件
 #define BOOK_RENEW_RECORD bookRenewRecord//10.30 .Record续借记录对应文件
 #define BOOK_ORDER_RECORD bookOrderRecord//预约记录
@@ -397,14 +399,16 @@ class Record
 {
 Public:
 	//10.30 构造函数更改
-    Record(Book book1,Card card1,char flag1,int Year,int Month,int Day,char flag2)
+    Record(Book book1,Card card1,char flag11,int Year,int Month,int Day,char flag22)
+	//Record(char* bookid, char* cardid, char flag11, int Year, int Month, int Day, char flag22)
     {
         book=book1;
         card=card2;
-		flag1 = '1';
+		flag1 = flag11;
 		Year = year;
 		Month = month;
 		Day = day;
+		flag2 =flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
 	Record(Card card1, int Year, int Month, int Day, char flag1) 
@@ -413,7 +417,7 @@ Public:
 		Year = year;
 		Month = month;
 		Day = day;
-		flag2 = '1';
+		
 	
 	}
 	//复制构造函数
@@ -461,22 +465,44 @@ Public:
 //Record类内部函数的实现
 void Record::bookLendRecord()
 {
-	FILE *fp;
-	if (NULL == (fp = fopen("BOOK_LEND_RECORD", "wb")))
+	FILE *fp_book_lend;
+	FILE *fp_log;
+	FILE *fp_buffer;
+	if (NULL == (fp_book_lend = fopen("BOOK_LEND_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
-		return 1;
+		exit(1);
 	}
-	int i = 1;
-	fseek(fp, i*sizeof(struct book), 0);
-	fread(&abc, sizeof(struct book), 1, fp);
-	printf("%s %s %s \n", book.bookID, book.bookName, book.Publisher);
-	fseek(fp, i*sizeof(struct book), 0);
-	if (fwrite(&abc, sizeof(struct book), 1, fp) != 1)
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_lend, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	fseek(fp_buffer, 0, SEEK_END);
+	Record record()
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(book, card, 'a', year, month, day, '0');
+	if (fwrite(&new_record, sizeof(Record), 1, fp_book_lend) != 1)
 		printf("file write error\n");
-	fread(&abc, sizeof(struct book), 1, fp);
-	fclose(fp);
-	return 0;
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
+		printf("file write error\n");
+	fclose(fp_book_lend);
+	fclose(fp_log);
+	fclose(fp_buffer);
 }
 
 
@@ -645,13 +671,13 @@ void Library::bookRenew(){//图书续借
 
 void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登录
 	//将用户输入的id和密码传到形参以便进行账号和密码的匹配
-	FILE*fpEnd = fopen("bookinformation", "rb+");	//用于标志文件的末尾，以控制查找时的循环变量的控制。
+	FILE*fpEnd = fopen("BOOKINFORMATION", "rb+");	//用于标志文件的末尾，以控制查找时的循环变量的控制。
 	if (fpEnd == NULL) {
 		printf("file error\n");
 		exit(1);
 	}
 	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾
-	FILE*fp = fopen("bookinformation", "rb+");		//在循环时每一次往后移动的指针
+	FILE*fp = fopen("BOOKINFORMATION", "rb+");		//在循环时每一次往后移动的指针
 	if (fp == NULL) {
 		printf("file error\n");
 		exit(1);
@@ -680,13 +706,13 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 
 void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理员登录
 	//将管理员输入的id和密码传到形参以便进行账号和密码的匹配
-	FILE*fpEnd = fopen("admininformation", "rb+");	//用于标志文件的末尾，以控制查找时的循环变量的控制。
+	FILE*fpEnd = fopen("ADMININFORMATION", "rb+");	//用于标志文件的末尾，以控制查找时的循环变量的控制。
 	if (fpEnd == NULL) {
 		printf("file error\n");
 		exit(1);
 	}
 	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾
-	FILE*fp = fopen("admininformation", "rb+");		//在循环时每一次往后移动的指针
+	FILE*fp = fopen("ADMININFORMATION", "rb+");		//在循环时每一次往后移动的指针
 	if (fp == NULL) {
 		printf("file error\n");
 		exit(1);
