@@ -650,15 +650,15 @@ void Record::bookLendRecord()		//借书记录
 	}*/
 	fseek(fp_book_lend, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-
+	this->setflag1('a');
 	//fseek(fp_buffer, 0, SEEK_END);
-	Record record();
-	time_t timer;
+	//Record record();
+	/*time_t timer;
 	time(&timer);
 	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
-	int day = t_tm->tm_mday;
+	int day = t_tm->tm_mday;*/
 	//Record new_record(book.getBookID(), card.getCardID(), 'a', year, month, day, '0');
 	if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
 		printf("file write error\n");
