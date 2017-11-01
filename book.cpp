@@ -193,8 +193,8 @@ private:
 class Card//构造函数  复制构造函数
 {
 Public:
-    Card(char CardID[11],char CPassword[20],char CardHolder[10],double Balance,char CID[18],char CPhone[11]){//构造函数
-    		for(int i=0; i<11; i++)
+    Card(char CardID[10],char CPassword[20],char CardHolder[10],double Balance,char CID[18],char CPhone[11]){//构造函数
+    	for(int i=0; i<10; i++)
         {
             cardID[i]=CardID[i];
         }
@@ -204,7 +204,7 @@ Public:
             cPassword[i]=CPassword[i];
         }
 
-        for(int i=0; i<10; i++)
+        for(int i=0; i<10; i++)f
         {
             cardHolder[i]=CardHolder[i];
         }
@@ -212,7 +212,7 @@ Public:
         lendingCount=10;//初始可借本数为10
         bookState='1';//1表示未冻结
         balance=Balance;
-        ownMoney=0;
+        oweMoney=0;
         bookedCount=0;//初始预约本数为0
         for(int i=0; i<18; i++)
         {
@@ -224,7 +224,7 @@ Public:
         }
     }
     Card(Card &card){//复制构造函数
-    		for(int i=0; i<11; i++)
+    		for(int i=0; i<10; i++)
         {
             cardID[i]=card.cardID[i];
         }
@@ -240,7 +240,7 @@ Public:
         }
         bookState=card.bookState;
         balance=card.balance;
-        ownMoney=card.ownMoney;
+        oweMoney=card.oweMoney;
         bookedCount=card.bookedCount;
         for(int i=0; i<18; i++)
         {
@@ -254,7 +254,7 @@ Public:
     Card()
     {
         int i=0;
-        for(i=0;i<11<i++)
+        for(i=0;i<10<i++)
         {
             cardID[i]=' ';
         }
@@ -278,15 +278,15 @@ Public:
         lendedCount=0;//初始已借本数为0
         lendingCount=10;//初始可借本数为10
         bookState='1';//1表示未冻结
-        ownMoney=0;
+        oweMoney=0;
         bookedCount=0;//初始预约本数为0
     }
 
    	char *getcardID(){
    			return cardID;
    	}
-   	void setcardID(char newcardID[11]){
-   			for(int i=0; i<11; i++)
+   	void setcardID(char newcardID[10]){
+   			for(int i=0; i<10; i++)
         {
             cardID[i]=newcardID[i];
         }
@@ -333,11 +333,11 @@ Public:
    	void setbalance(double newbalance){
    			balance=newbalance;
    	}
-   	double getownMoney(){
-   			return ownMoney;
+   	double getoweMoney(){
+   			return oweMoney;
    	}
-   	void setownMoney(double newownMoney){
-   			ownMoney=newownMoney;
+   	void setoweMoney(double newoweMoney){
+   			oweMoney=newoweMoney;
    	}
    	short getbookedCount(){
    			return bookedCount;
@@ -365,7 +365,7 @@ Public:
    	}
     Private：
 
-    char cardID[11];//卡号
+    char cardID[10];//卡号
     char cPassword[20];//密码
     short lendedCount;//已借本数
     short lendingCount;//可借本数
@@ -387,7 +387,7 @@ Public
     void searchRecord();//查询记录   1.
     //void operateCard(Card card);老师说不要删卡 听老师的
     Private：
-    char account[11];
+    char account[10];
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
@@ -464,7 +464,7 @@ Public:
     int year;
     int month;
     int day;
-    char flag2;//用于缓冲区   1对预约记录表示它已经写入记录文件 1对续借记录表示该书已续借
+    char flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
 };
 //Record类内部函数的实现
 void Record::bookLendRecord()		//借书记录
@@ -490,13 +490,13 @@ void Record::bookLendRecord()		//借书记录
 	fseek(fp_book_lend, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
 	//fseek(fp_buffer, 0, SEEK_END);
-	Record record()
-	time_t timer;
-	time(&timer);
-	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	int year = t_tm->tm_year + 1900;
-	int month = month = t_tm->tm_mon + 1;
-	int day = t_tm->tm_mday;
+	//Record record()
+	//time_t timer;
+	//time(&timer);
+	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	//int year = t_tm->tm_year + 1900;
+	//int month = month = t_tm->tm_mon + 1;
+	//int day = t_tm->tm_mday;
 	//Record new_record(book.getBookID(), card.getCardID(), 'a', year, month, day, '0');
 	if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
 		printf("file write error\n");
@@ -529,10 +529,10 @@ Public:
     }
     void signInUser(char*username_PutIn, char*password_PutIn);//用户登陆
 	void signInAdmin(char*adminname_PutIn, char*password_PutIn);//管理员登陆
-    void signUp();//用户注册
+	void signUp(char*password, char*cardHolder, char*CID, char*CPhone);//用户注册
     void signOut();//用户注销
    // void matchCid();//身份证ID匹配
-    void ResetPassward();//输入新密码后重设密码写入原位置
+	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
     void charge();//充值函数
     void Rcharge();//处理用户违约金
@@ -733,11 +733,14 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 	if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
 		card(card_find);
+		fclose(fp);
 		return;
 	}
 	else {
+		fclose(fp);
 		return;
 	}
+
 }
 
 void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理员登录
@@ -768,18 +771,31 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理�
 	if (((string)admin_find.getAccount() == (string)adminname_PutIn) && ((string)admin_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的admin_find赋值给私有成员admin
 		admin(admin_find);
+		fclose(fp);
 		return;
 	}
 	else {
+		fclose(fp);
 		return;
 	}
 }
 
-void Library::signUp(){			//用户注册
-
+void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//用户注册
+	Card newcard((string)(1000000000 + allcard + 1), password, cardHolder, 0, CID, CPhone);
+	FILE*fp_card;
+	if (NULL == (fp_card = fopen("CARDINFORMATION", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_card, 0, SEEK_END);
+	if (fwrite(&newcard, sizeof(Card), 1, fp_card) != 1)
+		printf("file write error\n");
+	fclose(fp_card);
+	return;
 }
 
 void Library::signOut(){		//用户注销
+	//把刚刚登陆时获取的card写回文件原来的位置？
 
 }
 
@@ -787,8 +803,12 @@ void Library::signOut(){		//用户注销
 
 }*/
 
-void Library::ResetPassword(){	//输入新密码后重设密码写入原位置
-
+void Library::ResetPassword(char*cid, char*newpassword1, char*newpassword2){	//输入新密码后重设密码写入原位置
+	if ((string)cid == (string)card.getcID){
+		if ((string)newpassword1 == (string)newpassword2)
+			setcPassword(newpassword1);
+	}
+	return;
 }
 
 void Library::update(){			//函数用于用户进入系统时 对缓冲区进行更新
