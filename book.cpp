@@ -208,7 +208,7 @@ Public:
             cardHolder[i]=CardHolder[i];
         }
         lendedCount=0;//初始已借本数为0
-        lendingCount=10;//初始可借本数为10        
+        lendingCount=10;//初始可借本数为10
         bookState='1';//1表示未冻结
         balance=Balance;
         ownMoney=0;
@@ -269,13 +269,13 @@ Public:
         for(i=0;i<18;i++)
         {
             cID[i]=' ';
-        }    
+        }
         for(i=0;i<11;i++)
         {
             cPhone=' ';
         }
         lendedCount=0;//初始已借本数为0
-        lendingCount=10;//初始可借本数为10        
+        lendingCount=10;//初始可借本数为10
         bookState='1';//1表示未冻结
         ownMoney=0;
         bookedCount=0;//初始预约本数为0
@@ -411,14 +411,14 @@ Public:
 		flag2 =flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
-	Record(Card card1, int Year, int Month, int Day, char flag1) 
+	Record(Card card1, int Year, int Month, int Day, char flag1)
 	{
 		card = card2;
 		Year = year;
 		Month = month;
 		Day = day;
-		
-	
+
+
 	}
 	//复制构造函数
 	Record(Record &R);
@@ -433,7 +433,7 @@ Public:
     void signOutRecord();//注销记录
 	void signUpRecord();//注册记录
 
-	char getflag1() 
+	char getflag1()
 	{
 		return flag1;
 	}
@@ -454,7 +454,7 @@ Public:
 		return flag2;
 	}
 	private：
-    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录  
+    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录
     Book book;
     Card card;
     int year;
@@ -537,10 +537,12 @@ Public:
     void Search();//查询书本函数
 
 
-    void bookLend();//借书
+    void bookLend();//直接进行的借书
+    void bookLendOrder();//通过预约成功借书
     void bookReturn();//还书
     void bookOrder();//预约
-    void bookOrderCancel();//取消预约
+    void bookOrderCancel();//未到期的取消预约
+    void bookOrderCancelExpired();//过期了的取消预约
     void bookRenew();//续借
 Private:
     Book book;
@@ -548,13 +550,13 @@ Private:
 	Administrator admin;
 };
 
-void Library::bookLend() { //借书 1.直接借书  2.通过预约借书？？？
+void Library::bookLend() { //借书 1.直接借书
         Record record(book,card);
         if(card.getlendedCount()==10) {//可借本数超过上限
             cout<<"可借本书已达到上限，无法再进行借阅！"<<end;
         }
         else{//可借本数没有超过上限
-            if(book.getstorage()>=2) {
+            if(book.getstorage()>=2) { //库存允许
                 cout<<"借阅成功"<<endl;
                 book.setstorage(book.getstorage()-1);//库存-1
                 card.setlendedCount(card.getlendedCount()+1);//已借本数+1
@@ -563,7 +565,7 @@ void Library::bookLend() { //借书 1.直接借书  2.通过预约借书？？�
                 //写回book文件
                 //写回card文件
             }
-            else {
+            else { //库存不够
                 int choice;
                 cout<<"库存不够，借阅失败！"<<endl;//借阅失败
                 cout<<"是否进行预约？"<<endl;
@@ -588,6 +590,21 @@ void Library::bookLend() { //借书 1.直接借书  2.通过预约借书？？�
                 }
             }
         }
+}
+
+void Library::bookLendOrder() {//2.通过预约成功借书
+    Record record(book,card);
+    card.setlendedCount(card.getlendedCount()+1);//已借本数+1
+    card.setlendingCount(card.getlendingCount()-1);//可借本数-1
+    card.setbookedCount(card.getbookedCount()-1);//人的预约本数-1
+    //写回card文件
+
+    book.setbookMan(book.getbookMan()-1);//书的预约人数-1
+    book.settStorage(book.gettStorage()-1);//书的临时库存-1
+    //写回book文件
+
+    record.bookLendRecord(); //生成一条借书的记录
+
 }
 
 void Library::bookReturn(){ //还书
@@ -626,13 +643,14 @@ void Library::bookOrder(){//预约
         book.setbookMan(book.getbookMan()+1);//书的预约人数+1
         card.setbookedCount(card.getbookedCount()+1);//人的预约本数+1
         //写回book文件
+
         //写回card文件
+
         record.bookOrderRecord();//生成一条预约记录
     }
-
 }
 
-void Library::bookOrderCancel(){//取消预约 1.未到期取消预约 2.过期取消预约？？？
+void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
     Record record(book,card);
     int choice;
     cout<<"确定取消预约吗？"<<endl;
@@ -645,7 +663,9 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约 2.过期�
             card.setbookedCount(card.getbookedCount()-1);//此人的预约数量-1
             record.bookOrderCancelRecord();//生成一条取消预约的记录
             //写回book文件
+
             //写回card文件
+
             break;
         }
         else if(choice==2) {//2.否
@@ -661,13 +681,25 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约 2.过期�
     }
 }
 
+void Library::bookOrderCancelExpired() {//2.过期取消预约
+    Record record(book,card);
+    book.settStorage(book.gettStorage()-1);//书的临时库存-1
+    book.setstorage(book.getstorage()+1);//书的库存+1
+    book.setbookMan(book.getbookMan()-1);//书的预约人数-1
+    card.setbookedCount(card.getbookedCount()-1);//人的预约本数-1
+    record.bookOrderCancelRecord();//生成一条取消预约的记录
+    //写回book文件
+
+    //写回card文件
+
+}
+
 void Library::bookRenew(){//图书续借
     Record record(book,card);
     cout<<"续借成功"<<endl;
     record.bookRenewRecord();//生成一条续借记录
 }
-	Administrator admin;
-};
+
 
 void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登录
 	//将用户输入的id和密码传到形参以便进行账号和密码的匹配
@@ -682,7 +714,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 		printf("file error\n");
 		exit(1);
 	}
-	
+
 	Card card_temp;
 	int i = 0;	//循环变量，用于将fp向后移动
 	while (fp != fpEnd){
