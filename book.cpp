@@ -19,6 +19,7 @@
 #define SEARCHRESULT searchResult//查询结果文件
 #define SEARCHRESULTTEMP searchResultTmp//查询结果临时文件
 #define LOG log;//图书馆大日志
+#define BOOK_RETURN_RECORD bookReturnRecord //11.1还书记录对应文件
 
 using namespace std;
 
@@ -385,6 +386,138 @@ Public
     void newStorage(Book book);//新设库存
     void searchRecord();//查询记录   1.
     //void operateCard(Card card);老师说不要删卡 听老师的
+
+	Administrator(char Account[11], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
+	{
+
+		for (int i = 0; i<11; i++)
+		{
+			account[i] = Account[i];
+		}
+		for (int i = 0; i<20; i++)
+		{
+			APassword[i] = aPassword[i];
+		}
+		for (int i = 0; i<10; i++)
+		{
+			AccountHolder[i] = accountHolder[i];
+		}
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = AID[i];
+		}
+		for (int i = 0; i < 11; i++)
+		{
+			aPhone[i] = APhone[i];
+		}
+	}
+	Administrator()
+	{
+		for (int i = 0; i<11; i++)
+		{
+			account[i] = ' ';
+		}
+		for (int i = 0; i<20; i++)
+		{
+			aPassword[i] = ' ';
+		}
+		for (int i = 0; i<10; i++)
+		{
+			accountHolder[i] = ' ';
+		}
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = ' ';
+		}
+		for (int i = 0; i<11; i++)
+		{
+			aPhone[i] = ' ';
+		}
+	}
+	Administrator(Administrator &administrator) //复制构造函数
+	{
+		for (int i = 0; i<11; i++)
+		{
+			account[i] = administrator.account[i];
+		}
+		for (int i = 0; i<20; i++)
+		{
+			aPassword[i] = administrator.aPassword[i];
+		}
+		for (int i = 0; i<10; i++)
+		{
+			accountHolder[i] = administrator.accountHolder[i];
+		}
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = administrator.aID[i];
+		}
+		for (int i = 0; i<11; i++)
+		{
+			aPhone[i] = administrator.aPhone[i];
+		}
+	}
+
+	void setaccount(char newaccount[10])
+	{
+		for (int i = 0; i<11; i++)
+		{
+			account[i] = newaccount[i];
+		}
+	}
+
+	void setaPassword(char newaPassword[50])
+	{
+		for (int i = 0; i<20; i++)
+		{
+			aPassword[i] = newaPassword[i];
+		}
+	}
+
+	void setaccountHolder(char newaccountHolder[20])
+	{
+		for (int i = 0; i<10; i++)
+		{
+			accountHolder[i] = newaccontHolder[i];
+		}
+	}
+
+	void setaID(char newaID[20])
+	{
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = newaID[i];
+		}
+	}
+	void setaPhone(char newaaPhone[20])
+	{
+		for (int i = 0; i<11; i++)
+		{
+			aPhone[i] = newaPhone[i];
+		}
+	}
+	char *getaccount()
+	{
+		return account;
+	}
+	char *getaPassword()
+	{
+		return aPassword
+	
+	}
+	char *getaccountHolder()
+	{
+		return accountHolder;
+	}
+	char *aID()
+	{
+		return aID;
+	}
+	char *aPhone()
+	{
+		return aPhone;
+	}
+
     Private：
     char account[11];
     char aPassword[20];
@@ -403,7 +536,7 @@ Public:
 	//Record(char* bookid, char* cardid, char flag11, int Year, int Month, int Day, char flag22)
     {
         book=book1;
-        card=card2;
+        card=card1;
 		flag1 = flag11;
 		Year = year;
 		Month = month;
@@ -411,14 +544,12 @@ Public:
 		flag2 =flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
-	Record(Card card1, int Year, int Month, int Day, char flag1) 
+	Record(Card card1, int Year, int Month, int Day) 
 	{
-		card = card2;
+		card = card1;
 		Year = year;
 		Month = month;
 		Day = day;
-		
-	
 	}
 	//复制构造函数
 	Record(Record &R);
@@ -437,21 +568,41 @@ Public:
 	{
 		return flag1;
 	}
+	void setflag1(char newflag1)
+	{
+		flag1 = newflag1;
+	}
 	int getyear()
 	{
 		return year;
+	}
+	void setyear(int newyear)
+	{
+		year = newyear;
 	}
 	int getmonth()
 	{
 		return month;
 	}
+	void setmonth(int newmonth)
+	{
+		month = newmonth;
+	}
 	int getday()
 	{
 		return day;
 	}
+	void setday(int newday)
+	{
+		day = newday;
+	}
 	char getflag2()
 	{
 		return flag2;
+	}
+	void setflag2(char newflag2)
+	{
+		flag2 = newflag2;
 	}
 	private：
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g预约记录  
@@ -462,7 +613,10 @@ Public:
     int day;
     char flag2;//用于缓冲区   1对预约记录表示它已经写入记录文件 1对续借记录表示该书已续借
 };
+
 //Record类内部函数的实现
+
+//10.31借书记录
 void Record::bookLendRecord()
 {
 	FILE *fp_book_lend;
@@ -486,7 +640,7 @@ void Record::bookLendRecord()
 	fseek(fp_book_lend, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
 	fseek(fp_buffer, 0, SEEK_END);
-	Record record()
+	Record record();
 	time_t timer;
 	time(&timer);
 	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
@@ -504,6 +658,233 @@ void Record::bookLendRecord()
 	fclose(fp_log);
 	fclose(fp_buffer);
 }
+
+//11.1还书记录
+//向还书记录和大记录中写入一条还书记录，并在buffer文件中找出对应借书记录，将借书记录删除。
+void Record::bookReturnRecord()
+{
+	FILE *fp_book_return;
+	FILE *fp_log;
+	FILE *fp_buffer;
+	if (NULL == (fp_book_lend = fopen("BOOK_RETURN_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_return, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+
+
+	Record record();
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(book, card, 'a', year, month, day, '0');
+	if (fwrite(&new_record, sizeof(Record), 1, fp_book_rentun) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_book_return);
+	fclose(fp_log);
+	fclose(fp_buffer);
+
+}
+
+
+//11.1预约记录
+void Record::bookOrderRecord()
+{
+	FILE *fp_book_order;
+	FILE *fp_log;
+	FILE *fp_buffer;
+	if (NULL == (fp_book_order = fopen("BOOK_ORDER_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_order, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	fseek(fp_buffer, 0, SEEK_END);
+	Record record();
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(book, card, 'c', year, month, day, '1');
+	if (fwrite(&new_record, sizeof(Record), 1, fp_book_order) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
+		printf("file write error\n");
+	fclose(fp_book_order);
+	fclose(fp_log);
+	fclose(fp_buffer);
+}
+
+//11.1续借记录
+//由于没有取消续借功能，所以续借只存放在续借文件和大日志文件中，并未存放在缓存文件中
+void Record::bookRenewRecord()
+{
+	FILE *fp_book_renew;
+	FILE *fp_log;
+	if (NULL == (fp_book_renew = fopen("BOOK_RENEW_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_renew, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	Record record();
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(book, card, 'd', year, month, day, '1');
+	if (fwrite(&new_record, sizeof(Record), 1, fp_book_renew) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_book_renew);
+	fclose(fp_log);
+
+}
+
+//11.1登陆记录
+//登陆记录未存在缓存文件中
+void Record::signInRecord()
+{
+	FILE *fp_sign_in;
+	FILE *fp_log;
+	if (NULL == (fp_sign_in = fopen("SIGN_IN_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_sign_in, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	Record record();
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(card, year, month, day);
+	if (fwrite(&new_record, sizeof(Record), 1, fp_sign_in) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_sign_in);
+	fclose(fp_log);
+}
+
+//11.1注销记录
+//未记录在缓冲文件中
+void Record::signOutRecord()
+{
+	FILE *fp_sign_out;
+	FILE *fp_log;
+	if (NULL == (fp_sign_in = fopen("SIGN_OUT_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_sign_out, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	Record record();
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(card, year, month, day);
+	if (fwrite(&new_record, sizeof(Record), 1, fp_sign_out) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_sign_out);
+	fclose(fp_log);
+}
+
+//11.1注册记录
+//未放进缓冲文件中
+void Record::signUpRecord()
+{
+	FILE *fp_sign_up;
+	FILE *fp_log;
+	if (NULL == (fp_sign_in = fopen("SIGN_UP_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_sign_up, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	Record record();
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record new_record(card, year, month, day);
+	if (fwrite(&new_record, sizeof(Record), 1, fp_sign_up) != 1)
+		printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_sign_up);
+	fclose(fp_log);
+}
+
+
 
 
 class Library
