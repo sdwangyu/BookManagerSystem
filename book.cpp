@@ -188,6 +188,9 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
+
+
+friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
 
 
@@ -387,7 +390,7 @@ Public
     void newStorage(Book book);//新设库存
     void searchRecord();//查询记录   1.
     //void operateCard(Card card);老师说不要删卡 听老师的
-
+	//11.1构造函数
 	Administrator(char Account[11], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
 	{
 
@@ -435,7 +438,9 @@ Public
 			aPhone[i] = ' ';
 		}
 	}
-	Administrator(Administrator &administrator) //复制构造函数
+	
+	//复制构造函数
+	Administrator(Administrator &administrator) 
 	{
 		for (int i = 0; i<11; i++)
 		{
@@ -519,7 +524,7 @@ Public
 		return aPhone;
 	}
 
-    Private：
+    Private:
     char account[10];
     char aPassword[20];
     char accountHolder[10];
@@ -527,6 +532,27 @@ Public
     char aPhone[11];
 
 };
+
+//11.2管理员新加书函数
+void Administrator::addBook(Book book)
+{
+	FILE *fp_add_book;
+	if (NULL == (fp_book_lend = fopen("BOOKINFORMATION", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_add_book, 0, SEEK_END);
+
+}
+
+//11.2管理员改库存函数
+void Administrator::newStorage(Book book)
+{
+	short nStorage;
+	cin >> nStorage;
+	book.storage = nStorage;
+}
 
 
 class Record
@@ -642,32 +668,15 @@ void Record::bookLendRecord()		//借书记录
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	/*if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
-	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}*/
 	fseek(fp_book_lend, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
 	this->setflag1('a');
-	//fseek(fp_buffer, 0, SEEK_END);
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(book.getBookID(), card.getCardID(), 'a', year, month, day, '0');
 	if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
-	//if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
-		//printf("file write error\n");
 	fclose(fp_book_lend);
 	fclose(fp_log);
-	//fclose(fp_buffer);
 }
 
 //11.1还书记录
