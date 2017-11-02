@@ -3,6 +3,7 @@
 #include<string>
 #include<time.h>
 #include<windows.h>
+#include<sstream>
 
 #define ALLNUM allNum//存放allcard和allbook
 #define BOOKINFORMATION bookInformation//全部图书信息
@@ -924,9 +925,9 @@ Public:
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
-    void charge();//充值函数
+    void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
-    void resetCard();//更新修改卡信息 姓名 身份证 手机
+    void resetCard();//更新修改卡信息 手机
 
     void Search();//查询书本函数
 
@@ -1171,7 +1172,7 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理�
 }
 
 void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//用户注册
-	Card newcard((string)(1000000000 + allcard + 1), password, cardHolder, 0, CID, CPhone);
+	Card newcard(to_string(1000000000 + allcard + 1), password, cardHolder, 0, CID, CPhone);
 	FILE*fp_card;
 	if (NULL == (fp_card = fopen("CARDINFORMATION", "rb+"))){
 		fprintf(stderr, "Can not open file");
@@ -1181,20 +1182,32 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//�
 	if (fwrite(&newcard, sizeof(Card), 1, fp_card) != 1)
 		printf("file write error\n");
 	fclose(fp_card);
+	allcard++;
 	return;
 }
 
 void Library::signOut(){		//用户注销
-	//把刚刚登陆时获取的card写回文件原来的位置？
-
+	//把刚刚登陆时获取的card写回文件原来的位置
+	FILE*fp_card;
+	if (NULL == (fp_card = fopen("CARDINFORMATION", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	int position = atoi(card.getcardID().c_str()) - 1000000000 - 1;
+	fseek(fp_card, position*sizeof(Card), 0);
+	if (fwrite(&card, sizeof(Card), 1, fp_card) != 1)
+		printf("file write error\n");
+	fclose(fp_card);
+	card();
+	//是否将allcard，allbook，alladmin写回文件？
 }
 
 /*void Library::matchCid(){		//身份证ID匹配
 
 }*/
 
-void Library::ResetPassword(char*cid, char*newpassword1, char*newpassword2){	//输入新密码后重设密码写入原位置
-	if ((string)cid == (string)card.getcID){
+void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2){	//输入新密码后重设密码写入原位置
+	if ((string)oldpassword == (string)card.getcPassword){
 		if ((string)newpassword1 == (string)newpassword2)
 			setcPassword(newpassword1);
 	}
@@ -1205,15 +1218,15 @@ void Library::update(){			//函数用于用户进入系统时 对缓冲区进行
 
 }
 
-void Library::charge(){			//充值函数
-
+void Library::charge(double money){			//充值函数
+	card.setbalance(card.getbalance() + money);
 }
 
 void Library::Rcharge(){		//处理用户违约金
 
 }
 
-void Library::resetCard(){		//更新修改卡信息 姓名 身份证 手机
+void Library::resetCard(){		//更新修改卡信息 手机
 
 }
 
