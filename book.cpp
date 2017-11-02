@@ -385,11 +385,6 @@ Public:
 class Administrator
 {
 Public
-    void addBook(Book book);//增加书
-    //void deleteBook(Book book);老师说不要删书
-    void newStorage(Book book);//新设库存
-    void searchRecord();//查询记录   1.
-    //void operateCard(Card card);老师说不要删卡 听老师的
 	//11.1构造函数
 	Administrator(char Account[11], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
 	{
@@ -524,13 +519,18 @@ Public
 		return aPhone;
 	}
 
+	void addBook(Book book);//增加书
+	//void deleteBook(Book book);老师说不要删书
+	void newStorage(Book book);//新设库存
+	void searchRecord();//查询记录   1.
+	//void operateCard(Card card);老师说不要删卡 听老师的
     Private:
     char account[10];
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
     char aPhone[11];
-
+	Book book;
 };
 
 //11.2管理员新加书函数
@@ -543,15 +543,18 @@ void Administrator::addBook(Book book)
 		exit(1);
 	}
 	fseek(fp_add_book, 0, SEEK_END);
+	fwrite(&book,sizeof(Book),1,fp_add_book);
+	fclose(fp_add_book);
 
 }
 
 //11.2管理员改库存函数
 void Administrator::newStorage(Book book)
 {
+	//让管理员输入想要加的本数。如果删除几本，就写负值
 	short nStorage;
 	cin >> nStorage;
-	book.storage = nStorage;
+	book.setstorage(book.getstorage() + nStorage);
 }
 
 
@@ -654,7 +657,6 @@ Public:
 //10.31借书记录
 
 void Record::bookLendRecord()		//借书记录
-
 {
 	FILE *fp_book_lend;
 	FILE *fp_log;
