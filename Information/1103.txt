@@ -1,0 +1,4 @@
+//列出用户状态单独提取出来   void show_Cardinfo();		此功能应在QT中实现
+用户状态更新函数：对用户的状态进行及时更新，以便在用户返回查看信息时可以看到自己更新后的信息  void update_Card();
+用于用户登录时对缓冲区所有记录进行更新   void update();
+增加一个日期变化的函数  int*alter_Date(int day);
