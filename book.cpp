@@ -612,13 +612,8 @@ Public:
 		flag2 =flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
-<<<<<<< HEAD
 
 	Record(char*cardid1, int Year, int Month, int Day, int flag11, int flag22)
-=======
-    
-	Record(char*cardid1, int Year, int Month, int Day, int flag11, int flag22) 
->>>>>>> 76516c020dd5c14978e749adfff625a1222e7b84
 	{
 		cardid = cardid1;
 		year = Year;
