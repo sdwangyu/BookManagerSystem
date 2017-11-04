@@ -413,7 +413,7 @@ Public:
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
 
-	Record(char*cardid1, int Year, int Month, int Day, int flag11, int flag22) 
+	Record(char*cardid1, int Year, int Month, int Day, int flag11, int flag22)
 	{
 		cardid = card1;
 		Year = year;
@@ -555,7 +555,13 @@ Private:
 };
 
 void Library::bookLend() { //借书 1.直接借书
-        Record record(book,card);
+        time_t timer;
+        time(&timer);
+        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+        int year = t_tm->tm_year + 1900;
+        int month = month = t_tm->tm_mon + 1;
+        int day = t_tm->tm_mday;
+        Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');
         if(card.getlendedCount()==10) {//可借本数超过上限
             cout<<"可借本书已达到上限，无法再进行借阅！"<<end;
         }
@@ -597,7 +603,13 @@ void Library::bookLend() { //借书 1.直接借书
 }
 
 void Library::bookLendOrder() {//2.通过预约成功借书
-    Record record(book,card);
+    time_t timer;
+    time(&timer);
+    tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+    int year = t_tm->tm_year + 1900;
+    int month = month = t_tm->tm_mon + 1;
+    int day = t_tm->tm_mday;
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');
     card.setlendedCount(card.getlendedCount()+1);//已借本数+1
     card.setlendingCount(card.getlendingCount()-1);//可借本数-1
     card.setbookedCount(card.getbookedCount()-1);//人的预约本数-1
@@ -612,7 +624,13 @@ void Library::bookLendOrder() {//2.通过预约成功借书
 }
 
 void Library::bookReturn(){ //还书
-    Record record(book,card);
+    time_t timer;
+    time(&timer);
+    tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+    int year = t_tm->tm_year + 1900;
+    int month = month = t_tm->tm_mon + 1;
+    int day = t_tm->tm_mday;
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'b', '0');
     card.setlendedCount(book.getlendedCount()-1);//已借本数-1
     card.setlendingCount(card.getlendingCount()+1);//可借本数+1
     //写回card文件
@@ -638,7 +656,13 @@ void Library::bookReturn(){ //还书
 }
 
 void Library::bookOrder(){//预约
-    Record record(book,card);
+    time_t timer;
+    time(&timer);
+    tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+    int year = t_tm->tm_year + 1900;
+    int month = month = t_tm->tm_mon + 1;
+    int day = t_tm->tm_mday;
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'c', '0');
     if(card.getbookMan()==5) {//预约本数已达上限
         cout<<"您的预约本数已达上限，无法进行预约！"<<endl;
     }
@@ -655,7 +679,13 @@ void Library::bookOrder(){//预约
 }
 
 void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
-    Record record(book,card);
+        time_t timer;
+        time(&timer);
+        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+        int year = t_tm->tm_year + 1900;
+        int month = month = t_tm->tm_mon + 1;
+        int day = t_tm->tm_mday;
+        Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '0');
     int choice;
     cout<<"确定取消预约吗？"<<endl;
     cout<<"1.是 2.否"<<endl;
@@ -686,7 +716,13 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
 }
 
 void Library::bookOrderCancelExpired() {//2.过期取消预约
-    Record record(book,card);
+            time_t timer;
+        time(&timer);
+        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+        int year = t_tm->tm_year + 1900;
+        int month = month = t_tm->tm_mon + 1;
+        int day = t_tm->tm_mday;
+        Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '1');
     book.settStorage(book.gettStorage()-1);//书的临时库存-1
     book.setstorage(book.getstorage()+1);//书的库存+1
     book.setbookMan(book.getbookMan()-1);//书的预约人数-1
@@ -699,7 +735,13 @@ void Library::bookOrderCancelExpired() {//2.过期取消预约
 }
 
 void Library::bookRenew(){//图书续借
-    Record record(book,card);
+        time_t timer;
+        time(&timer);
+        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+        int year = t_tm->tm_year + 1900;
+        int month = month = t_tm->tm_mon + 1;
+        int day = t_tm->tm_mday;
+        Record record(book.getBookID(),card.getcardID(),year, month, day, 'd', '1');
     cout<<"续借成功"<<endl;
     record.bookRenewRecord();//生成一条续借记录
 }
