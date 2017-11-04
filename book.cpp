@@ -235,7 +235,6 @@ private:
 friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
 
-
 class Card//构造函数  复制构造函数
 {
 Public:
@@ -596,7 +595,6 @@ void Administrator::newStorage(Book book)
 	book.storage = nStorage;
 }
 
-
 class Record
 {
 Public:
@@ -607,9 +605,9 @@ Public:
 
 		bookid = bookid1;
 		cardid = cardid1;
-		Year = year;
-		Month = month;
-		Day = day;
+		year = Year;
+		month = Month;
+		day = Day;
 		flag1 = flag11;
 		flag2 =flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
@@ -617,10 +615,10 @@ Public:
     
 	Record(char*cardid1, int Year, int Month, int Day, int flag11, int flag22) 
 	{
-		cardid = card1;
-		Year = year;
-		Month = month;
-		Day = day;
+		cardid = cardid1;
+		year = Year;
+		month = Month;
+		day = Day;
 		flag1 = flag11;
 		flag2 = flag22;
 	}
@@ -636,6 +634,7 @@ Public:
     void signInRecord();//登陆记录
     void signOutRecord();//注销记录
 	void signUpRecord();//注册记录
+	void alter_Date(int day);//增加一个日期变化的函数
 
 	char getflag1()
 	{
@@ -690,6 +689,25 @@ Public:
 };
 
 //Record类内部函数的实现
+
+11.04//增加一个日期变化的函数
+void Record::alter_Date(int addday){
+	int tempday = 0;
+	int monthday[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };//定义出每个月的天数以方便增加月
+	if (isLeapYear(year))monthday[1] = 29;//闰年的2月
+	else monthday[1] = 28;//非润年的2月
+	tempday = day + addday;//通过减天数，加月数加年数的方法来获取新的日期
+	while (tempday>monthday[month - 1]){
+		tempday = tempday - monthday[month - 1];
+		month++;
+		if (month > 12){
+			month = month - 12;
+			if (isLeapYear(++year))monthday[1] = 29;
+			else monthday[1] = 28;
+		}
+	}
+	day = tempday;
+}
 
 
 //10.31借书记录
