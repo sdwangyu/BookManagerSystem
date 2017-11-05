@@ -250,16 +250,16 @@ Public:
             cPassword[i]=CPassword[i];
         }
 
-        for(int i=0; i<10; i++)f
+        for(int i=0; i<10; i++)
         {
             cardHolder[i]=CardHolder[i];
         }
         lendedCount=0;//初始已借本数为0
         lendingCount=10;//初始可借本数为10
-        bookState='1';//1表示未冻结
+        cardState='1';//1表示未冻结
         balance=Balance;
         oweMoney=0;
-        bookedCount=0;//初始预约本数为0
+        bookedCount=lendingCount - lendedCount;//初始预约本数为0
         for(int i=0; i<18; i++)
         {
             cID[i]=CID[i];
@@ -284,7 +284,7 @@ Public:
         {
             cardHolder[i]=card.cardHolder[i];
         }
-        bookState=card.bookState;
+        cardState=card.cardState;
         balance=card.balance;
         oweMoney=card.oweMoney;
         bookedCount=card.bookedCount;
@@ -300,7 +300,7 @@ Public:
     Card()
     {
         int i=0;
-        for(i=0;i<10<i++)
+        for(i=0;i<10;i++)
         {
             cardID[i]=' ';
         }
@@ -319,11 +319,11 @@ Public:
         }
         for(i=0;i<11;i++)
         {
-            cPhone=' ';
+            cPhone[11]=' ';
         }
         lendedCount=0;//初始已借本数为0
         lendingCount=10;//初始可借本数为10
-        bookState='1';//1表示未冻结
+        cardState='1';//1表示未冻结
         oweMoney=0;
         bookedCount=0;//初始预约本数为0
     }
