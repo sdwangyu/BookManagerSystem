@@ -479,9 +479,9 @@ Public
 			aPhone[i] = ' ';
 		}
 	}
-	
+
 	//复制构造函数
-	Administrator(Administrator &administrator) 
+	Administrator(Administrator &administrator)
 	{
 		for (int i = 0; i<11; i++)
 		{
@@ -550,7 +550,7 @@ Public
 	char *getaPassword()
 	{
 		return aPassword
-	
+
 	}
 	char *getaccountHolder()
 	{
@@ -1108,7 +1108,6 @@ void Library::bookLend() { //借书 1.直接借书
         int year = t_tm->tm_year + 1900;
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
-        Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');
         if(card.getlendedCount()==10) {//可借本数超过上限
             cout<<"可借本书已达到上限，无法再进行借阅！"<<end;
         }
@@ -1118,7 +1117,9 @@ void Library::bookLend() { //借书 1.直接借书
                 book.setstorage(book.getstorage()-1);//库存-1
                 card.setlendedCount(card.getlendedCount()+1);//已借本数+1
                 card.setlendingCount(card.getlendingCount()-1);//可借本数-1
-                record.bookLendRecord(); //生成一条借书的记录
+                while()
+                Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');//生成一条借书的记录
+                record.bookLendRecord();
                 //写回book文件
                 //写回card文件
             }
@@ -1245,7 +1246,6 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
             record.bookOrderCancelRecord();//生成一条取消预约的记录
             //写回book文件
 
-            //写回card文件
 
             break;
         }
@@ -1289,8 +1289,8 @@ void Library::bookRenew(){//图书续借
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
         Record record(book.getBookID(),card.getcardID(),year, month, day, 'd', '1');
-    cout<<"续借成功"<<endl;
-    record.bookRenewRecord();//生成一条续借记录
+        cout<<"续借成功"<<endl;
+        record.bookRenewRecord();//生成一条续借记录
 }
 
 
