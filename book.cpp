@@ -247,7 +247,7 @@ private:
     char flag;  //图书是否存在
 	int books[10];//库存10本书，数组中每一项用来表示10本中具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
 	//动态开辟存储空间?
-	
+
 
 
 friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
@@ -1138,8 +1138,12 @@ void Library::bookLend() { //借书 1.直接借书
                 book.setstorage(book.getstorage()-1);//库存-1
                 card.setlendedCount(card.getlendedCount()+1);//已借本数+1
                 card.setlendingCount(card.getlendingCount()-1);//可借本数-1
-                while()
-                Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');//生成一条借书的记录
+                int order = 1;//标识第几本书
+                int *p = book.getbooks();
+                while(!(*(p+order)==1)) {//从第一本书开始检索
+                    order++;
+                }
+                Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
                 record.bookLendRecord();
                 //写回book文件
                 //写回card文件
@@ -1178,18 +1182,20 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');
     card.setlendedCount(card.getlendedCount()+1);//已借本数+1
     card.setlendingCount(card.getlendingCount()-1);//可借本数-1
     card.setbookedCount(card.getbookedCount()-1);//人的预约本数-1
-    //写回card文件
 
     book.setbookMan(book.getbookMan()-1);//书的预约人数-1
     book.settStorage(book.gettStorage()-1);//书的临时库存-1
+    int order = 1;//标识第几本书
+    int *p = book.getbooks();
+    while(!(*(p+order)==1)) {//从第一本书开始检索
+        order++;
+    }
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
+    record.bookLendRecord();
     //写回book文件
-
-    record.bookLendRecord(); //生成一条借书的记录
-
 }
 
 void Library::bookReturn(){ //还书
@@ -1342,7 +1348,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 	}
 	if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
-		card(card_find); 
+		card(card_find);
 		fclose(fp);
 		return;
 	}
