@@ -98,6 +98,7 @@ public:
         bookMan=0;//初始预约人数为0
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
+		books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     }
     Book()
     {
@@ -121,6 +122,7 @@ public:
         bookMan=0;//初始预约人数为0
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
+		books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     }
 
     Book(Book &book) //复制构造函数
@@ -145,6 +147,10 @@ public:
         bookMan=book.bookMan;
         tStorage=book.tStorage;
         flag=book.flag;
+		for (int i = 0; i < 10; i++)
+		{
+			books[i] = book.books[i];
+		}
     }
     char *getbookID()
     {
@@ -222,6 +228,15 @@ public:
     {
         flag=newflag;
     }
+	int *getBooks()
+	{
+		return books;
+	}
+	void setBooks(int bbooks[10])
+	{
+		for (int i = 0; i < 10; i++)
+			books[i] = bbooks[i];
+	}
 private:
     char bookID[10];//图书编号
     char bookName[50];//书名
@@ -231,6 +246,9 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
+	int books[10];//库存10本书，数组中每一项用来表示10本中具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
+	//动态开辟存储空间?
+
 
 
 friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
@@ -250,16 +268,16 @@ Public:
             cPassword[i]=CPassword[i];
         }
 
-        for(int i=0; i<10; i++)f
+        for(int i=0; i<10; i++)
         {
             cardHolder[i]=CardHolder[i];
         }
         lendedCount=0;//初始已借本数为0
         lendingCount=10;//初始可借本数为10
-        bookState='1';//1表示未冻结
+        cardState='1';//1表示未冻结
         balance=Balance;
         oweMoney=0;
-        bookedCount=0;//初始预约本数为0
+        bookedCount=lendingCount - lendedCount;//初始预约本数为0
         for(int i=0; i<18; i++)
         {
             cID[i]=CID[i];
@@ -284,7 +302,7 @@ Public:
         {
             cardHolder[i]=card.cardHolder[i];
         }
-        bookState=card.bookState;
+        cardState=card.cardState;
         balance=card.balance;
         oweMoney=card.oweMoney;
         bookedCount=card.bookedCount;
@@ -300,7 +318,7 @@ Public:
     Card()
     {
         int i=0;
-        for(i=0;i<10<i++)
+        for(i=0;i<10;i++)
         {
             cardID[i]=' ';
         }
@@ -319,11 +337,11 @@ Public:
         }
         for(i=0;i<11;i++)
         {
-            cPhone=' ';
+            cPhone[11]=' ';
         }
         lendedCount=0;//初始已借本数为0
         lendingCount=10;//初始可借本数为10
-        bookState='1';//1表示未冻结
+        cardState='1';//1表示未冻结
         oweMoney=0;
         bookedCount=0;//初始预约本数为0
     }
@@ -426,17 +444,19 @@ Public:
 
 class Administrator
 {
-Public
+Public:
+	void addAdmin(Administrator admin);//现有的管理员可以增加管理员，记得把alladmin++；
+
     void addBook(Book book);//增加书
     //void deleteBook(Book book);老师说不要删书
     void newStorage(Book book);//新设库存
     void searchRecord();//查询记录   1.
     //void operateCard(Card card);老师说不要删卡 听老师的
 	//11.1构造函数
-	Administrator(char Account[11], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
+	Administrator(char Account[4], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
 	{
 
-		for (int i = 0; i<11; i++)
+		for (int i = 0; i<4; i++)
 		{
 			account[i] = Account[i];
 		}
@@ -459,7 +479,7 @@ Public
 	}
 	Administrator()
 	{
-		for (int i = 0; i<11; i++)
+		for (int i = 0; i<4; i++)
 		{
 			account[i] = ' ';
 		}
@@ -480,11 +500,11 @@ Public
 			aPhone[i] = ' ';
 		}
 	}
-	
+
 	//复制构造函数
-	Administrator(Administrator &administrator) 
+	Administrator(Administrator &administrator)
 	{
-		for (int i = 0; i<11; i++)
+		for (int i = 0; i<4; i++)
 		{
 			account[i] = administrator.account[i];
 		}
@@ -506,9 +526,9 @@ Public
 		}
 	}
 
-	void setaccount(char newaccount[10])
+	void setaccount(char newaccount[4])
 	{
-		for (int i = 0; i<11; i++)
+		for (int i = 0; i<4; i++)
 		{
 			account[i] = newaccount[i];
 		}
@@ -551,7 +571,7 @@ Public
 	char *getaPassword()
 	{
 		return aPassword
-	
+
 	}
 	char *getaccountHolder()
 	{
@@ -567,7 +587,7 @@ Public
 	}
 
     Private:
-    char account[10];
+    char account[4];
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
@@ -1063,31 +1083,32 @@ void Record::signUpRecord()
 class Library
 {
 Public:
-    void Library(Book book1,Card card1) {
+   /* void Library(Book book1,Card card1) {
         book = book1;
         card = card1;
-    }
-    void Library(Card card1) {
+    }*/
+    /*void Library(Card card1) {
         card = card1;
-    }
+    }*/
     void Library()
     {
-        Book book1;
-        Card card1;
-        card=card1;
-        book=book1;
+        //Book book1;
+        //Card card1;
+        //card=card1;
+       // book=book1;
     }
     void signInUser(char*username_PutIn, char*password_PutIn);//用户登陆
 	void signInAdmin(char*adminname_PutIn, char*password_PutIn);//管理员登陆
 	void signUp(char*password, char*cardHolder, char*CID, char*CPhone);//用户注册
     void signOut();//用户注销
+	void signOut_Admin();//管理员注销
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
 	//void update_Card();//	用户状态更新函数：对用户的状态进行及时更新，以便在用户返回查看信息时可以看到自己更新后的信息  
     void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
-    void resetCard();//更新修改卡信息 手机
+   // void resetCard();//更新修改卡信息 手机
 
     void Search();//查询书本函数
 
@@ -1112,7 +1133,6 @@ void Library::bookLend() { //借书 1.直接借书
         int year = t_tm->tm_year + 1900;
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
-        Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');
         if(card.getlendedCount()==10) {//可借本数超过上限
             cout<<"可借本书已达到上限，无法再进行借阅！"<<end;
         }
@@ -1122,7 +1142,13 @@ void Library::bookLend() { //借书 1.直接借书
                 book.setstorage(book.getstorage()-1);//库存-1
                 card.setlendedCount(card.getlendedCount()+1);//已借本数+1
                 card.setlendingCount(card.getlendingCount()-1);//可借本数-1
-                record.bookLendRecord(); //生成一条借书的记录
+                int order = 1;//标识第几本书
+                int *p = book.getbooks();
+                while(!(*(p+order)==1)) {//从第一本书开始检索
+                    order++;
+                }
+                Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
+                record.bookLendRecord();
                 //写回book文件
                 //写回card文件
             }
@@ -1160,18 +1186,20 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0');
     card.setlendedCount(card.getlendedCount()+1);//已借本数+1
     card.setlendingCount(card.getlendingCount()-1);//可借本数-1
     card.setbookedCount(card.getbookedCount()-1);//人的预约本数-1
-    //写回card文件
 
     book.setbookMan(book.getbookMan()-1);//书的预约人数-1
     book.settStorage(book.gettStorage()-1);//书的临时库存-1
+    int order = 1;//标识第几本书
+    int *p = book.getbooks();
+    while(!(*(p+order)==1)) {//从第一本书开始检索
+        order++;
+    }
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
+    record.bookLendRecord();
     //写回book文件
-
-    record.bookLendRecord(); //生成一条借书的记录
-
 }
 
 void Library::bookReturn(){ //还书
@@ -1249,7 +1277,6 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
             record.bookOrderCancelRecord();//生成一条取消预约的记录
             //写回book文件
 
-            //写回card文件
 
             break;
         }
@@ -1293,8 +1320,8 @@ void Library::bookRenew(){//图书续借
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
         Record record(book.getBookID(),card.getcardID(),year, month, day, 'd', '1');
-    cout<<"续借成功"<<endl;
-    record.bookRenewRecord();//生成一条续借记录
+        cout<<"续借成功"<<endl;
+        record.bookRenewRecord();//生成一条续借记录
 }
 
 
@@ -1306,7 +1333,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 		exit(1);
 	}
 	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾*/
-	FILE*fp = fopen("BOOKINFORMATION", "rb+");		//在循环时每一次往后移动的指针
+	FILE *fp = fopen("BOOKINFORMATION", "rb+");		//在循环时每一次往后移动的指针
 	if (fp == NULL) {
 		printf("file error\n");
 		exit(1);
@@ -1402,6 +1429,46 @@ void Library::signOut(){		//用户注销
 	fclose(fp_card);
 	card();
 	//是否将allcard，allbook，alladmin写回文件？
+	FILE *fp_num;
+	if (NULL == (fp_num = fopen("ALLNUM", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)			//覆盖写入?
+		printf("file write error\n");
+	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	if (fwrite(&alladmin, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	fclose(fp_num);
+}
+
+void Library::signOut_Admin(){		//管理员注销
+	//把刚刚登陆时获取的admin写回文件原来的位置
+	FILE*fp_admin;
+	if (NULL == (fp_admin = fopen("ADMININFORMATION", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	int position = atoi(card.getaccount().c_str()) - 2000 - 1;	//管理员账户格式2001
+	fseek(fp_admin, position*sizeof(Administrator), 0);
+	if (fwrite(&admin, sizeof(Administrator), 1, fp_admin) != 1)
+		printf("file write error\n");
+	fclose(fp_admin);
+	admin();
+	//是否将allcard，allbook，alladmin写回文件？
+	FILE *fp_num;
+	if (NULL == (fp_num = fopen("ALLNUM", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)			//覆盖写入?
+		printf("file write error\n");
+	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	if (fwrite(&alladmin, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	fclose(fp_num);
 }
 
 /*void Library::matchCid(){		//身份证ID匹配
@@ -1439,10 +1506,11 @@ void Library::charge(double money){			//充值函数
 }
 
 void Library::Rcharge(){		//处理用户违约金
-
+	double owemoney = card.getoweMoney();
+	card.setbalance(card.getbalance() - owemoney);
 }
 
-void Library::resetCard(){		//更新修改卡信息 手机
+/*void Library::resetCard(){		//更新修改卡信息 手机
 
-}
+}*/
 
