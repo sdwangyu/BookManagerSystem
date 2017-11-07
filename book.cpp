@@ -21,6 +21,8 @@
 #define SEARCHRESULT searchResult//查询结果文件
 #define SEARCHRESULTTEMP searchResultTmp//查询结果临时文件
 #define LOG log;//图书馆大日志
+#define ADMININ_ADD_BOOK admininAddBook //11.7管理员增加书记录
+#define ADMININ_CHANGE_STORAGE admininChangeStorage//11.7管理员改变库存记录文件
 #define BOOK_RETURN_RECORD bookReturnRecord //11.1还书记录对应文件
 
 using namespace std;
@@ -444,9 +446,6 @@ Public:
 
 class Administrator
 {
-<<<<<<< HEAD
-Public
-=======
 Public:
 	void addAdmin(Administrator admin);//现有的管理员可以增加管理员，记得把alladmin++；
 
@@ -455,7 +454,6 @@ Public:
     void newStorage(Book book);//新设库存
     void searchRecord();//查询记录   1.
     //void operateCard(Card card);老师说不要删卡 听老师的
->>>>>>> 96bb65bf67215ece36435de1eb8f848923ceea75
 	//11.1构造函数
 	Administrator(char Account[4], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
 	{
@@ -609,6 +607,14 @@ Public:
 void Administrator::addBook(Book book)
 {
 	FILE *fp_add_book;
+	char bookID[10];
+	char bookName[50];
+	char author[20];
+	char publisher[20];
+	short storage;
+	short bookMan; 
+	short tStorage;
+	cout << "请管理员输入新增的书ID，书名，作者，出版社，库存，并以空格隔开输入：" << \n;
 	if (NULL == (fp_book_lend = fopen("BOOKINFORMATION", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -617,6 +623,7 @@ void Administrator::addBook(Book book)
 	fseek(fp_add_book, 0, SEEK_END);
 	fwrite(&book,sizeof(Book),1,fp_add_book);
 	fclose(fp_add_book);
+	Record record(book.getBookID(), card.getcardID(), year, month, day, 'j', '0');
 }
 
 
@@ -668,6 +675,8 @@ Public:
     void signInRecord();//登陆记录
     void signOutRecord();//注销记录
 	void signUpRecord();//注册记录
+	void admininchangestorage();//管理员改变库存记录
+	void admininaddbook();//管理员增加新书记录
 	void alter_Date(int day);//增加一个日期变化的函数
 
 	char getflag1()
@@ -711,7 +720,7 @@ Public:
 		flag2 = newflag2;
 	}
 	private:
-    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录
+    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存
     Book book;
     Card card;
 	char*bookid;
@@ -724,7 +733,7 @@ Public:
 
 //Record类内部函数的实现
 
-11.04//增加一个日期变化的函数
+//11.04增加一个日期变化的函数
 void Record::alter_Date(int addday){
 	int tempday = 0;
 	int monthday[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };//定义出每个月的天数以方便增加月
@@ -743,6 +752,55 @@ void Record::alter_Date(int addday){
 	day = tempday;
 }
 
+//11.7增加管理员改变书库存记录
+void Record::admininchangestorage()
+{
+	FILE *fp_change_storage;
+	FILE *fp_log;
+	if (NULL == (fp_change_storage = fopen("ADMININ_CHANGE_STORAGE", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_change_storage, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	if (fwrite(this, sizeof(Record), 1, fp_change_storage) != 1)
+		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_change_storage);
+	fclose(fp_log);
+}
+
+//11.7增加管理员新增书目的记录
+void Record::admininaddbook()
+{
+	FILE *fp_add_book;
+	FILE *fp_log;
+	if (NULL == (fp_add_book = fopen("ADMININ_ADD_BOOK", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_change_storage, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	if (fwrite(this, sizeof(Record), 1, fp_add_book) != 1)
+		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_add_book);
+	fclose(fp_log);
+}
 
 //10.31借书记录
 
@@ -750,6 +808,7 @@ void Record::bookLendRecord()		//借书记录
 {
 	FILE *fp_book_lend;
 	FILE *fp_log;
+	FILE *fp_buffer;
 	if (NULL == (fp_book_lend = fopen("BOOK_LEND_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -760,15 +819,23 @@ void Record::bookLendRecord()		//借书记录
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
+	if (NULL == (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
+	{
+	    fprintf(stderr, "Can not open file");
+	    exit(1);
+	}
 	fseek(fp_book_lend, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	//this->setflag1('a');
+	fseek(fp_buffer, 0, SEEK_END);
 	if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_buffer) != 1)
+		printf("file write error\n");
 	fclose(fp_book_lend);
 	fclose(fp_log);
+	fclose(fp_buffer);
 }
 
 //11.1还书记录
@@ -777,7 +844,7 @@ void Record::bookReturnRecord()
 {
 	FILE *fp_book_return;
 	FILE *fp_log;
-	//FILE *fp_buffer;
+	FILE *fp_buffer;
 	if (NULL == (fp_book_lend = fopen("BOOK_RETURN_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -788,29 +855,15 @@ void Record::bookReturnRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	//if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
-	//{
-		//fprintf(stderr, "Can not open file");
-		//exit(1);
-//	}
 	fseek(fp_book_return, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('b');
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(book, card, 'a', year, month, day, '0');
 	if (fwrite(this, sizeof(Record), 1, fp_book_return) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
 	fclose(fp_book_return);
 	fclose(fp_log);
-	//fclose(fp_buffer);
+	fclose(fp_buffer);
 
 }
 
@@ -831,32 +884,23 @@ void Record::bookOrderRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	//if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
-	//{
-		//fprintf(stderr, "Can not open file");
-		//exit(1);
-	//}
+	if (NULL == (fp_buffer = fopen("BUFFERZONE_ORDER", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
 	fseek(fp_book_order, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('c');
-	//fseek(fp_buffer, 0, SEEK_END);
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(book, card, 'c', year, month, day, '1');
+	fseek(fp_buffer,0, SEEK_END);
 	if (fwrite(this, sizeof(Record), 1, fp_book_order) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
-	//if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
-	//	printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
+		printf("file write error\n");
 	fclose(fp_book_order);
 	fclose(fp_log);
-	//fclose(fp_buffer);
+	fclose(fp_buffer);
 }
 
 //11.1取消预约记录
@@ -881,25 +925,16 @@ void Record::bookOrderCancelRecord()
 	}*/
 	fseek(fp_book_order_cancel, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('e');
-	//fseek(fp_buffer, 0, SEEK_END);
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(book.getBookID(), card.getCardID(), 'a', year, month, day, '0');
+	fseek(fp_buffer, 0, SEEK_END);
 	if (fwrite(this, sizeof(Record), 1, fp_book_order_cancel) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
-	//if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
-	//printf("file write error\n");
+	if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
+	    printf("file write error\n");
 	fclose(fp_book_order_cancel);
 	fclose(fp_log);
-	//fclose(fp_buffer);
+	fclose(fp_buffer);
 }
 
 //11.1预约失效记录
@@ -925,16 +960,8 @@ void Record::bookOrderNoRecord()
 	}*/
 	fseek(fp_book_order_cancel, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('f');
-	//fseek(fp_buffer, 0, SEEK_END);
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(book.getBookID(), card.getCardID(), 'a', year, month, day, '0');
+	fseek(fp_buffer, 0, SEEK_END);
+
 	if (fwrite(this, sizeof(Record), 1, fp_book_order_cancel) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
@@ -943,7 +970,7 @@ void Record::bookOrderNoRecord()
 	//printf("file write error\n");
 	fclose(fp_book_order_cancel);
 	fclose(fp_log);
-	//fclose(fp_buffer);
+	fclose(fp_buffer);
 
 }
 
@@ -967,14 +994,6 @@ void Record::bookRenewRecord()
 	fseek(fp_book_renew, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
 	this->setflag1('d');
-//	Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(book, card, 'd', year, month, day, '1');
 	if (fwrite(this, sizeof(Record), 1, fp_book_renew) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
@@ -1002,15 +1021,6 @@ void Record::signInRecord()
 	}
 	fseek(fp_sign_in, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('i');
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(card, year, month, day);
 	if (fwrite(&new_record, sizeof(Record), 1, fp_sign_in) != 1)
 		printf("file write error\n");
 	if (fwrite(&new_record, sizeof(Record), 1, fp_log) != 1)
@@ -1037,15 +1047,6 @@ void Record::signOutRecord()
 	}
 	fseek(fp_sign_out, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('h');
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(card, year, month, day);
 	if (fwrite(this, sizeof(Record), 1, fp_sign_out) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
@@ -1073,14 +1074,6 @@ void Record::signUpRecord()
 	fseek(fp_sign_up, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
 	this->setflag1('g');
-	//Record record();
-	//time_t timer;
-	//time(&timer);
-	//tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	//int year = t_tm->tm_year + 1900;
-	//int month = month = t_tm->tm_mon + 1;
-	//int day = t_tm->tm_mday;
-	//Record new_record(card, year, month, day);
 	if (fwrite(this, sizeof(Record), 1, fp_sign_up) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
