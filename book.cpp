@@ -97,7 +97,7 @@ public:
         bookMan=0;//初始预约人数为0
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
-		books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		//books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     }
     Book()
     {
@@ -245,9 +245,9 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
-	int books[10];//库存10本书，数组中每一项用来表示10本中具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
+	int books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };//库存10本书，数组中每一项用来表示10本中具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
 	//动态开辟存储空间?
-	
+
 
 
 friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
@@ -426,7 +426,7 @@ Public:
             cPhone[i]=newcPhone[i];
         }
    	}
-    Private：
+    private:
 
     char cardID[10];//卡号
     char cPassword[20];//密码
@@ -696,7 +696,7 @@ Public:
 	{
 		flag2 = newflag2;
 	}
-	private：
+	private:
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录
     Book book;
     Card card;
@@ -1342,7 +1342,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 	}
 	if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
-		card(card_find); 
+		card(card_find);
 		fclose(fp);
 		return;
 	}
