@@ -1104,7 +1104,7 @@ Public:
 	void signOut_Admin();//管理员注销
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
-    void update();//函数用于用户进入系统时 对缓冲区进行更新
+    void update_Order();//函数用于用户进入系统时 对缓冲区进行更新
 	//void update_Card();//	用户状态更新函数：对用户的状态进行及时更新，以便在用户返回查看信息时可以看到自己更新后的信息  
     void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
@@ -1483,7 +1483,7 @@ void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpasswor
 	return;
 }
 
-void Library::update(){			//函数用于用户进入系统时 对缓冲区进行更新
+void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区进行更新
 	/*
 	匹配查看预约记录是否失效
 	如果失效 写入系统记录 将该记录标识置为1
@@ -1491,14 +1491,29 @@ void Library::update(){			//函数用于用户进入系统时 对缓冲区进行
 	如果此时临时库存>预约人数
 	把书放入库存 临时库存-1
 	*/
-	FILE *fp_buffer;
-	if ((fp_buffer_ORDER = fopen("BUFFERZONE_ORDER", "rb+"))==NULL )
+	FILE *fp_buffer_order;
+	FILE *fpEnd;
+	if ((fp_buffer_order = fopen("BUFFERZONE_ORDER", "rb+"))==NULL )
 	{
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-
-	fclose(fp_buffer_ORDER);
+	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾*/
+	Record record_temp;
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	while (fp_buffer_order != fpEnd){
+		fread(&record_temp, sizeof(Record), 1, fp_buffer_order);
+		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 10){
+			record_temp.bookOrderCancelRecord();
+			record_temp.setflag2('1');//1对预约记录表示此预约失效并且已经写入记录文件
+		}
+	}
+	fclose(fp_buffer_order);
 }
 
 void Library::charge(double money){			//充值函数
