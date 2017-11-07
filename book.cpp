@@ -545,7 +545,6 @@ void Administrator::addBook(Book book)
 	fseek(fp_add_book, 0, SEEK_END);
 	fwrite(&book,sizeof(Book),1,fp_add_book);
 	fclose(fp_add_book);
-
 }
 
 //11.2管理员改库存函数
