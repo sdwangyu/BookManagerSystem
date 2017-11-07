@@ -633,14 +633,14 @@ Public:
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
 
-	Record(char*cardid1, int Year, int Month, int Day, int flag11, int flag22)
+	Record(char*cardid1, int Year, int Month, int Day, int flag11, /*int flag22*/)
 	{
 		cardid = cardid1;
 		year = Year;
 		month = Month;
 		day = Day;
 		flag1 = flag11;
-		flag2 = flag22;
+		//flag2 = flag22;
 	}
 	//复制构造函数
 	Record(Record &R);
@@ -749,7 +749,7 @@ void Record::bookLendRecord()		//借书记录
 	}
 	fseek(fp_book_lend, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	this->setflag1('a');
+	//this->setflag1('a');
 	if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
@@ -1102,6 +1102,7 @@ Public:
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
+	void update_book();//函数用于在登陆后判断用户的已借书籍是否已经超期
     void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
    // void resetCard();//更新修改卡信息 手机
@@ -1349,6 +1350,14 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登
 	if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
 		card(card_find);
+		time_t timer;
+		time(&timer);
+		tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+		int year = t_tm->tm_year + 1900;
+		int month = month = t_tm->tm_mon + 1;
+		int day = t_tm->tm_mday;
+		Record record(card.getcardID(), year, month, day, 'i');
+		record.signInRecord();
 		fclose(fp);
 		return;
 	}
@@ -1387,6 +1396,14 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理�
 	if (((string)admin_find.getAccount() == (string)adminname_PutIn) && ((string)admin_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的admin_find赋值给私有成员admin
 		admin(admin_find);
+		time_t timer;
+		time(&timer);
+		tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+		int year = t_tm->tm_year + 1900;
+		int month = month = t_tm->tm_mon + 1;
+		int day = t_tm->tm_mday;
+		Record record(admin.getaccount(), year, month, day, 'i');
+		record.signInRecord();
 		fclose(fp);
 		return;
 	}
@@ -1406,6 +1423,13 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//�
 	fseek(fp_card, 0, SEEK_END);
 	if (fwrite(&newcard, sizeof(Card), 1, fp_card) != 1)
 		printf("file write error\n");
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(newcard.getcardID(), year, month, day, 'g');
 	fclose(fp_card);
 	allcard++;
 	return;
@@ -1422,6 +1446,14 @@ void Library::signOut(){		//用户注销
 	fseek(fp_card, position*sizeof(Card), 0);
 	if (fwrite(&card, sizeof(Card), 1, fp_card) != 1)
 		printf("file write error\n");
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(card.getcardID(), year, month, day, 'h');
+	record.signOutRecord();
 	fclose(fp_card);
 	card();
 	//是否将allcard，allbook，alladmin写回文件？
@@ -1450,6 +1482,14 @@ void Library::signOut_Admin(){		//管理员注销
 	fseek(fp_admin, position*sizeof(Administrator), 0);
 	if (fwrite(&admin, sizeof(Administrator), 1, fp_admin) != 1)
 		printf("file write error\n");
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(admin.getaccount(), year, month, day, 'h');
+	record.signOutRecord();
 	fclose(fp_admin);
 	admin();
 	//是否将allcard，allbook，alladmin写回文件？
@@ -1481,6 +1521,10 @@ void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpasswor
 
 void Library::update(){			//函数用于用户进入系统时 对缓冲区进行更新
 
+}
+
+void Library::update_book();{		//函数用于在登陆后判断用户的已借书籍是否已经超期
+	FILE*fp_
 }
 
 void Library::charge(double money){			//充值函数
