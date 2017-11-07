@@ -16,7 +16,8 @@
 #define SIGN_IN_RECORD signInRecord//10.30 Record登陆记录对应文件
 #define SIGN_UP_RECORD signUpRecord//注册记录文件
 #define SIGN_OUT_RECORD signOutRecord//注销记录文件
-#define BUFFERZONE bufferZone//缓冲区文件
+#define BUFFERZONE_ORDER bufferOrderZone//预约缓冲区文件
+#define BUFFERZONE_LEND bufferLendZone//借书缓冲区文件
 #define SEARCHRESULT searchResult//查询结果文件
 #define SEARCHRESULTTEMP searchResultTmp//查询结果临时文件
 #define LOG log;//图书馆大日志
@@ -574,6 +575,7 @@ Public
 
 };
 
+
 //11.2管理员新加书函数
 void Administrator::addBook(Book book)
 {
@@ -586,6 +588,7 @@ void Administrator::addBook(Book book)
 	fseek(fp_add_book, 0, SEEK_END);
 
 }
+
 
 //11.2管理员改库存函数
 void Administrator::newStorage(Book book)
@@ -1081,6 +1084,7 @@ Public:
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
+	//void update_Card();//	用户状态更新函数：对用户的状态进行及时更新，以便在用户返回查看信息时可以看到自己更新后的信息  
     void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
     void resetCard();//更新修改卡信息 手机
@@ -1263,7 +1267,7 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
 }
 
 void Library::bookOrderCancelExpired() {//2.过期取消预约
-            time_t timer;
+        time_t timer;
         time(&timer);
         tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
         int year = t_tm->tm_year + 1900;
@@ -1413,7 +1417,21 @@ void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpasswor
 }
 
 void Library::update(){			//函数用于用户进入系统时 对缓冲区进行更新
+	/*
+	匹配查看预约记录是否失效
+	如果失效 写入系统记录 将该记录标识置为1
+	然后找到该书 令其预约人-1
+	如果此时临时库存>预约人数
+	把书放入库存 临时库存-1
+	*/
+	FILE *fp_buffer;
+	if ((fp_buffer_ORDER = fopen("BUFFERZONE_ORDER", "rb+"))==NULL )
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
 
+	fclose(fp_buffer_ORDER);
 }
 
 void Library::charge(double money){			//充值函数
