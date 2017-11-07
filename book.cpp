@@ -699,6 +699,14 @@ Public:
 	{
 		flag2 = newflag2;
 	}
+	char *getBookid()
+	{
+		return bookid;
+	}
+	char *getCardid()
+	{
+		return cardid;
+	}
 	private:
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录
     Book book;
@@ -1105,11 +1113,9 @@ Public:
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
     void update();//函数用于用户进入系统时 对缓冲区进行更新
-<<<<<<< HEAD
+
 	void update_book();//函数用于在登陆后判断用户的已借书籍是否已经超期
-=======
-	//void update_Card();//	用户状态更新函数：对用户的状态进行及时更新，以便在用户返回查看信息时可以看到自己更新后的信息  
->>>>>>> e34849e419e896339ceea6a32dcbfd0567f67eab
+
     void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
    // void resetCard();//更新修改卡信息 手机
@@ -1545,7 +1551,42 @@ void Library::update(){			//函数用于用户进入系统时 对缓冲区进行
 }
 
 void Library::update_book();{		//函数用于在登陆后判断用户的已借书籍是否已经超期
-	FILE*fp_
+	FILE*fp_lendbuffer;
+	if ((fp_lendbuffer = fopen("BUFFERZONE_LEND", "rb+")) == NULL)
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	FILE*fp_End = fopen("BUFFERZONE_LEND", "rb+");
+	if (fp_End == NULL) {
+		printf("file error\n");
+		exit(1);
+	}
+	fseek(fp_End, 0, SEEK_END);		//把fpEnd指针移到文件末尾*/
+	Record record_temp;		//用于读取借书buffer中的每一条记录
+	int i = 0;
+	fseek(fp_lendbuffer, i * sizeof(Card), SEEK_SET);
+	while (fp_lendbuffer != fp_End){
+		fread(&record_temp, sizeof(Record), 1, fp_lendbuffer);
+		if ((string)record_temp.getCardid() == (string)card.getcardID()){
+			//确实是当前用户借阅并且未还的书籍
+			time_t timer;
+			time(&timer);
+			tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+			int year = t_tm->tm_year + 1900;
+			int month = month = t_tm->tm_mon + 1;
+			int day = t_tm->tm_mday;
+			//判断当前时间与应还日期
+			if (!(compareDate(record_temp.getyear(), record_temp.getmonth(), record_temp.getday(), year, month, day) > 0)){
+				//如果当前日期超过还书日期，那么就进行违约金处理；
+				card.setoweMoney(0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//按超期一天0.5元计算
+				if (card.getbalance() >= card.getoweMoney())card.Rcharge();		//余额足够
+				else card.setcardState('0');	//余额不足，冻结账号
+			}
+		}
+		i++;
+		fseek(fp_lendbuffer, i * sizeof(Card), SEEK_SET);
+	}
 }
 
 void Library::charge(double money){			//充值函数
