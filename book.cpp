@@ -77,14 +77,14 @@ int compareDate(int year1,int month1,int day1,int year2,int month2,int day2){//�
 class Book//构造函数 复制构造函数
 {
 public:
-    Book(char BookID[10],char BookName[50],char Author[20],char Publisher[20],char Storage)//构造函数
+    Book(char BookID[10],char BookName[100],char Author[20],char Publisher[20],char Storage)//构造函数
     {
 
         for(int i=0; i<10; i++)
         {
             bookID[i]=BookID[i];
         }
-        for(int i=0; i<50; i++)
+        for(int i=0; i<100; i++)
         {
             bookName[i]=BookName[i];
         }
@@ -108,7 +108,7 @@ public:
         {
             bookID[i]=' ';
         }
-        for(int i=0; i<50; i++)
+        for(int i=0; i<100; i++)
         {
             bookName[i]=' ';
         }
@@ -124,7 +124,6 @@ public:
         bookMan=0;//初始预约人数为0
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
-		books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     }
 
     Book(Book &book) //复制构造函数
@@ -133,7 +132,7 @@ public:
         {
             bookID[i]=book.bookID[i];
         }
-        for(int i=0; i<50; i++)
+        for(int i=0; i<100; i++)
         {
             bookName[i]=book.bookName[i];
         }
@@ -169,9 +168,9 @@ public:
     {
         return bookName;
     }
-    void setbookName(char newbookName[50])
+    void setbookName(char newbookName[100])
     {
-        for(int i=0; i<50; i++)
+        for(int i=0; i<100; i++)
         {
             bookName[i]=newbookName[i];
         }
@@ -241,7 +240,7 @@ public:
 	}
 private:
     char bookID[10];//图书编号
-    char bookName[50];//书名
+    char bookName[100];//书名
     char author[20];//作者
     char publisher[20];//出版商
     short storage; //库存
