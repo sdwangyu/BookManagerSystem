@@ -24,6 +24,7 @@
 #define ADMININ_ADD_BOOK admininAddBook //11.7管理员增加书记录
 #define ADMININ_CHANGE_STORAGE admininChangeStorage//11.7管理员改变库存记录文件
 #define BOOK_RETURN_RECORD bookReturnRecord //11.1还书记录对应文件
+//#define BUFFER_NEW bufferNew //缓存区临时文件
 
 using namespace std;
 
@@ -603,7 +604,7 @@ Public:
 
 
 //11.2管理员新加书函数
-void Administrator::addBook(Book book)
+void Administrator::addBook(char *bookID,char *bookName,char *author,char *publisher,short storage,short bookMan)
 {
 	FILE *fp_add_book;
 	char bookID[10];
@@ -613,7 +614,6 @@ void Administrator::addBook(Book book)
 	short storage;
 	short bookMan; 
 	short tStorage;
-	cout << "请管理员输入新增的书ID，书名，作者，出版社，库存，并以空格隔开输入：" << \n;
 	if (NULL == (fp_book_lend = fopen("BOOKINFORMATION", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -633,6 +633,9 @@ void Administrator::newStorage(Book book)
 	short nStorage;
 	cin >> nStorage;
 	book.setstorage(book.getstorage() + nStorage);
+	//为什么不用特定的增加函数
+
+	Record record(Book.getbookID(), Card.getcardID(), year, month, day, '0');
 }
 
 class Record
@@ -852,6 +855,10 @@ void Record::bookReturnRecord()
 	FILE *fp_book_return;
 	FILE *fp_log;
 	FILE *fp_buffer;
+	char free[50];
+	for (int i = 0; i < 50; i++) {
+		free[i] = get
+	}
 	if (NULL == (fp_book_lend = fopen("BOOK_RETURN_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -1275,8 +1282,8 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
         int year = t_tm->tm_year + 1900;
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
-        Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '0');
-    int choice;
+        Record record(),card.getcardID(),year, month, day, 'e', '0');
+    int choice;book.getBookID(
     cout<<"确定取消预约吗？"<<endl;
     cout<<"1.是 2.否"<<endl;
     cin>>choice;
