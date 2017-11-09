@@ -592,7 +592,17 @@ Public:
 	void addBook(Book book);//增加书
 	//void deleteBook(Book book);老师说不要删书
 	void newStorage(Book book);//新设库存
-	void searchRecord();//查询记录   1.
+	//void searchRecord();//查询记录   1
+
+	//11.9管理员所有查看行为函数
+	void searchLog();//管理员查看大日志
+	void searchLendBuffer();//管理员查看现在正借出的书
+	void serchBookInformation();//管理员查看全部图书信息
+	void searchCardInformation();//管理员查看全部用户信息
+	void searchOrder();//管理员查看所有预约记录
+	void searchCancleOrder();//管理员查看全部预约取消预约到期记录文件
+	void searchReturn();//管理员查看所有还书信息
+
 	//void operateCard(Card card);老师说不要删卡 听老师的
     Private:
     char account[4];
@@ -644,15 +654,18 @@ void Administrator::addBook(char *bookID, char *bookName, char *author, char *pu
 
 
 //11.2管理员改库存函数
-void Administrator::newStorage(Book book)
+void Administrator::newStorage(short storage)
 {
-	//让管理员输入想要加的本数。如果删除几本，就写负值
-	short nStorage;
-	cin >> nStorage;
-	book.setstorage(book.getstorage() + nStorage);
-	//为什么不用特定的增加函数
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
 
-	Record record(Book.getbookID(), Card.getcardID(), year, month, day, '0');
+	book.setstorage(book.getstorage() + nStorage);
+	Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
+	record.admininchangestorage();
 }
 
 class Record
@@ -673,14 +686,13 @@ Public:
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
 	
-	Record(char*cardid1, int Year, int Month, int Day, int flag11, /*int flag22*/)
+	Record(char*cardid1, int Year, int Month, int Day, int flag11)
 	{
 		cardid = cardid1;
 		year = Year;
 		month = Month;
 		day = Day;
 		flag1 = flag11;
-		//flag2 = flag22;
 	}
 	//复制构造函数
 	Record(Record &R);
@@ -1010,10 +1022,12 @@ void Record::bookOrderNoRecord()
 //由于没有取消续借功能，所以续借只存放在续借文件和大日志文件中，并未存放在缓存文件中
 
 //续借也需要写到bufferlend缓冲文件里，因为还书的时候需要从bufferlend中检索出来
+//欧巴说的都对啦啦~~mua~~
 void Record::bookRenewRecord()
 {
 	FILE *fp_book_renew;
 	FILE *fp_log;
+	FILE *fp_buffer;
 	if (NULL == (fp_book_renew = fopen("BOOK_RENEW_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -1024,16 +1038,23 @@ void Record::bookRenewRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
+	if (NULL = (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+	}
 	fseek(fp_book_renew, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
+	fseek(fp_buffer, 0, SEEK_END);
 	this->setflag1('d');
 	if (fwrite(this, sizeof(Record), 1, fp_book_renew) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_buffer) != 1)
+		printd("file write error\n");
 	fclose(fp_book_renew);
 	fclose(fp_log);
-
+	fclose(fp_buffer);
 }
 
 //11.1登陆记录
