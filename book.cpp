@@ -613,6 +613,17 @@ Public:
 	Book book;
 };
 
+//管理员查看大日志
+void Administrator::searchLog()
+{
+	FILE *fp_log;
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+
+}
 
 //11.2管理员新加书函数
 void Administrator::addBook(char *bookID, char *bookName, char *author, char *publisher, short storage)
