@@ -1282,8 +1282,8 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
         int year = t_tm->tm_year + 1900;
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
-        Record record(),card.getcardID(),year, month, day, 'e', '0');
-    int choice;book.getBookID(
+		Record record(book.getBookID(), card.getcardID(), year, month, day, 'e', '0');
+    int choice;
     cout<<"确定取消预约吗？"<<endl;
     cout<<"1.是 2.否"<<endl;
     cin>>choice;
