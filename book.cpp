@@ -70,8 +70,9 @@ int compareDate(int year1,int month1,int day1,int year2,int month2,int day2){//�
                     days+= 365;
             }
          }
+		 else days = -compareDate(year2, month2, day2, year1, month1, day1);	//date1小于date2的情况
     }
-    if(days<0)exit(0);//出错则退出程序
+   // if(days<0)exit(0);//出错则退出程序
     return days;
 }
 
@@ -604,25 +605,41 @@ Public:
 
 
 //11.2管理员新加书函数
-void Administrator::addBook(char *bookID,char *bookName,char *author,char *publisher,short storage,short bookMan)
+void Administrator::addBook(char *bookID, char *bookName, char *author, char *publisher, short storage)
 {
 	FILE *fp_add_book;
+	FILE *fp_book;
 	char bookID[10];
 	char bookName[50];
 	char author[20];
 	char publisher[20];
 	short storage;
-	short bookMan; 
+	short bookMan;
 	short tStorage;
-	if (NULL == (fp_book_lend = fopen("BOOKINFORMATION", "rb+")))
+	if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
 	fseek(fp_add_book, 0, SEEK_END);
-	fwrite(&book,sizeof(Book),1,fp_add_book);
+	Book book(bookID, bookName, author, publisher, storage);
+	fwrite(&book, sizeof(Book), 1, fp_book);
+	allbook++;
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(book.getbookID(), this->getaccount(), year, month, day, 'j', '0');
+	record.admininaddbook();
 	fclose(fp_add_book);
-	Record record(book.getBookID(), card.getcardID(), year, month, day, 'j', '0');
+	fclose(fp_book);
 }
 
 
@@ -655,7 +672,7 @@ Public:
 		flag2 =flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
-
+	
 	Record(char*cardid1, int Year, int Month, int Day, int flag11, /*int flag22*/)
 	{
 		cardid = cardid1;
@@ -991,6 +1008,8 @@ void Record::bookOrderNoRecord()
 
 //11.1续借记录
 //由于没有取消续借功能，所以续借只存放在续借文件和大日志文件中，并未存放在缓存文件中
+
+//续借也需要写到bufferlend缓冲文件里，因为还书的时候需要从bufferlend中检索出来
 void Record::bookRenewRecord()
 {
 	FILE *fp_book_renew;
@@ -1166,6 +1185,7 @@ void Library::bookLend() { //借书 1.直接借书
                     order++;
                 }
                 Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
+				record.alter_Date(30);	//加上30天，把应还日期写进记录
                 record.bookLendRecord();
                 //写回book文件
                 //写回card文件
@@ -1216,6 +1236,7 @@ void Library::bookLendOrder() {//2.通过预约成功借书
         order++;
     }
     Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
+	record.alter_Date(30);
     record.bookLendRecord();
     //写回book文件
 }
@@ -1260,6 +1281,7 @@ void Library::bookOrder(){//预约
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
     Record record(book.getBookID(),card.getcardID(),year, month, day, 'c', '0');
+	record.alter_Date(10);	//加上10天，将预约到期日期写进记录
     if(card.getbookMan()==5) {//预约本数已达上限
         cout<<"您的预约本数已达上限，无法进行预约！"<<endl;
     }
@@ -1339,6 +1361,7 @@ void Library::bookRenew(){//图书续借
         int day = t_tm->tm_mday;
         Record record(book.getBookID(),card.getcardID(),year, month, day, 'd', '1');
         cout<<"续借成功"<<endl;
+		record.alter_Date(30);		//加上30天，将应还日期写进记录
         record.bookRenewRecord();//生成一条续借记录
 }
 
@@ -1451,6 +1474,7 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//�
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
 	Record record(newcard.getcardID(), year, month, day, 'g');
+	record.signUpRecord();
 	fclose(fp_card);
 	allcard++;
 	return;
@@ -1548,14 +1572,21 @@ void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区
 	如果此时临时库存>预约人数
 	把书放入库存 临时库存-1
 	*/
-	FILE *fp_buffer_order;
-	FILE *fpEnd;
+	FILE *fp_buffer_order=NULL;
+	FILE *fpEnd=NULL;
 	if ((fp_buffer_order = fopen("BUFFERZONE_ORDER", "rb+"))==NULL )
 	{
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
+	if ((fp_End = fopen("BUFFERZONE_ORDER", "rb+")) == NULL)
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
 	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾*/
+	int i = 0;
+	fseek(fp_buffer_order, i * sizeof(Record), SEEK_SET);
 	Record record_temp;
 	time_t timer;
 	time(&timer);
@@ -1565,10 +1596,12 @@ void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区
 	int day = t_tm->tm_mday;
 	while (fp_buffer_order != fpEnd){
 		fread(&record_temp, sizeof(Record), 1, fp_buffer_order);
-		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 10){
-			record_temp.bookOrderCancelRecord();
+		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 0){
+			record_temp.bookOrderCancelExpired();
 			record_temp.setflag2('1');//1对预约记录表示此预约失效并且已经写入记录文件
 		}
+		i++;
+		fseek(fp_buffer_order, i * sizeof(Record), SEEK_SET);
 	}
 	fclose(fp_buffer_order);
 }
