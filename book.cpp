@@ -1140,7 +1140,7 @@ Public:
 	void signOut_Admin();//管理员注销
    // void matchCid();//身份证ID匹配
 	void ResetPassward(char*newpassword);//输入新密码后重设密码写入原位置
-  void update_Order();//函数用于用户进入系统时 对缓冲区进行更新
+	void update_Order();//函数用于用户进入系统时 对缓冲区进行更新
 	void update_book();//函数用于在登陆后判断用户的已借书籍是否已经超期
 
     void charge(double money);//充值函数
@@ -1281,7 +1281,10 @@ void Library::bookOrder(){//预约
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
     Record record(book.getBookID(),card.getcardID(),year, month, day, 'c', '0');
-	record.alter_Date(10);	//加上10天，将预约到期日期写进记录
+
+	//预约记录就记录预约时间即可，因为为了方便在update_order里使用
+
+	//record.alter_Date(10);	//加上10天，将预约到期日期写进记录
     if(card.getbookMan()==5) {//预约本数已达上限
         cout<<"您的预约本数已达上限，无法进行预约！"<<endl;
     }
@@ -1334,13 +1337,13 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
 }
 
 void Library::bookOrderCancelExpired() {//2.过期取消预约
-        time_t timer;
-        time(&timer);
-        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-        int year = t_tm->tm_year + 1900;
-        int month = month = t_tm->tm_mon + 1;
-        int day = t_tm->tm_mday;
-        Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '1');
+    time_t timer;
+    time(&timer);
+    tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+    int year = t_tm->tm_year + 1900;
+    int month = month = t_tm->tm_mon + 1;
+    int day = t_tm->tm_mday;
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '1');
     book.settStorage(book.gettStorage()-1);//书的临时库存-1
     book.setstorage(book.getstorage()+1);//书的库存+1
     book.setbookMan(book.getbookMan()-1);//书的预约人数-1
@@ -1597,7 +1600,7 @@ void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区
 	while (fp_buffer_order != fpEnd){
 		fread(&record_temp, sizeof(Record), 1, fp_buffer_order);
 		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 0){
-			record_temp.bookOrderCancelExpired();
+			record_temp.bookOrderCancelExpired();		//修改
 			record_temp.setflag2('1');//1对预约记录表示此预约失效并且已经写入记录文件
 		}
 		i++;
