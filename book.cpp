@@ -587,6 +587,7 @@ Public:
 	//void deleteBook(Book book);老师说不要删书
 	//void operateCard(Card card);老师说不要删卡 听老师的
 
+	void findbook(char*bookid);		//为了在修改库存之前给类中的私有成员book赋值
 	void newStorage(short storage);//新设库存
 	void addadmin(char*account, char*aPassword, char*accountHolder, char*aID,char*aPhone);
 
@@ -601,7 +602,7 @@ Public:
 
 	
     Private:
-    char account[4];
+    char account[6];		//记得修改上面对应得数值
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
@@ -610,8 +611,8 @@ Public:
 };
 
 //管理员注册函数
-void Administrator::addadmin(char*account, char*aPassword, char*accountHolder, char*aID, char*aPhone){	
-	Administrator newadministrator(to_string(1000000000 + alladmin + 1), aPassword, accountHolder, aID, aPhone);
+void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){	
+	Administrator newadministrator(to_string(20000 + alladmin + 1), aPassword, accountHolder, aID, aPhone);
 	FILE*fp_admin;
 	if (NULL == (fp_card = fopen("ADMININFORMATION", "rb+"))){
 		fprintf(stderr, "Can not open file");
@@ -683,20 +684,50 @@ void Administrator::addBook(char *bookID, char *bookName, char *author, char *pu
 
 }
 
-
+//在管理员修改库存之前，先让他输入要修改的书的bookid，然后调用findbook函数找到这本书，赋值给record类的私有成员book
+//然后让他输入修改后的书的总本数，点击修改库存按钮，执行newStorage函数即可
+void findbook(char*bookid)
+{
+	FILE *fp_book;
+	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Book booktemp;
+	while (!feof(fp_book))
+	{
+		fread(&booktemp, sizeof(Book), 1, fp_book);
+		if ((string)booktemp.getbookID == (string)bookid)
+		{
+			book(booktemp);
+			break;
+		}
+	}
+}
 //11.2管理员改库存函数
 void Administrator::newStorage(short storage)
 {
+	
 	time_t timer;
 	time(&timer);
 	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
-
-	book.setstorage(book.getstorage() + nStorage);
+	book.setstorage(storage);
 	Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
 	record.admininchangestorage();
+	FILE *fp_book;
+	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	int position = atoi(book.getbookID().c_str()) - 100000000 - 1;
+	fseek(fp_book, position * sizeof(book), SEEK_SET);
+	if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)			
+		printf("file write error\n");
 }
 
 class Record
@@ -736,6 +767,12 @@ Public:
 		flag1 = flag11;
 		flag2 = flag22;
 		order = Order;
+	}
+
+	//默认构造函数
+	Record()
+	{
+
 	}
 	//复制构造函数
 	Record(Record &R);
@@ -811,8 +848,8 @@ Public:
 	}
 	private:
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存 l管理员注册
-    Book book;
-    Card card;
+    //Book book;
+    //Card card;
 	char*bookid;
 	char*cardid;
     int year;
@@ -935,11 +972,8 @@ void Record::bookReturnRecord()
 {
 	FILE *fp_book_return;
 	FILE *fp_log;
-	FILE *fp_buffer;
-	char free[50];
-	for (int i = 0; i < 50; i++) {
-		free[i] = get
-	}
+	FILE *fp_lend_buffer;
+	FILE *fp_lend_buffernew;
 	if (NULL == (fp_book_lend = fopen("BOOK_RETURN_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -950,6 +984,27 @@ void Record::bookReturnRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
+	if (NULL == (fp_lend_buffer = fopen("BUFFERZONE_LEND", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_lend_buffernew = fopen("bufferzone_lendnew", "wb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Record record_temp;
+	while (!feof(fp_lend_buffer))
+	{
+		fread(&record_temp, sizeof(Record), 1, fp_lend_buffer);
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		fwrite(&record_temp, sizeof(Record), 1, fp_lend_buffernew);
+	}
+	fclose(fp_lend_buffer);
+	fclose(fp_lend_buffernew);
+	if (remove("bufferLendZone") != 0)exit(1);
+	if (rename("bufferzone_lendnew", "bufferLendZone") != 0)exit(1);
 	fseek(fp_book_return, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
 	if (fwrite(this, sizeof(Record), 1, fp_book_return) != 1)
