@@ -4,6 +4,7 @@
 #include<time.h>
 #include<windows.h>
 #include<sstream>
+#include <fstream>
 
 #define ALLNUM allNum//存放allcard和allbook
 #define BOOKINFORMATION bookInformation//全部图书信息
@@ -1123,12 +1124,6 @@ Private:
 };
 
 void Library::bookLend() { //借书 1.直接借书
-        time_t timer;
-        time(&timer);
-        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-        int year = t_tm->tm_year + 1900;
-        int month = month = t_tm->tm_mon + 1;
-        int day = t_tm->tm_mday;
         if(card.getlendedCount()==10) {//可借本数超过上限
             cout<<"可借本书已达到上限，无法再进行借阅！"<<end;
         }
@@ -1140,13 +1135,38 @@ void Library::bookLend() { //借书 1.直接借书
                 card.setlendingCount(card.getlendingCount()-1);//可借本数-1
                 int order = 1;//标识第几本书
                 int *p = book.getbooks();
-                while(!(*(p+order)==1)) {//从第一本书开始检索
+                while(!(*(p+order)==1)) {//从第一本书开始检索而不是第0本
                     order++;
                 }
-                Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
+                book.setBooksI(order,2);//将这本书改为已借出
+                //生成一条借书的记录
+                time_t timer;
+                time(&timer);
+                tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+                int year = t_tm->tm_year + 1900;
+                int month = month = t_tm->tm_mon + 1;
+                int day = t_tm->tm_mday;
+                Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);
                 record.bookLendRecord();
                 //写回book文件
-                //写回card文件
+                ofstream outfile("BOOKINFORMATION",ios::binary);
+                if(!outfile)
+                {
+                    cerr<<"open error!"<<endl;
+                    abort( );//退出程序
+                }
+                int number=0;//第几本书
+                char *p = book.getbookID();
+                for(int i=0;i<10;i++) {
+                    int a=1;
+                    for(int j=i;j>0;j--) {
+                        a*=10;
+                    }
+                    number+=*(p+i)*a;
+                }
+                iofile.seekp(number*sizeof(book),ios::beg);  //定位于第几本书的开头
+                iofile.write((char *)&book,sizeof(book));  //更新第几本书的数据
+                outfile.close( );
             }
             else { //库存不够
                 int choice;
@@ -1193,51 +1213,100 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     while(!(*(p+order)==1)) {//从第一本书开始检索
         order++;
     }
+    book.setBooksI(order,2);//将这本书改为已借出
     Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
     record.bookLendRecord();
     //写回book文件
+    ofstream outfile("BOOKINFORMATION",ios::binary);
+    if(!outfile)
+    {
+        cerr<<"open error!"<<endl;
+        abort( );//退出程序
+    }
+    int number=0;//第几本书
+    char *p = book.getbookID();
+    for(int i=0;i<10;i++) {
+        int a=1;
+        for(int j=i;j>0;j--) {
+            a*=10;
+        }
+        number+=*(p+i)*a;
+    }
+    iofile.seekp(number*sizeof(book),ios::beg);  //定位于第几本书的开头
+    iofile.write((char *)&book,sizeof(book));  //更新第几本书的数据
+    outfile.close( );
 }
 
-void Library::bookReturn(){ //还书
+void Library::bookReturn(){ //还书（需要用到qt）
+    cout<<"还书成功！"<<endl;
     time_t timer;
     time(&timer);
     tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    Record record(book.getBookID(),card.getcardID(),year, month, day, 'b', '0');
     card.setlendedCount(book.getlendedCount()-1);//已借本数-1
     card.setlendingCount(card.getlendingCount()+1);//可借本数+1
-    //写回card文件
-
     //1.检测这本书是否有人预约
     if(book.getbookMan()>0) {
         //1.1若有人预约
         if(book.gettStorage()==book.getbookMan()) {//检测临时库存是否等于预约人数，若等于则库存+1
             book.setstorage(book.getstorage()+1);
-            //写回book文件
         }
         else {//若不等于，临时库存+1
             book.settStorage(book.gettStorage()+1);
-            //写回book文件
         }
     }
     else {
         //1.2若无人预约，库存+1
         book.setstorage(book.getstorage()+1);
-        //写回book文件
     }
+    //将order改为1可借
+    /*
+    ifstream infile("BUFFERZONE_LEND",ios::binary);
+    if(!infile)
+    {
+        cerr<<"open error!"<<endl;
+        abort( );
+    }
+    char bookID[10];//用于储存从文件中读出的书的编号
+    Record record;//record的大小问题，默认构造函数
+    int number;//第几条记录
+    for(number=0;;number++) {
+        iofile.seekg(i*sizeof(record,ios::beg);
+        iofile.read((char *)&bookID[10],sizeof(bookID[10]));
+        if(strcmp(book.getbookID(),bookID)==0) {
+            break;
+        }
+    }
+    iofile.seekg(number*sizeof(record,ios::beg);
+    iofile.read((char *)&record,sizeof(record);
+    book.setBooksI(record.getOrder(),1);
+    */
+    //写回book文件
+    ofstream outfile("BOOKINFORMATION",ios::binary);
+    if(!outfile)
+    {
+        cerr<<"open error!"<<endl;
+        abort( );//退出程序
+    }
+    int number=0;//第几本书
+    char *p = book.getbookID();
+    for(int i=0;i<10;i++) {
+        int a=1;
+        for(int j=i;j>0;j--) {
+            a*=10;
+        }
+        number+=*(p+i)*a;
+    }
+    iofile.seekp(number*sizeof(book),ios::beg);  //定位于第几本书的开头
+    iofile.write((char *)&book,sizeof(book));  //更新第几本书的数据
+    outfile.close( );
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'b', '0');
     record.bookReturnRecord();//生成一条还书记录
 }
 
 void Library::bookOrder(){//预约
-    time_t timer;
-    time(&timer);
-    tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-    int year = t_tm->tm_year + 1900;
-    int month = month = t_tm->tm_mon + 1;
-    int day = t_tm->tm_mday;
-    Record record(book.getBookID(),card.getcardID(),year, month, day, 'c', '0');
     if(card.getbookMan()==5) {//预约本数已达上限
         cout<<"您的预约本数已达上限，无法进行预约！"<<endl;
     }
@@ -1246,21 +1315,37 @@ void Library::bookOrder(){//预约
         book.setbookMan(book.getbookMan()+1);//书的预约人数+1
         card.setbookedCount(card.getbookedCount()+1);//人的预约本数+1
         //写回book文件
-
-        //写回card文件
-
-        record.bookOrderRecord();//生成一条预约记录
-    }
-}
-
-void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
+        ofstream outfile("BOOKINFORMATION",ios::binary);
+        if(!outfile)
+        {
+            cerr<<"open error!"<<endl;
+            abort( );//退出程序
+        }
+        int number=0;//第几本书
+        char *p = book.getbookID();
+        for(int i=0;i<10;i++) {
+            int a=1;
+            for(int j=i;j>0;j--) {
+                a*=10;
+            }
+            number+=*(p+i)*a;
+        }
+        iofile.seekp(number*sizeof(book),ios::beg);  //定位于第几本书的开头
+        iofile.write((char *)&book,sizeof(book));  //更新第几本书的数据
+        outfile.close( );
+        //生成一条预约记录
         time_t timer;
         time(&timer);
         tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
         int year = t_tm->tm_year + 1900;
         int month = month = t_tm->tm_mon + 1;
         int day = t_tm->tm_mday;
-        Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '0');
+        Record record(book.getBookID(),card.getcardID(),year, month, day, 'c', '0');
+        record.bookOrderRecord();
+    }
+}
+
+void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
     int choice;
     cout<<"确定取消预约吗？"<<endl;
     cout<<"1.是 2.否"<<endl;
@@ -1268,12 +1353,40 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
     while(1) {
         if(choice==1) {//1.
             cout<<"成功取消预约！"<<endl;
+            if(book.getbookMan()==book.gettStorage()) { //若取消预约时临时
+                book.settStorage(book.gettStorage()+1);//临时库存-1
+                book.setstorage(book.getstorage()+1);//库存+1
+            }
             book.setbookMan(book.getbookMan()-1);//此书的预约人数-1
             card.setbookedCount(card.getbookedCount()-1);//此人的预约数量-1
-            record.bookOrderCancelRecord();//生成一条取消预约的记录
+            //生成一条取消预约的记录
+            time_t timer;
+            time(&timer);
+            tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+            int year = t_tm->tm_year + 1900;
+            int month = month = t_tm->tm_mon + 1;
+            int day = t_tm->tm_mday;
+            Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '0');
+            record.bookOrderCancelRecord();
             //写回book文件
-
-
+            ofstream outfile("BOOKINFORMATION",ios::binary);
+            if(!outfile)
+            {
+                cerr<<"open error!"<<endl;
+                abort( );//退出程序
+            }
+            int number=0;//第几本书
+            char *p = book.getbookID();
+            for(int i=0;i<10;i++) {
+                int a=1;
+                for(int j=i;j>0;j--) {
+                    a*=10;
+                }
+                number+=*(p+i)*a;
+            }
+            iofile.seekp(number*sizeof(book),ios::beg);  //定位于第几本书的开头
+            iofile.write((char *)&book,sizeof(book));  //更新第几本书的数据
+            outfile.close( );
             break;
         }
         else if(choice==2) {//2.否
@@ -1290,25 +1403,40 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
 }
 
 void Library::bookOrderCancelExpired() {//2.过期取消预约
-            time_t timer;
-        time(&timer);
-        tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-        int year = t_tm->tm_year + 1900;
-        int month = month = t_tm->tm_mon + 1;
-        int day = t_tm->tm_mday;
-        Record record(book.getBookID(),card.getcardID(),year, month, day, 'e', '1');
+    time_t timer;
+    time(&timer);
+    tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+    int year = t_tm->tm_year + 1900;
+    int month = month = t_tm->tm_mon + 1;
+    int day = t_tm->tm_mday;
+    Record record(book.getBookID(),card.getcardID(),year, month, day, 'f', '1');
     book.settStorage(book.gettStorage()-1);//书的临时库存-1
     book.setstorage(book.getstorage()+1);//书的库存+1
     book.setbookMan(book.getbookMan()-1);//书的预约人数-1
     card.setbookedCount(card.getbookedCount()-1);//人的预约本数-1
     record.bookOrderCancelRecord();//生成一条取消预约的记录
     //写回book文件
-
-    //写回card文件
-
+    ofstream outfile("BOOKINFORMATION",ios::binary);
+    if(!outfile)
+    {
+        cerr<<"open error!"<<endl;
+        abort( );//退出程序
+    }
+    int number=0;//第几本书
+    char *p = book.getbookID();
+    for(int i=0;i<10;i++) {
+        int a=1;
+        for(int j=i;j>0;j--) {
+            a*=10;
+        }
+        number+=*(p+i)*a;
+    }
+    iofile.seekp(number*sizeof(book),ios::beg);  //定位于第几本书的开头
+    iofile.write((char *)&book,sizeof(book));  //更新第几本书的数据
+    outfile.close( );
 }
 
-void Library::bookRenew(){//图书续借
+void Library::bookRenew(){//图书续借（需要用到qt）
         time_t timer;
         time(&timer);
         tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
