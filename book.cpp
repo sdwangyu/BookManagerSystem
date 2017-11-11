@@ -448,13 +448,6 @@ Public:
 class Administrator
 {
 Public:
-	void addAdmin(Administrator admin);//现有的管理员可以增加管理员，记得把alladmin++；
-
-    void addBook(Book book);//增加书
-    //void deleteBook(Book book);老师说不要删书
-    void newStorage(Book book);//新设库存
-    void searchRecord();//查询记录   1.
-    //void operateCard(Card card);老师说不要删卡 听老师的
 	//11.1构造函数
 	Administrator(char Account[4], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
 	{
@@ -589,10 +582,13 @@ Public:
 		return aPhone;
 	}
 
-	void addBook(Book book);//增加书
+	void addBook(char *bookID, char *bookName, char *author, char *publisher, short storage);//增加书
+
 	//void deleteBook(Book book);老师说不要删书
-	void newStorage(Book book);//新设库存
-	//void searchRecord();//查询记录   1
+	//void operateCard(Card card);老师说不要删卡 听老师的
+
+	void newStorage(short storage);//新设库存
+	void addadmin(char*account, char*aPassword, char*accountHolder, char*aID,char*aPhone);
 
 	//11.9管理员所有查看行为函数
 	void searchLog();//管理员查看大日志
@@ -603,7 +599,7 @@ Public:
 	void searchCancleOrder();//管理员查看全部预约取消预约到期记录文件
 	void searchReturn();//管理员查看所有还书信息
 
-	//void operateCard(Card card);老师说不要删卡 听老师的
+	
     Private:
     char account[4];
     char aPassword[20];
@@ -613,6 +609,29 @@ Public:
 	Book book;
 };
 
+//管理员注册函数
+void Administrator::addadmin(char*account, char*aPassword, char*accountHolder, char*aID, char*aPhone){	
+	Administrator newadministrator(to_string(1000000000 + alladmin + 1), aPassword, accountHolder, aID, aPhone);
+	FILE*fp_admin;
+	if (NULL == (fp_card = fopen("ADMININFORMATION", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_admin, 0, SEEK_END);
+	if (fwrite(&newadministrator, sizeof(Administrator), 1, fp_admin) != 1)
+		printf("file write error\n");
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(newadministrator.getaID(), year, month, day, 'l');
+	record.signUpRecord();
+	fclose(fp_admin);
+	alladmin++;
+	return;
+}
 //管理员查看大日志
 void Administrator::searchLog()
 {
@@ -661,6 +680,7 @@ void Administrator::addBook(char *bookID, char *bookName, char *author, char *pu
 	record.admininaddbook();
 	fclose(fp_add_book);
 	fclose(fp_book);
+
 }
 
 
@@ -684,7 +704,6 @@ class Record
 Public:
 	//10.30 构造函数更改
 	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22)
-	//Record(char* bookid, char* cardid, char flag11, int Year, int Month, int Day, char flag22)
     {
 
 		bookid = bookid1;
@@ -704,6 +723,19 @@ Public:
 		month = Month;
 		day = Day;
 		flag1 = flag11;
+	}
+
+	//刘峰同学需要的构造函数啦啦~~
+	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22,int Order)
+	{
+		bookid = bookid1;
+		cardid = cardid1;
+		year = Year;
+		month = Month;
+		day = Day;
+		flag1 = flag11;
+		flag2 = flag22;
+		order = Order;
 	}
 	//复制构造函数
 	Record(Record &R);
@@ -761,6 +793,14 @@ Public:
 	{
 		flag2 = newflag2;
 	}
+	int getorder()
+	{
+		return order;
+	}
+	void setorder(int neworder)
+	{
+		order = neworder;
+	}
 	char *getBookid()
 	{
 		return bookid;
@@ -770,7 +810,7 @@ Public:
 		return cardid;
 	}
 	private:
-    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存
+    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存 l管理员注册
     Book book;
     Card card;
 	char*bookid;
@@ -779,6 +819,7 @@ Public:
     int month;
     int day;
     char flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
+	int order;//标识第几本书
 };
 
 //Record类内部函数的实现
