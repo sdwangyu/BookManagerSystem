@@ -240,6 +240,10 @@ public:
 		for (int i = 0; i < 10; i++)
 			books[i] = bbooks[i];
 	}
+	//11.10 新增修改Books[i]的函数
+	void setBooksI(int i, int newbooksi){//i表示第i本书，newbooksi表示新的Books[i]的值
+		books[i] = newbooksi;
+	}
 private:
     char bookID[10];//图书编号
     char bookName[100];//书名
@@ -771,8 +775,6 @@ Public:
 	}
 	private:
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存
-    Book book;
-    Card card;
 	char*bookid;
 	char*cardid;
     int year;
@@ -1365,7 +1367,7 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
     }
 }
 
-void Library::bookOrderCancelExpired() {//2.过期取消预约
+/*void Library::bookOrderCancelExpired() {//2.过期取消预约
         time_t timer;
         time(&timer);
         tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
@@ -1382,7 +1384,7 @@ void Library::bookOrderCancelExpired() {//2.过期取消预约
 
     //写回card文件
 
-}
+}*///不好意思，它真的没了(ー`´ー)
 
 void Library::bookRenew(){//图书续借
         time_t timer;
@@ -1603,37 +1605,71 @@ void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区
 	然后找到该书 令其预约人-1
 	如果此时临时库存>预约人数
 	把书放入库存 临时库存-1
+	#define BUFFERZONE_ORDER bufferOrderZone//预约缓冲区文件
+	#define BOOKINFORMATION bookInformation//全部图书信息
+	#define CARDINFORMATION cardInformation//全部用户信息
 	*/
 	FILE *fp_buffer_order=NULL;
-	FILE *fpEnd=NULL;
+	FILE *fp_bookInfo = NULL;
+	FILE *fp_cardInfo = NULL;
 	if ((fp_buffer_order = fopen("BUFFERZONE_ORDER", "rb+"))==NULL )
 	{
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	if ((fp_End = fopen("BUFFERZONE_ORDER", "rb+")) == NULL)
+	if ((fp_bookInfo = fopen("BOOKINFORMATION", "rb+")) == NULL)
 	{
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾*/
-	int i = 0;
-	fseek(fp_buffer_order, i * sizeof(Record), SEEK_SET);
+	if ((fp_cardInfo = fopen("CARDINFORMATION", "rb+")) == NULL)
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
 	Record record_temp;
+	Card card_temp;
+	Book book_temp;
 	time_t timer;
 	time(&timer);
 	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
-	while (fp_buffer_order != fpEnd){
+	while (!feof(fp_buffer_order)){//feof()函数可以用来判断文件是否到达文件尾，若到达文件尾，函数返回值为1
 		fread(&record_temp, sizeof(Record), 1, fp_buffer_order);
-		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 0){
-			record_temp.bookOrderCancelExpired();
-			record_temp.setflag2('1');//1对预约记录表示此预约失效并且已经写入记录文件
+		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 10){
+			//修改各个需要修改的变量,书的预约人数-1，比较书的临时库存和预约人数的大小，再对库存和临时库存做相应操作。用户的预约本数-1
+			while (!feof(fp_bookInfo)){
+				fread(&book_temp, sizeof(Book), 1, fp_bookInfo);
+				if (strcmp(book_temp.getbookID(),record_temp.getBookid())==0){
+					book_temp.setbookMan(book_temp.getbookMan()--);
+					if (book_temp.getbookMan() < book_temp.gettStorage()){//预约人数小于临时库存
+						book_temp.settStorage(book_temp.gettStorage()--);//临时库存-1
+						book_temp.setstorage(book_temp.getstorage()++)//库存+1
+					}
+					if (fwrite(book_temp, sizeof(Book), 1, fp_bookInfo) != 1)printf("file write error\n");//修改文件中的内容
+					break;
+				}
+			}
+			while (!feof(fp_cardInfo)){
+				fread(&card_temp, sizeof(Card), 1, fp_cardInfo);
+				if (strcmp(card_temp.getcardID(), record_temp.getCardid()) == 0){
+					card_temp.setbookedCount(book_temp.getbookedCount()--);//用户的预约本数减一
+					if (fwrite(card_temp, sizeof(Card), 1, fp_cardInfo) != 1)printf("file write error\n");//修改文件中的内容
+					break;
+				}
+			}
+			rewind(fp_bookInfo);
+			rewind(fp_cardInfo);//rewind()函数用于将文件指针重新指向文件的开头，同时清除和文件流相关的错误和eof标记，相当于调用fseek(stream, 0, SEEK_SET)
+			record_temp.setflag2('1');//1对预约记录表示此预约失效
+			if (fwrite(record_temp, sizeof(Record), 1, fp_buffer_order) != 1)printf("file write error\n");//更新预约缓冲文件
+			record_temp.setflag1('f');
+			record_temp.setyear(year);
+			record_temp.setmonth(month);
+			record_temp.setday(day);//将record_temp修改成一条预约失效记录
+			record_temp.bookOrderNoRecord();//调用函数写入失效记录文件
 		}
-		i++;
-		fseek(fp_buffer_order, i * sizeof(Record), SEEK_SET);
 	}
 	fclose(fp_buffer_order);
 }
