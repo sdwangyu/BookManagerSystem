@@ -617,7 +617,7 @@ Public:
 
 //管理员注册函数
 <<<<<<< HEAD
-void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){	
+void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){
 	Administrator newadministrator(to_string(20000 + alladmin + 1), aPassword, accountHolder, aID, aPhone);
 =======
 void Administrator::addadmin(char*account, char*aPassword, char*accountHolder, char*aID, char*aPhone){
@@ -718,7 +718,7 @@ void findbook(char*bookid)
 //11.2管理员改库存函数
 void Administrator::newStorage(short storage)
 {
-	
+
 	time_t timer;
 	time(&timer);
 	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
@@ -736,7 +736,7 @@ void Administrator::newStorage(short storage)
 	}
 	int position = atoi(book.getbookID().c_str()) - 100000000 - 1;
 	fseek(fp_book, position * sizeof(book), SEEK_SET);
-	if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)			
+	if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)
 		printf("file write error\n");
 }
 
@@ -1329,7 +1329,7 @@ void Library::bookLend() { //借书 1.直接借书
                 int day = t_tm->tm_mday;
                 Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
 				record.alter_Date(30);	//加上30天，把应还日期写进记录
-                record.bookLendRecord();
+                record.bookLendRecord(0);
                 //写回book文件
                 ofstream outfile("BOOKINFORMATION",ios::binary);
                 if(!outfile)
@@ -1398,7 +1398,7 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     book.setBooksI(order,2);//将这本书改为已借出
     Record record(book.getBookID(),card.getcardID(),year, month, day, 'a', '0',order);//生成一条借书的记录
 	record.alter_Date(30);
-    record.bookLendRecord();
+    record.bookLendRecord(1);
     //写回book文件
     ofstream outfile("BOOKINFORMATION",ios::binary);
     if(!outfile)
@@ -1594,7 +1594,6 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
         }
     }
 }
-
 
 void Library::bookRenew(){//图书续借（需要用到qt）
         time_t timer;
