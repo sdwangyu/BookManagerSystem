@@ -616,13 +616,9 @@ Public:
 };
 
 //管理员注册函数
-<<<<<<< HEAD
+
 void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){
 	Administrator newadministrator(to_string(20000 + alladmin + 1), aPassword, accountHolder, aID, aPhone);
-=======
-void Administrator::addadmin(char*account, char*aPassword, char*accountHolder, char*aID, char*aPhone){
-	Administrator newadministrator(to_string(1000000000 + alladmin + 1), aPassword, accountHolder, aID, aPhone);
->>>>>>> 70aa1b24665403956d2c174f393f49316541ac6f
 	FILE*fp_admin;
 	if (NULL == (fp_card = fopen("ADMININFORMATION", "rb+"))){
 		fprintf(stderr, "Can not open file");
