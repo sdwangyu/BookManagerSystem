@@ -857,13 +857,7 @@ Public:
 		return cardid;
 	}
 	private:
-<<<<<<< HEAD
     char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存 l管理员注册
-    //Book book;
-    //Card card;
-=======
-    char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存
->>>>>>> 70aa1b24665403956d2c174f393f49316541ac6f
 	char*bookid;
 	char*cardid;
     int year;
@@ -946,38 +940,99 @@ void Record::admininaddbook()
 
 //10.31借书记录
 
-void Record::bookLendRecord()		//借书记录
+void Record::bookLendRecord(int flag)		//借书记录
 {
 	FILE *fp_book_lend;
 	FILE *fp_log;
 	FILE *fp_buffer;
-	if (NULL == (fp_book_lend = fopen("BOOK_LEND_RECORD", "rb+")))
+	FILE *fp_order;
+	FILE *fp_new_order;
+	if (flag == 0) 
 	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
+		if (NULL == (fp_book_lend = fopen("BOOK_LEND_RECORD", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		if (NULL == (fp_log = fopen("LOG", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		if (NULL == (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		fseek(fp_book_lend, 0, SEEK_END);
+		fseek(fp_log, 0, SEEK_END);
+		fseek(fp_buffer, 0, SEEK_END);
+		if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
+			printf("file write error\n");
+		if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+			printf("file write error\n");
+		if (fwrite(this, sizeof(Record), 1, fp_buffer) != 1)
+			printf("file write error\n");
+		fclose(fp_book_lend);
+		fclose(fp_log);
+		fclose(fp_buffer);
 	}
-	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	else if (flag == 1) 
 	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
+
+
+		if (NULL == (fp_book_lend = fopen("BOOK_LEND_RECORD", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		if (NULL == (fp_log = fopen("LOG", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		if (NULL == (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		fseek(fp_book_lend, 0, SEEK_END);
+		fseek(fp_log, 0, SEEK_END);
+		fseek(fp_buffer, 0, SEEK_END);
+		if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
+			printf("file write error\n");
+		if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+			printf("file write error\n");
+		if (fwrite(this, sizeof(Record), 1, fp_buffer) != 1)
+			printf("file write error\n");
+		fclose(fp_book_lend);
+		fclose(fp_log);
+		fclose(fp_buffer);
+
+		if (NULL == (fp_order = fopen("BUFFERZONE_ORDER", "rb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		if (NULL == (fp_new_order = fopen("bufferzone_ordernew", "wb+")))
+		{
+			fprintf(stderr, "Can not open file");
+			exit(1);
+		}
+		Record record_temp;
+		while (!feof(fp_order))
+		{
+			fread(&record_temp, sizeof(Record), 1, fp_order);
+			if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid())continue;
+			fwrite(&record_temp, sizeof(Record), 1, fp_new_order);
+		}
+		fclose(fp_order);
+		fclose(fp_new_order);
+		if (remove("bufferOrderZone") != 0)exit(1);
+		if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+
 	}
-	if (NULL == (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
-	{
-	    fprintf(stderr, "Can not open file");
-	    exit(1);
-	}
-	fseek(fp_book_lend, 0, SEEK_END);
-	fseek(fp_log, 0, SEEK_END);
-	fseek(fp_buffer, 0, SEEK_END);
-	if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
-		printf("file write error\n");
-	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
-		printf("file write error\n");
-	if (fwrite(this, sizeof(Record), 1, fp_buffer) != 1)
-		printf("file write error\n");
-	fclose(fp_book_lend);
-	fclose(fp_log);
-	fclose(fp_buffer);
+
 }
 
 //11.1还书记录
@@ -1027,7 +1082,6 @@ void Record::bookReturnRecord()
 		printf("file write error\n");
 	fclose(fp_book_return);
 	fclose(fp_log);
-	fclose(fp_buffer);
 
 }
 
@@ -1072,7 +1126,9 @@ void Record::bookOrderCancelRecord()
 {
 	FILE *fp_book_order_cancel;
 	FILE *fp_log;
-	if (NULL == (fp_book_lend = fopen("BOOK_ORDER_CANCEL_RECORD", "rb+")))
+	FILE *fp_order_buffer;
+	FILE *fp_order_buffernew;
+	if (NULL == (fp_book_order_cancel = fopen("BOOK_ORDER_CANCEL_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
 		exit(1);
@@ -1082,23 +1138,36 @@ void Record::bookOrderCancelRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	/*if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
+	if (NULL == (fp_order_buffer = fopen("BUFFERZONE_ORDER", "rb+")))
 	{
-	fprintf(stderr, "Can not open file");
-	exit(1);
-	}*/
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_order_buffernew = fopen("bufferzone_ordernew", "wb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Record record_temp;
+	while (!feof(fp_order_buffer))
+	{
+		fread(&record_temp, sizeof(Record), 1, fp_order_buffer);
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		fwrite(&record_temp, sizeof(Record), 1, fp_order_buffernew);
+	}
+	fclose(fp_order_buffer);
+	fclose(fp_order_buffernew);
+	if (remove("bufferOrderZone") != 0)exit(1);
+	if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+
 	fseek(fp_book_order_cancel, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	fseek(fp_buffer, 0, SEEK_END);
 	if (fwrite(this, sizeof(Record), 1, fp_book_order_cancel) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
-	if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
-	    printf("file write error\n");
 	fclose(fp_book_order_cancel);
 	fclose(fp_log);
-	fclose(fp_buffer);
 }
 
 //11.1预约失效记录
@@ -1107,6 +1176,8 @@ void Record::bookOrderNoRecord()
 {
 	FILE *fp_book_order_cancel;
 	FILE *fp_log;
+	FILE *fp_noorder_buffer;
+	FILE *fp_noorder_buffernew;
 	if (NULL == (fp_book_lend = fopen("BOOK_ORDER_CANCEL_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -1117,25 +1188,36 @@ void Record::bookOrderNoRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	/*if (NULL == (fp_buffer = fopen("BUFFERZONE", "rb+")))
+	if (NULL == (fp_noorder_buffer = fopen("BUFFERZONE_ORDER", "rb+")))
 	{
-	fprintf(stderr, "Can not open file");
-	exit(1);
-	}*/
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_noorder_buffernew = fopen("bufferzone_ordernew", "wb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Record record_temp;
+	while (!feof(fp_noorder_buffer))
+	{
+		fread(&record_temp, sizeof(Record), 1, fp_noorder_buffer);
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		fwrite(&record_temp, sizeof(Record), 1, fp_noorder_buffernew);
+	}
+	fclose(fp_noorder_buffer);
+	fclose(fp_noorder_buffernew);
+	if (remove("bufferLendZone") != 0)exit(1);
+	if (rename("bufferzone_lendnew", "bufferLendZone") != 0) exit(1);
+
 	fseek(fp_book_order_cancel, 0, SEEK_END);
 	fseek(fp_log, 0, SEEK_END);
-	fseek(fp_buffer, 0, SEEK_END);
-
 	if (fwrite(this, sizeof(Record), 1, fp_book_order_cancel) != 1)
 		printf("file write error\n");
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
-	//if (fwrite(&new_record, sizeof(Record), 1, fp_buffer) != 1)
-	//printf("file write error\n");
 	fclose(fp_book_order_cancel);
 	fclose(fp_log);
-	fclose(fp_buffer);
-
 }
 
 
@@ -1149,6 +1231,7 @@ void Record::bookRenewRecord()
 	FILE *fp_book_renew;
 	FILE *fp_log;
 	FILE *fp_buffer;
+	FILE *fp_new_buffer_lend;
 	if (NULL == (fp_book_renew = fopen("BOOK_RENEW_RECORD", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -1159,6 +1242,26 @@ void Record::bookRenewRecord()
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
+	if (NULL = (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+	}
+	if (NULL == (fp_new_buffer_lend = fopen("bufferzone_lendnew", "wb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Record record_temp;
+	while (!feof(fp_buffer))
+	{
+		fread(&record_temp, sizeof(Record), 1, fp_buffer);
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_lend);
+	}
+	fclose(fp_buffer);
+	fclose(fp_lend_buffernew);
+	if (remove("bufferLendZone") != 0)exit(1);
+	if (rename("bufferzone_lendnew", "bufferLendZone") != 0)exit(1);
 	if (NULL = (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
