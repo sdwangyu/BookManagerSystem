@@ -454,10 +454,10 @@ class Administrator
 {
 Public:
 	//11.1构造函数
-	Administrator(char Account[4], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
+	Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
 	{
 
-		for (int i = 0; i<4; i++)
+		for (int i = 0; i<5; i++)
 		{
 			account[i] = Account[i];
 		}
@@ -480,7 +480,7 @@ Public:
 	}
 	Administrator()
 	{
-		for (int i = 0; i<4; i++)
+		for (int i = 0; i<5; i++)
 		{
 			account[i] = ' ';
 		}
@@ -505,7 +505,7 @@ Public:
 	//复制构造函数
 	Administrator(Administrator &administrator)
 	{
-		for (int i = 0; i<4; i++)
+		for (int i = 0; i<5; i++)
 		{
 			account[i] = administrator.account[i];
 		}
@@ -529,7 +529,7 @@ Public:
 
 	void setaccount(char newaccount[4])
 	{
-		for (int i = 0; i<4; i++)
+		for (int i = 0; i<5; i++)
 		{
 			account[i] = newaccount[i];
 		}
@@ -607,7 +607,7 @@ Public:
 
 
     Private:
-    char account[6];		//记得修改上面对应得数值
+    char account[5];		//记得修改上面对应得数值
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
@@ -778,10 +778,39 @@ Public:
 	//默认构造函数
 	Record()
 	{
-
+		for (int i = 0; i < 10; i++)
+		{
+			bookid[i] = "";
+		} 
+		for (int i = 0; i < 10; i++)
+		{
+			cardid[i] = "";
+		}
+		year = 0;
+		month = 0;
+		day = 0;
+		flag2 = 1;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
+		order = 1;
+		flag1 = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
 	}
 	//复制构造函数
-	Record(Record &R);
+	Record(Record &R)
+	{
+		for (int i = 0; i<10; i++)
+		{
+			bookid[i] = Record.bookid[i];
+		}
+		for (int i = 0; i<10; i++)
+		{
+			cardid = Record.cardid[i];
+		}
+		year = Record.year;
+		month = Record.month;
+		day = Record.day;
+		flag2 = Record.flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
+		order = Record.order;
+		flag1 = Record.flag1;
+	}
 
     void bookLendRecord();//借书记录
     void bookReturnRecord();//还书记录
