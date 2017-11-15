@@ -104,6 +104,11 @@ public:
         tStorage=0;//初始预约该书的人数为0
         flag='1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
 		//books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		books = (int*)malloc(storage*sizeof(int));		//分配给该类书对应库存量的空间大小	在管理员修改库存的时候应该重新分配内存
+		for (int i = 0; i<storage; i++)
+		{
+			books[i] = 1;
+		}
     }
     Book()
     {
@@ -151,7 +156,7 @@ public:
         bookMan=book.bookMan;
         tStorage=book.tStorage;
         flag=book.flag;
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < storage; i++)
 		{
 			books[i] = book.books[i];
 		}
@@ -236,9 +241,9 @@ public:
 	{
 		return books;
 	}
-	void setBooks(int bbooks[10])
+	void setBooks(int *bbooks)
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < storage; i++)
 			books[i] = bbooks[i];
 	}
 	//11.10 新增修改Books[i]的函数
@@ -254,7 +259,7 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
-	int books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };//库存10本书，数组中每一项用来表示10本中具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
+	int *books;//库存10本书，数组中每一项用来表示10本中具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
 	//动态开辟存储空间?
 
 
@@ -721,7 +726,13 @@ void Administrator::newStorage(short storage)
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
+	int oldstorage = book.getstorage();
 	book.setstorage(storage);
+	book.books = (int *)realloc(books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
+	if (storage > oldstorage){			//如果库存减少了，对于books数组不用进行任何操作，但是如果库存增多了，就必须对新分配给books的内存赋值为1
+		for (int i = oldstorage; i < storage; i++)
+			books[i] = 1;
+	}
 	Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
 	record.admininchangestorage();
 	FILE *fp_book;
