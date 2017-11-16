@@ -1460,6 +1460,7 @@ public:
 
 	void Search();//查询书本函数
 
+	void deleteOrderFail();//删除orderbuffer中失效的预约记录
 
 	void bookLend();//直接进行的借书
 	void bookLendOrder();//通过预约成功借书
@@ -1780,7 +1781,7 @@ void Library::bookRenew(){//图书续借（需要用到qt）
 	record.bookRenewRecord();//生成一条续借记录
 }
 
-void deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
+void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
     FILE *fp_buffer;
     FILE *fp_new_buffer_order;
 	if (NULL == (fp_buffer = fopen("BUFFERZONE_ORDER", "rb+")))
@@ -1797,7 +1798,7 @@ void deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if (this.getflag2()=='1') {
+		if (this->getflag2()=='1' && (string)this->getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
             continue;
 		}
 		fwrite(&record_temp, sizeof(Record), 1, bufferzone_ordernew);
