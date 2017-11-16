@@ -726,7 +726,7 @@ void Administrator::findbook(char*bookid)
 		fread(&booktemp, sizeof(Book), 1, fp_book);
 		if ((string)booktemp.getbookID == (string)bookid)
 		{
-			book(booktemp);
+			book=booktemp;
 			break;
 		}
 	}
@@ -743,10 +743,10 @@ void Administrator::newStorage(short storage)
 	int day = t_tm->tm_mday;
 	int oldstorage = book.getstorage();
 	book.setstorage(storage);
-	book.books = (int *)realloc(books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
+	book.books = (int *)realloc(book.books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
 	if (storage > oldstorage){			//如果库存减少了，对于books数组不用进行任何操作，但是如果库存增多了，就必须对新分配给books的内存赋值为1
 		for (int i = oldstorage; i < storage; i++)
-			books[i] = 1;
+			book.books[i] = 1;
 	}
 	Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
 	record.admininchangestorage();
@@ -1798,14 +1798,14 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登录
 		fseek(fp, i * sizeof(Card), SEEK_SET);
 		fread(&card_temp, sizeof(Card), 1, fp);
 		if ((string)card_temp.getcardID() == (string)username_PutIn){	//如果找到对应的card就用复制构造函数把找到的值赋值给一个暂时的变量card_find，以便于后面的密码匹配
-			card_find(card_temp);
+			card_find = card_temp;
 			break;
 		}
 		i++;
 	}
 	if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
-		card(card_find);
+		card = card_find;
 		time_t timer;
 		time(&timer);
 		tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
@@ -1844,14 +1844,14 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//管理员登
 		fseek(fp, i * sizeof(Administrator), SEEK_SET);
 		fread(&admin_temp, sizeof(Administrator), 1, fp);
 		if ((string)admin_temp.getaccount() == (string)adminname_PutIn){	//如果找到对应的admin就用复制构造函数把找到的值赋值给一个暂时的变量admin_find，以便于后面的密码匹配
-			admin_find(admin_temp);
+			admin_find = admin_temp;
 			break;
 		}
 		i++;
 	}
 	if (((string)admin_find.getaccount() == (string)adminname_PutIn) && ((string)admin_find.getaPassword() == (string)password_PutIn)){
 		//账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的admin_find赋值给私有成员admin
-		admin(admin_find);
+		admin = admin_find;
 		time_t timer;
 		time(&timer);
 		tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
@@ -1915,7 +1915,9 @@ void Library::signOut(){		//用户注销
 	Record record(card.getcardID(), year, month, day, 'h');
 	record.signOutRecord();
 	fclose(fp_card);
-	card();
+	//把card变量重新用无参的构造函数赋值，是否能用？
+	Card card_blank;
+	card = card_blank;
 	//是否将allcard，allbook，alladmin写回文件？
 	FILE *fp_num;
 	if (NULL == (fp_num = fopen("ALLNUM", "rb+"))){
@@ -1951,7 +1953,9 @@ void Library::signOut_Admin(){		//管理员注销
 	Record record(admin.getaccount(), year, month, day, 'h');
 	record.signOutRecord();
 	fclose(fp_admin);
-	admin();
+	//同用户注销函数
+	Administrator admin_blank;
+	admin = admin_blank;
 	//是否将allcard，allbook，alladmin写回文件？
 	FILE *fp_num;
 	if (NULL == (fp_num = fopen("ALLNUM", "rb+"))){
