@@ -1473,6 +1473,9 @@ private:
 	Administrator admin;
 };
 fstream iofile;
+
+
+
 void Library::bookLend() { //借书 1.直接借书
 	if (card.getlendedCount() == 10) {//可借本数超过上限
 		cout << "可借本书已达到上限，无法再进行借阅！" << endl;
@@ -1777,6 +1780,33 @@ void Library::bookRenew(){//图书续借（需要用到qt）
 	record.bookRenewRecord();//生成一条续借记录
 }
 
+void deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
+    FILE *fp_buffer;
+    FILE *fp_new_buffer_order;
+	if (NULL == (fp_buffer = fopen("BUFFERZONE_ORDER", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+    if (NULL == (fp_new_buffer_order = fopen("bufferzone_ordernew", "wb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Record record_temp;
+	while (!feof(fp_buffer))
+	{
+		fread(&record_temp, sizeof(Record), 1, fp_buffer);
+		if (this.getflag2()=='1') {
+            continue;
+		}
+		fwrite(&record_temp, sizeof(Record), 1, bufferzone_ordernew);
+	}
+	fclose(fp_buffer);
+	fclose(fp_new_buffer_lend);
+	if (remove("bufferOrderZone") != 0)exit(1);
+	if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+}
 
 void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登录
 	//将用户输入的id和密码传到形参以便进行账号和密码的匹配
