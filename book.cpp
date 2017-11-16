@@ -1,4 +1,4 @@
-// UMLtest.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+ï»¿// UMLtest.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -18,40 +18,40 @@ int _tmain(int argc, _TCHAR* argv[])
 #include<sstream>
 #include <fstream>
 
-#define ALLNUM allNum//´æ·ÅallcardºÍallbook
-#define BOOKINFORMATION bookInformation//È«²¿Í¼ÊéĞÅÏ¢
-#define CARDINFORMATION cardInformation//È«²¿ÓÃ»§ĞÅÏ¢
-#define ADMININFORMATION adminInformation//È«²¿¹ÜÀíÔ±ĞÅÏ¢
-#define BOOK_LEND_RECORD bookLendRecord//10.30 Record½èÊé¼ÇÂ¼¶ÔÓ¦ÎÄ¼ş
-#define BOOK_RENEW_RECORD bookRenewRecord//10.30 .RecordĞø½è¼ÇÂ¼¶ÔÓ¦ÎÄ¼ş
-#define BOOK_ORDER_RECORD bookOrderRecord//Ô¤Ô¼¼ÇÂ¼
-#define BOOK_ORDER_CANCEL_RECORD bookOrderCancelRecord//10.30 È¡ÏûÔ¤Ô¼Ô¤Ô¼µ½ÆÚ¼ÇÂ¼¶ÔÓ¦ÎÄ¼ş
-#define SIGN_IN_RECORD signInRecord//10.30 RecordµÇÂ½¼ÇÂ¼¶ÔÓ¦ÎÄ¼ş
-#define SIGN_UP_RECORD signUpRecord//×¢²á¼ÇÂ¼ÎÄ¼ş
-#define SIGN_OUT_RECORD signOutRecord//×¢Ïú¼ÇÂ¼ÎÄ¼ş
-#define BUFFERZONE_ORDER bufferOrderZone//Ô¤Ô¼»º³åÇøÎÄ¼ş
-#define BUFFERZONE_LEND bufferLendZone//½èÊé»º³åÇøÎÄ¼ş
-#define SEARCHRESULT searchResult//²éÑ¯½á¹ûÎÄ¼ş
-#define SEARCHRESULTTEMP searchResultTmp//²éÑ¯½á¹ûÁÙÊ±ÎÄ¼ş
-#define LOG log;//Í¼Êé¹İ´óÈÕÖ¾
-#define ADMININ_ADD_BOOK admininAddBook //11.7¹ÜÀíÔ±Ôö¼ÓÊé¼ÇÂ¼
-#define ADMININ_CHANGE_STORAGE admininChangeStorage//11.7¹ÜÀíÔ±¸Ä±ä¿â´æ¼ÇÂ¼ÎÄ¼ş
-#define BOOK_RETURN_RECORD bookReturnRecord //11.1»¹Êé¼ÇÂ¼¶ÔÓ¦ÎÄ¼ş
-//#define BUFFER_NEW bufferNew //»º´æÇøÁÙÊ±ÎÄ¼ş
+#define ALLNUM allNum//å­˜æ”¾allcardå’Œallbook
+#define BOOKINFORMATION bookInformation//å…¨éƒ¨å›¾ä¹¦ä¿¡æ¯
+#define CARDINFORMATION cardInformation//å…¨éƒ¨ç”¨æˆ·ä¿¡æ¯
+#define ADMININFORMATION adminInformation//å…¨éƒ¨ç®¡ç†å‘˜ä¿¡æ¯
+#define BOOK_LEND_RECORD bookLendRecord//10.30 Recordå€Ÿä¹¦è®°å½•å¯¹åº”æ–‡ä»¶
+#define BOOK_RENEW_RECORD bookRenewRecord//10.30 .Recordç»­å€Ÿè®°å½•å¯¹åº”æ–‡ä»¶
+#define BOOK_ORDER_RECORD bookOrderRecord//é¢„çº¦è®°å½•
+#define BOOK_ORDER_CANCEL_RECORD bookOrderCancelRecord//10.30 å–æ¶ˆé¢„çº¦é¢„çº¦åˆ°æœŸè®°å½•å¯¹åº”æ–‡ä»¶
+#define SIGN_IN_RECORD signInRecord//10.30 Recordç™»é™†è®°å½•å¯¹åº”æ–‡ä»¶
+#define SIGN_UP_RECORD signUpRecord//æ³¨å†Œè®°å½•æ–‡ä»¶
+#define SIGN_OUT_RECORD signOutRecord//æ³¨é”€è®°å½•æ–‡ä»¶
+#define BUFFERZONE_ORDER bufferOrderZone//é¢„çº¦ç¼“å†²åŒºæ–‡ä»¶
+#define BUFFERZONE_LEND bufferLendZone//å€Ÿä¹¦ç¼“å†²åŒºæ–‡ä»¶
+#define SEARCHRESULT searchResult//æŸ¥è¯¢ç»“æœæ–‡ä»¶
+#define SEARCHRESULTTEMP searchResultTmp//æŸ¥è¯¢ç»“æœä¸´æ—¶æ–‡ä»¶
+#define LOG log;//å›¾ä¹¦é¦†å¤§æ—¥å¿—
+#define ADMININ_ADD_BOOK admininAddBook //11.7ç®¡ç†å‘˜å¢åŠ ä¹¦è®°å½•
+#define ADMININ_CHANGE_STORAGE admininChangeStorage//11.7ç®¡ç†å‘˜æ”¹å˜åº“å­˜è®°å½•æ–‡ä»¶
+#define BOOK_RETURN_RECORD bookReturnRecord //11.1è¿˜ä¹¦è®°å½•å¯¹åº”æ–‡ä»¶
+//#define BUFFER_NEW bufferNew //ç¼“å­˜åŒºä¸´æ—¶æ–‡ä»¶
 
 using namespace std;
 
-int allcard;//´ÓÎÄ¼şÖĞ¶ÁÈ¡ ĞŞ¸ÄºóÖØĞÂĞ´ÈëÎÄ¼ş  ÓÃ»§×¢²á ++
-int allbook;//Ôö¼ÓÍ¼Êé ++
-int alladmin;//È«²¿¹ÜÀíÔ±£¬ĞÂµÄ¹ÜÀíÔ±Ôö¼ÓÊ±++
+int allcard;//ä»æ–‡ä»¶ä¸­è¯»å– ä¿®æ”¹åé‡æ–°å†™å…¥æ–‡ä»¶  ç”¨æˆ·æ³¨å†Œ ++
+int allbook;//å¢åŠ å›¾ä¹¦ ++
+int alladmin;//å…¨éƒ¨ç®¡ç†å‘˜ï¼Œæ–°çš„ç®¡ç†å‘˜å¢åŠ æ—¶++
 
-int isLeapYear(int year){//ÅĞ¶ÏÊÇ·ñÊÇÈòÄê,·µ»Ø1ÎªÈòÄê£¬·µ»Ø0²»ÊÇÈòÄê
+int isLeapYear(int year){//åˆ¤æ–­æ˜¯å¦æ˜¯é—°å¹´,è¿”å›1ä¸ºé—°å¹´ï¼Œè¿”å›0ä¸æ˜¯é—°å¹´
 	if (year % 4 == 0 && year % 100 != 0)return 1;
 	if (year % 400 == 0)return 1;
 	return 0;
 }
 
-int getDayInYear(int year, int month, int day){//µÃµ½¸ÃÈÕÆÚÊÇÒ»ÄêµÄµÚ¼¸Ìì
+int getDayInYear(int year, int month, int day){//å¾—åˆ°è¯¥æ—¥æœŸæ˜¯ä¸€å¹´çš„ç¬¬å‡ å¤©
 	int months[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	if (isLeapYear(year))months[1] = 29;
 	for (int i = 0; i<month - 1; i++){
@@ -60,22 +60,22 @@ int getDayInYear(int year, int month, int day){//µÃµ½¸ÃÈÕÆÚÊÇÒ»ÄêµÄµÚ¼¸Ìì
 	return day;
 }
 
-int compareDate(int year1, int month1, int day1, int year2, int month2, int day2){//ÈÕÆÚ±È½Ï,ÈÕÆÚ1year1month1day1-ÈÕÆÚ2year2month2day2,
+int compareDate(int year1, int month1, int day1, int year2, int month2, int day2){//æ—¥æœŸæ¯”è¾ƒ,æ—¥æœŸ1year1month1day1-æ—¥æœŸ2year2month2day2,
 	int days = 0;
-	//²»ĞèÒªÅĞ¶ÏÈÕÆÚÊı×ÖÊÇ·ñºÏÀí£¬ÏµÍ³ÈÕÆÚ²»»á³öÏÖ32ÌìµÄÇé¿ö
-	if (year1 == year2){//Äê·İÏàµÈ
-		if (month1 == month2)days = day1 - day2;//ÔÂ·İÏàµÈ
-		else days = getDayInYear(year1, month1, day1) - getDayInYear(year2, month2, day2);//ÔÂ·İ²»µÈ
+	//ä¸éœ€è¦åˆ¤æ–­æ—¥æœŸæ•°å­—æ˜¯å¦åˆç†ï¼Œç³»ç»Ÿæ—¥æœŸä¸ä¼šå‡ºç°32å¤©çš„æƒ…å†µ
+	if (year1 == year2){//å¹´ä»½ç›¸ç­‰
+		if (month1 == month2)days = day1 - day2;//æœˆä»½ç›¸ç­‰
+		else days = getDayInYear(year1, month1, day1) - getDayInYear(year2, month2, day2);//æœˆä»½ä¸ç­‰
 	}
-	else {//Äê·İ²»Í¬£¬ÔòÈÕÆÚ²îÖµÎªÈÕÆÚ1µÄÔÚyear1µÄµÚ¼¸Ìì+ÈÕÆÚ2ÔÚyear2»¹Ê£ÏÂµÄÌìÊı+year1ºÍyear2Á½ÄêÖ®¼äµÄÌìÊı²îÖµ
-		//È·±£year1Äê·İ±Èyear2Íí
+	else {//å¹´ä»½ä¸åŒï¼Œåˆ™æ—¥æœŸå·®å€¼ä¸ºæ—¥æœŸ1çš„åœ¨year1çš„ç¬¬å‡ å¤©+æ—¥æœŸ2åœ¨year2è¿˜å‰©ä¸‹çš„å¤©æ•°+year1å’Œyear2ä¸¤å¹´ä¹‹é—´çš„å¤©æ•°å·®å€¼
+		//ç¡®ä¿year1å¹´ä»½æ¯”year2æ™š
 		if (year1 > year2){
 			if (isLeapYear(year2))
-				days = 366 - getDayInYear(year2, month2, day2); //È¡µÃÈÕÆÚ2ÔÚ¸ÃÄê»¹Ê£ÏÂ¶àÉÙÌì
+				days = 366 - getDayInYear(year2, month2, day2); //å–å¾—æ—¥æœŸ2åœ¨è¯¥å¹´è¿˜å‰©ä¸‹å¤šå°‘å¤©
 			else
 				days = 365 - getDayInYear(year2, month2, day2);
-			days += getDayInYear(year1, month1, day1); //È¡µÃÈÕÆÚ1ÔÚµ±ÄêÖĞµÄµÚ¼¸Ìì
-			for (int year = year2 + 1; year < year1; year++)//È¡µÃyear1ºÍyear2Ö®¼äµÄÌìÊı²îÖµ
+			days += getDayInYear(year1, month1, day1); //å–å¾—æ—¥æœŸ1åœ¨å½“å¹´ä¸­çš„ç¬¬å‡ å¤©
+			for (int year = year2 + 1; year < year1; year++)//å–å¾—year1å’Œyear2ä¹‹é—´çš„å¤©æ•°å·®å€¼
 			{
 				if (isLeapYear(year))
 					days += 366;
@@ -83,16 +83,16 @@ int compareDate(int year1, int month1, int day1, int year2, int month2, int day2
 					days += 365;
 			}
 		}
-		else days = -compareDate(year2, month2, day2, year1, month1, day1);	//date1Ğ¡ÓÚdate2µÄÇé¿ö
+		else days = -compareDate(year2, month2, day2, year1, month1, day1);	//date1å°äºdate2çš„æƒ…å†µ
 	}
-	// if(days<0)exit(0);//³ö´íÔòÍË³ö³ÌĞò
+	// if(days<0)exit(0);//å‡ºé”™åˆ™é€€å‡ºç¨‹åº
 	return days;
 }
 
-class Book//¹¹Ôìº¯Êı ¸´ÖÆ¹¹Ôìº¯Êı
+class Book//æ„é€ å‡½æ•° å¤åˆ¶æ„é€ å‡½æ•°
 {
 public:
-	Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//¹¹Ôìº¯Êı
+	Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//æ„é€ å‡½æ•°
 	{
 
 		for (int i = 0; i<10; i++)
@@ -111,12 +111,12 @@ public:
 		{
 			publisher[i] = Publisher[i];
 		}
-		storage = Storage;//³õÊ¼¿â´æÎª10±¾
-		bookMan = 0;//³õÊ¼Ô¤Ô¼ÈËÊıÎª0
-		tStorage = 0;//³õÊ¼Ô¤Ô¼¸ÃÊéµÄÈËÊıÎª0
-		flag = '1';   //ËùÓĞ±ê¼Ç 0±íÊ¾²»´æÔÚ 1±íÊ¾´æÔÚ//´Ë´¦£¬1±íÊ¾Êé¿É½è
+		storage = Storage;//åˆå§‹åº“å­˜ä¸º10æœ¬
+		bookMan = 0;//åˆå§‹é¢„çº¦äººæ•°ä¸º0
+		tStorage = 0;//åˆå§‹é¢„çº¦è¯¥ä¹¦çš„äººæ•°ä¸º0
+		flag = '1';   //æ‰€æœ‰æ ‡è®° 0è¡¨ç¤ºä¸å­˜åœ¨ 1è¡¨ç¤ºå­˜åœ¨//æ­¤å¤„ï¼Œ1è¡¨ç¤ºä¹¦å¯å€Ÿ
 		//books[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-		books = (int*)malloc(storage*sizeof(int));		//·ÖÅä¸ø¸ÃÀàÊé¶ÔÓ¦¿â´æÁ¿µÄ¿Õ¼ä´óĞ¡	ÔÚ¹ÜÀíÔ±ĞŞ¸Ä¿â´æµÄÊ±ºòÓ¦¸ÃÖØĞÂ·ÖÅäÄÚ´æ
+		books = (int*)malloc(storage*sizeof(int));		//åˆ†é…ç»™è¯¥ç±»ä¹¦å¯¹åº”åº“å­˜é‡çš„ç©ºé—´å¤§å°	åœ¨ç®¡ç†å‘˜ä¿®æ”¹åº“å­˜çš„æ—¶å€™åº”è¯¥é‡æ–°åˆ†é…å†…å­˜
 		for (int i = 0; i<storage; i++)
 		{
 			books[i] = 1;
@@ -140,13 +140,13 @@ public:
 		{
 			publisher[i] = ' ';
 		}
-		storage = 10;//³õÊ¼¿â´æÎª10±¾
-		bookMan = 0;//³õÊ¼Ô¤Ô¼ÈËÊıÎª0
-		tStorage = 0;//³õÊ¼Ô¤Ô¼¸ÃÊéµÄÈËÊıÎª0
-		flag = '1';   //ËùÓĞ±ê¼Ç 0±íÊ¾²»´æÔÚ 1±íÊ¾´æÔÚ//´Ë´¦£¬1±íÊ¾Êé¿É½è
+		storage = 10;//åˆå§‹åº“å­˜ä¸º10æœ¬
+		bookMan = 0;//åˆå§‹é¢„çº¦äººæ•°ä¸º0
+		tStorage = 0;//åˆå§‹é¢„çº¦è¯¥ä¹¦çš„äººæ•°ä¸º0
+		flag = '1';   //æ‰€æœ‰æ ‡è®° 0è¡¨ç¤ºä¸å­˜åœ¨ 1è¡¨ç¤ºå­˜åœ¨//æ­¤å¤„ï¼Œ1è¡¨ç¤ºä¹¦å¯å€Ÿ
 	}
 
-	Book(Book &book) //¸´ÖÆ¹¹Ôìº¯Êı
+	Book(Book &book) //å¤åˆ¶æ„é€ å‡½æ•°
 	{
 		for (int i = 0; i<10; i++)
 		{
@@ -258,31 +258,31 @@ public:
 		for (int i = 0; i < storage; i++)
 			books[i] = bbooks[i];
 	}
-	//11.10 ĞÂÔöĞŞ¸ÄBooks[i]µÄº¯Êı
-	void setBooksI(int i, int newbooksi){//i±íÊ¾µÚi±¾Êé£¬newbooksi±íÊ¾ĞÂµÄBooks[i]µÄÖµ
+	//11.10 æ–°å¢ä¿®æ”¹Books[i]çš„å‡½æ•°
+	void setBooksI(int i, int newbooksi){//iè¡¨ç¤ºç¬¬iæœ¬ä¹¦ï¼Œnewbooksiè¡¨ç¤ºæ–°çš„Books[i]çš„å€¼
 		books[i] = newbooksi;
 	}
 private:
-	char bookID[10];//Í¼Êé±àºÅ
-	char bookName[100];//ÊéÃû
-	char author[20];//×÷Õß
-	char publisher[20];//³ö°æÉÌ
-	short storage; //¿â´æ
-	short bookMan; //Ô¤Ô¼ÈËÊı
-	short tStorage;  //ÁÙÊ±¿â´æ
-	char flag;  //Í¼ÊéÊÇ·ñ´æÔÚ
-	int *books;//¿â´æ10±¾Êé£¬Êı×éÖĞÃ¿Ò»ÏîÓÃÀ´±íÊ¾10±¾ÖĞ¾ßÌåÄ³Ò»±¾µÄ×´Ì¬£¬0£ºËğ»µ 1£º¿É½è 2£º½è³ö		³õÊ¼ÖµÈ«²¿ÉèÎª1
-	//¶¯Ì¬¿ª±Ù´æ´¢¿Õ¼ä?
+	char bookID[10];//å›¾ä¹¦ç¼–å·
+	char bookName[100];//ä¹¦å
+	char author[20];//ä½œè€…
+	char publisher[20];//å‡ºç‰ˆå•†
+	short storage; //åº“å­˜
+	short bookMan; //é¢„çº¦äººæ•°
+	short tStorage;  //ä¸´æ—¶åº“å­˜
+	char flag;  //å›¾ä¹¦æ˜¯å¦å­˜åœ¨
+	int *books;//åº“å­˜10æœ¬ä¹¦ï¼Œæ•°ç»„ä¸­æ¯ä¸€é¡¹ç”¨æ¥è¡¨ç¤º10æœ¬ä¸­å…·ä½“æŸä¸€æœ¬çš„çŠ¶æ€ï¼Œ0ï¼šæŸå 1ï¼šå¯å€Ÿ 2ï¼šå€Ÿå‡º		åˆå§‹å€¼å…¨éƒ¨è®¾ä¸º1
+	//åŠ¨æ€å¼€è¾Ÿå­˜å‚¨ç©ºé—´?
 
 
 
-	friend class Administrator;//½«BOOKÀàÉèÎª¹ÜÀíÔ±ÀàµÄÓÑÔªÀà£¬·ñÔò¹ÜÀíÔ±ÀàÖĞµÄ¸Ä¿â´æº¯ÊıÎŞ·¨·ÃÎÊtStorageË½ÓĞ±äÁ¿
+	friend class Administrator;//å°†BOOKç±»è®¾ä¸ºç®¡ç†å‘˜ç±»çš„å‹å…ƒç±»ï¼Œå¦åˆ™ç®¡ç†å‘˜ç±»ä¸­çš„æ”¹åº“å­˜å‡½æ•°æ— æ³•è®¿é—®tStorageç§æœ‰å˜é‡
 };
 
-class Card//¹¹Ôìº¯Êı  ¸´ÖÆ¹¹Ôìº¯Êı
+class Card//æ„é€ å‡½æ•°  å¤åˆ¶æ„é€ å‡½æ•°
 {
 public:
-	Card(char CardID[10], char CPassword[20], char CardHolder[10], double Balance, char CID[18], char CPhone[11]){//¹¹Ôìº¯Êı
+	Card(char CardID[10], char CPassword[20], char CardHolder[10], double Balance, char CID[18], char CPhone[11]){//æ„é€ å‡½æ•°
 		for (int i = 0; i<10; i++)
 		{
 			cardID[i] = CardID[i];
@@ -297,12 +297,12 @@ public:
 		{
 			cardHolder[i] = CardHolder[i];
 		}
-		lendedCount = 0;//³õÊ¼ÒÑ½è±¾ÊıÎª0
-		lendingCount = 10;//³õÊ¼¿É½è±¾ÊıÎª10
-		cardState = '1';//1±íÊ¾Î´¶³½á
+		lendedCount = 0;//åˆå§‹å·²å€Ÿæœ¬æ•°ä¸º0
+		lendingCount = 10;//åˆå§‹å¯å€Ÿæœ¬æ•°ä¸º10
+		cardState = '1';//1è¡¨ç¤ºæœªå†»ç»“
 		balance = Balance;
 		oweMoney = 0;
-		bookedCount = lendingCount - lendedCount;//³õÊ¼Ô¤Ô¼±¾ÊıÎª0
+		bookedCount = lendingCount - lendedCount;//åˆå§‹é¢„çº¦æœ¬æ•°ä¸º0
 		for (int i = 0; i<18; i++)
 		{
 			cID[i] = CID[i];
@@ -312,7 +312,7 @@ public:
 			cPhone[i] = CPhone[i];
 		}
 	}
-	Card(Card &card){//¸´ÖÆ¹¹Ôìº¯Êı
+	Card(Card &card){//å¤åˆ¶æ„é€ å‡½æ•°
 		for (int i = 0; i<10; i++)
 		{
 			cardID[i] = card.cardID[i];
@@ -364,11 +364,11 @@ public:
 		{
 			cPhone[11] = ' ';
 		}
-		lendedCount = 0;//³õÊ¼ÒÑ½è±¾ÊıÎª0
-		lendingCount = 10;//³õÊ¼¿É½è±¾ÊıÎª10
-		cardState = '1';//1±íÊ¾Î´¶³½á
+		lendedCount = 0;//åˆå§‹å·²å€Ÿæœ¬æ•°ä¸º0
+		lendingCount = 10;//åˆå§‹å¯å€Ÿæœ¬æ•°ä¸º10
+		cardState = '1';//1è¡¨ç¤ºæœªå†»ç»“
 		oweMoney = 0;
-		bookedCount = 0;//³õÊ¼Ô¤Ô¼±¾ÊıÎª0
+		bookedCount = 0;//åˆå§‹é¢„çº¦æœ¬æ•°ä¸º0
 	}
 
 	char *getcardID(){
@@ -454,24 +454,24 @@ public:
 	}
 private:
 
-	char cardID[10];//¿¨ºÅ
-	char cPassword[20];//ÃÜÂë
-	short lendedCount;//ÒÑ½è±¾Êı
-	short lendingCount;//¿É½è±¾Êı
-	char cardHolder[10];//³Ö¿¨ÈËĞÕÃû
-	char cardState;   //ÕËºÅ¶³½á×´Ì¬
-	double balance;//Óà¶î
-	double oweMoney;   //Î¥Ô¼½ğ
-	short bookedCount;//Ô¤Ô¼±¾Êı£¨×î¶à¿ÉÔ¤Ô¼±¾Êı£©  ÒÑ½è+¿É½è+Ô¤Ô¼=10 ÌáÊ¾²»¿É½è²»¿ÉÔ¤Ô¼
-	char cID[18];  //Éí·İÖ¤ºÅ
-	char cPhone[11];//³Ö¿¨ÈËÊÖ»úºÅ
+	char cardID[10];//å¡å·
+	char cPassword[20];//å¯†ç 
+	short lendedCount;//å·²å€Ÿæœ¬æ•°
+	short lendingCount;//å¯å€Ÿæœ¬æ•°
+	char cardHolder[10];//æŒå¡äººå§“å
+	char cardState;   //è´¦å·å†»ç»“çŠ¶æ€
+	double balance;//ä½™é¢
+	double oweMoney;   //è¿çº¦é‡‘
+	short bookedCount;//é¢„çº¦æœ¬æ•°ï¼ˆæœ€å¤šå¯é¢„çº¦æœ¬æ•°ï¼‰  å·²å€Ÿ+å¯å€Ÿ+é¢„çº¦=10 æç¤ºä¸å¯å€Ÿä¸å¯é¢„çº¦
+	char cID[18];  //èº«ä»½è¯å·
+	char cPhone[11];//æŒå¡äººæ‰‹æœºå·
 };
 
 class Administrator
 {
 public:
-	//11.1¹¹Ôìº¯Êı
-	Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//¹¹Ôìº¯Êı
+	//11.1æ„é€ å‡½æ•°
+	Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//æ„é€ å‡½æ•°
 	{
 
 		for (int i = 0; i<5; i++)
@@ -519,7 +519,7 @@ public:
 		}
 	}
 
-	//¸´ÖÆ¹¹Ôìº¯Êı
+	//å¤åˆ¶æ„é€ å‡½æ•°
 	Administrator(Administrator &administrator)
 	{
 		for (int i = 0; i<5; i++)
@@ -604,27 +604,27 @@ public:
 		return aPhone;
 	}
 
-	void addBook(char *bookID, char *bookName, char *author, char *publisher, short storage);//Ôö¼ÓÊé
+	void addBook(char *bookID, char *bookName, char *author, char *publisher, short storage);//å¢åŠ ä¹¦
 
-	//void deleteBook(Book book);ÀÏÊ¦Ëµ²»ÒªÉ¾Êé
-	//void operateCard(Card card);ÀÏÊ¦Ëµ²»ÒªÉ¾¿¨ ÌıÀÏÊ¦µÄ
+	//void deleteBook(Book book);è€å¸ˆè¯´ä¸è¦åˆ ä¹¦
+	//void operateCard(Card card);è€å¸ˆè¯´ä¸è¦åˆ å¡ å¬è€å¸ˆçš„
 
-	void findbook(char*bookid);		//ÎªÁËÔÚĞŞ¸Ä¿â´æÖ®Ç°¸øÀàÖĞµÄË½ÓĞ³ÉÔ±book¸³Öµ
-	void newStorage(short storage);//ĞÂÉè¿â´æ
+	void findbook(char*bookid);		//ä¸ºäº†åœ¨ä¿®æ”¹åº“å­˜ä¹‹å‰ç»™ç±»ä¸­çš„ç§æœ‰æˆå‘˜bookèµ‹å€¼
+	void newStorage(short storage);//æ–°è®¾åº“å­˜
 	void addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone);
 
-	//11.9¹ÜÀíÔ±ËùÓĞ²é¿´ĞĞÎªº¯Êı
-	void searchLog();//¹ÜÀíÔ±²é¿´´óÈÕÖ¾
-	void searchLendBuffer();//¹ÜÀíÔ±²é¿´ÏÖÔÚÕı½è³öµÄÊé
-	void serchBookInformation();//¹ÜÀíÔ±²é¿´È«²¿Í¼ÊéĞÅÏ¢
-	void searchCardInformation();//¹ÜÀíÔ±²é¿´È«²¿ÓÃ»§ĞÅÏ¢
-	void searchOrder();//¹ÜÀíÔ±²é¿´ËùÓĞÔ¤Ô¼¼ÇÂ¼
-	void searchCancleOrder();//¹ÜÀíÔ±²é¿´È«²¿Ô¤Ô¼È¡ÏûÔ¤Ô¼µ½ÆÚ¼ÇÂ¼ÎÄ¼ş
-	void searchReturn();//¹ÜÀíÔ±²é¿´ËùÓĞ»¹ÊéĞÅÏ¢
+	//11.9ç®¡ç†å‘˜æ‰€æœ‰æŸ¥çœ‹è¡Œä¸ºå‡½æ•°
+	void searchLog();//ç®¡ç†å‘˜æŸ¥çœ‹å¤§æ—¥å¿—
+	void searchLendBuffer();//ç®¡ç†å‘˜æŸ¥çœ‹ç°åœ¨æ­£å€Ÿå‡ºçš„ä¹¦
+	void serchBookInformation();//ç®¡ç†å‘˜æŸ¥çœ‹å…¨éƒ¨å›¾ä¹¦ä¿¡æ¯
+	void searchCardInformation();//ç®¡ç†å‘˜æŸ¥çœ‹å…¨éƒ¨ç”¨æˆ·ä¿¡æ¯
+	void searchOrder();//ç®¡ç†å‘˜æŸ¥çœ‹æ‰€æœ‰é¢„çº¦è®°å½•
+	void searchCancleOrder();//ç®¡ç†å‘˜æŸ¥çœ‹å…¨éƒ¨é¢„çº¦å–æ¶ˆé¢„çº¦åˆ°æœŸè®°å½•æ–‡ä»¶
+	void searchReturn();//ç®¡ç†å‘˜æŸ¥çœ‹æ‰€æœ‰è¿˜ä¹¦ä¿¡æ¯
 
 
 private:
-	char account[5];		//¼ÇµÃĞŞ¸ÄÉÏÃæ¶ÔÓ¦µÃÊıÖµ
+	char account[5];		//è®°å¾—ä¿®æ”¹ä¸Šé¢å¯¹åº”å¾—æ•°å€¼
 	char aPassword[20];
 	char accountHolder[10];
 	char aID[18];
@@ -632,7 +632,7 @@ private:
 	Book book;
 };
 
-//¹ÜÀíÔ±×¢²áº¯Êı
+//ç®¡ç†å‘˜æ³¨å†Œå‡½æ•°
 
 void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){
 	string account_str = to_string(20000 + alladmin + 1);
@@ -649,7 +649,7 @@ void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*
 		printf("file write error\n");
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
@@ -659,7 +659,7 @@ void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*
 	alladmin++;
 	return;
 }
-//¹ÜÀíÔ±²é¿´´óÈÕÖ¾
+//ç®¡ç†å‘˜æŸ¥çœ‹å¤§æ—¥å¿—
 void Administrator::searchLog()
 {
 	FILE *fp_log;
@@ -671,7 +671,7 @@ void Administrator::searchLog()
 
 }
 
-//11.2¹ÜÀíÔ±ĞÂ¼ÓÊéº¯Êı
+//11.2ç®¡ç†å‘˜æ–°åŠ ä¹¦å‡½æ•°
 void Administrator::addBook(char *bookID, char *bookName, char *author, char *publisher, short storage)
 {
 	FILE *fp_add_book;
@@ -699,7 +699,7 @@ void Administrator::addBook(char *bookID, char *bookName, char *author, char *pu
 	allbook++;
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
@@ -710,8 +710,8 @@ void Administrator::addBook(char *bookID, char *bookName, char *author, char *pu
 
 }
 
-//ÔÚ¹ÜÀíÔ±ĞŞ¸Ä¿â´æÖ®Ç°£¬ÏÈÈÃËûÊäÈëÒªĞŞ¸ÄµÄÊéµÄbookid£¬È»ºóµ÷ÓÃfindbookº¯ÊıÕÒµ½Õâ±¾Êé£¬¸³Öµ¸ørecordÀàµÄË½ÓĞ³ÉÔ±book
-//È»ºóÈÃËûÊäÈëĞŞ¸ÄºóµÄÊéµÄ×Ü±¾Êı£¬µã»÷ĞŞ¸Ä¿â´æ°´Å¥£¬Ö´ĞĞnewStorageº¯Êı¼´¿É
+//åœ¨ç®¡ç†å‘˜ä¿®æ”¹åº“å­˜ä¹‹å‰ï¼Œå…ˆè®©ä»–è¾“å…¥è¦ä¿®æ”¹çš„ä¹¦çš„bookidï¼Œç„¶åè°ƒç”¨findbookå‡½æ•°æ‰¾åˆ°è¿™æœ¬ä¹¦ï¼Œèµ‹å€¼ç»™recordç±»çš„ç§æœ‰æˆå‘˜book
+//ç„¶åè®©ä»–è¾“å…¥ä¿®æ”¹åçš„ä¹¦çš„æ€»æœ¬æ•°ï¼Œç‚¹å‡»ä¿®æ”¹åº“å­˜æŒ‰é’®ï¼Œæ‰§è¡ŒnewStorageå‡½æ•°å³å¯
 void Administrator::findbook(char*bookid)
 {
 	FILE *fp_book;
@@ -731,20 +731,20 @@ void Administrator::findbook(char*bookid)
 		}
 	}
 }
-//11.2¹ÜÀíÔ±¸Ä¿â´æº¯Êı
+//11.2ç®¡ç†å‘˜æ”¹åº“å­˜å‡½æ•°
 void Administrator::newStorage(short storage)
 {
 
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
 	int oldstorage = book.getstorage();
 	book.setstorage(storage);
-	book.books = (int *)realloc(book.books, storage*sizeof(int));		//ĞŞ¸Ä¿â´æÖ®ºóĞèÒªÖØĞÂ¸øbooks¶¯Ì¬·ÖÅäÄÚ´æ
-	if (storage > oldstorage){			//Èç¹û¿â´æ¼õÉÙÁË£¬¶ÔÓÚbooksÊı×é²»ÓÃ½øĞĞÈÎºÎ²Ù×÷£¬µ«ÊÇÈç¹û¿â´æÔö¶àÁË£¬¾Í±ØĞë¶ÔĞÂ·ÖÅä¸øbooksµÄÄÚ´æ¸³ÖµÎª1
+	book.books = (int *)realloc(book.books, storage*sizeof(int));		//ä¿®æ”¹åº“å­˜ä¹‹åéœ€è¦é‡æ–°ç»™booksåŠ¨æ€åˆ†é…å†…å­˜
+	if (storage > oldstorage){			//å¦‚æœåº“å­˜å‡å°‘äº†ï¼Œå¯¹äºbooksæ•°ç»„ä¸ç”¨è¿›è¡Œä»»ä½•æ“ä½œï¼Œä½†æ˜¯å¦‚æœåº“å­˜å¢å¤šäº†ï¼Œå°±å¿…é¡»å¯¹æ–°åˆ†é…ç»™booksçš„å†…å­˜èµ‹å€¼ä¸º1
 		for (int i = oldstorage; i < storage; i++)
 			book.books[i] = 1;
 	}
@@ -765,7 +765,7 @@ void Administrator::newStorage(short storage)
 class Record
 {
 public:
-	//10.30 ¹¹Ôìº¯Êı¸ü¸Ä
+	//10.30 æ„é€ å‡½æ•°æ›´æ”¹
 	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22)
 	{
 
@@ -782,7 +782,7 @@ public:
 		day = Day;
 		flag1 = flag11;
 		flag2 = flag22;
-		//»ñÈ¡µ±Ç°ÏµÍ³ÈÕÆÚ ×ÔĞĞ²éÑ¯·½·¨ ¶ÁÈëµ±Ç°year month day
+		//è·å–å½“å‰ç³»ç»Ÿæ—¥æœŸ è‡ªè¡ŒæŸ¥è¯¢æ–¹æ³• è¯»å…¥å½“å‰year month day
 	}
 
 	Record(char*cardid1, int Year, int Month, int Day, int flag11)
@@ -797,7 +797,7 @@ public:
 		flag1 = flag11;
 	}
 
-	//Áõ·åÍ¬Ñ§ĞèÒªµÄ¹¹Ôìº¯ÊıÀ²À²~~
+	//åˆ˜å³°åŒå­¦éœ€è¦çš„æ„é€ å‡½æ•°å•¦å•¦~~
 	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22, int Order)
 	{
 		for (int i = 0; i < 10; i++)
@@ -816,7 +816,7 @@ public:
 		order = Order;
 	}
 
-	//Ä¬ÈÏ¹¹Ôìº¯Êı
+	//é»˜è®¤æ„é€ å‡½æ•°
 	Record()
 	{
 		for (int i = 0; i < 10; i++)
@@ -830,11 +830,11 @@ public:
 		year = 0;
 		month = 0;
 		day = 0;
-		flag2 = 1;//ÓÃÓÚ»º³åÇø   1¶ÔÔ¤Ô¼¼ÇÂ¼±íÊ¾´ËÔ¤Ô¼Ê§Ğ§²¢ÇÒÒÑ¾­Ğ´Èë¼ÇÂ¼ÎÄ¼ş 1¶ÔĞø½è¼ÇÂ¼±íÊ¾¸ÃÊéÒÑĞø½è
+		flag2 = 1;//ç”¨äºç¼“å†²åŒº   1å¯¹é¢„çº¦è®°å½•è¡¨ç¤ºæ­¤é¢„çº¦å¤±æ•ˆå¹¶ä¸”å·²ç»å†™å…¥è®°å½•æ–‡ä»¶ 1å¯¹ç»­å€Ÿè®°å½•è¡¨ç¤ºè¯¥ä¹¦å·²ç»­å€Ÿ
 		order = 1;
-		flag1 = '1';   //ËùÓĞ±ê¼Ç 0±íÊ¾²»´æÔÚ 1±íÊ¾´æÔÚ//´Ë´¦£¬1±íÊ¾Êé¿É½è
+		flag1 = '1';   //æ‰€æœ‰æ ‡è®° 0è¡¨ç¤ºä¸å­˜åœ¨ 1è¡¨ç¤ºå­˜åœ¨//æ­¤å¤„ï¼Œ1è¡¨ç¤ºä¹¦å¯å€Ÿ
 	}
-	//¸´ÖÆ¹¹Ôìº¯Êı
+	//å¤åˆ¶æ„é€ å‡½æ•°
 	Record(Record &R)
 	{
 		for (int i = 0; i<10; i++)
@@ -848,23 +848,23 @@ public:
 		year = R.year;
 		month = R.month;
 		day = R.day;
-		flag2 = R.flag2;//ÓÃÓÚ»º³åÇø   1¶ÔÔ¤Ô¼¼ÇÂ¼±íÊ¾´ËÔ¤Ô¼Ê§Ğ§²¢ÇÒÒÑ¾­Ğ´Èë¼ÇÂ¼ÎÄ¼ş 1¶ÔĞø½è¼ÇÂ¼±íÊ¾¸ÃÊéÒÑĞø½è
+		flag2 = R.flag2;//ç”¨äºç¼“å†²åŒº   1å¯¹é¢„çº¦è®°å½•è¡¨ç¤ºæ­¤é¢„çº¦å¤±æ•ˆå¹¶ä¸”å·²ç»å†™å…¥è®°å½•æ–‡ä»¶ 1å¯¹ç»­å€Ÿè®°å½•è¡¨ç¤ºè¯¥ä¹¦å·²ç»­å€Ÿ
 		order = R.order;
 		flag1 = R.flag1;
 	}
 
-	void bookLendRecord(int flag);//½èÊé¼ÇÂ¼
-	void bookReturnRecord();//»¹Êé¼ÇÂ¼
-	void bookOrderRecord();//Ô¤Ô¼¼ÇÂ¼
-	void bookRenewRecord();//Ğø½è¼ÇÂ¼
-	void bookOrderCancelRecord();//È¡ÏûÔ¤Ô¼¼ÇÂ¼
-	void bookOrderNoRecord();//Ô¤Ô¼Ê§Ğ§¼ÇÂ¼
-	void signInRecord();//µÇÂ½¼ÇÂ¼
-	void signOutRecord();//×¢Ïú¼ÇÂ¼
-	void signUpRecord();//×¢²á¼ÇÂ¼
-	void admininchangestorage();//¹ÜÀíÔ±¸Ä±ä¿â´æ¼ÇÂ¼
-	void admininaddbook();//¹ÜÀíÔ±Ôö¼ÓĞÂÊé¼ÇÂ¼
-	void alter_Date(int day);//Ôö¼ÓÒ»¸öÈÕÆÚ±ä»¯µÄº¯Êı
+	void bookLendRecord(int flag);//å€Ÿä¹¦è®°å½•
+	void bookReturnRecord();//è¿˜ä¹¦è®°å½•
+	void bookOrderRecord();//é¢„çº¦è®°å½•
+	void bookRenewRecord();//ç»­å€Ÿè®°å½•
+	void bookOrderCancelRecord();//å–æ¶ˆé¢„çº¦è®°å½•
+	void bookOrderNoRecord();//é¢„çº¦å¤±æ•ˆè®°å½•
+	void signInRecord();//ç™»é™†è®°å½•
+	void signOutRecord();//æ³¨é”€è®°å½•
+	void signUpRecord();//æ³¨å†Œè®°å½•
+	void admininchangestorage();//ç®¡ç†å‘˜æ”¹å˜åº“å­˜è®°å½•
+	void admininaddbook();//ç®¡ç†å‘˜å¢åŠ æ–°ä¹¦è®°å½•
+	void alter_Date(int day);//å¢åŠ ä¸€ä¸ªæ—¥æœŸå˜åŒ–çš„å‡½æ•°
 
 	char getflag1()
 	{
@@ -923,25 +923,25 @@ public:
 		return cardid;
 	}
 private:
-	char flag1;  //a½èÊé b»¹Êé cÔ¤Ô¼ dĞø½è eÈ¡ÏûÔ¤Ô¼ fÔ¤Ô¼Ê§Ğ§ g×¢²á¼ÇÂ¼ h×¢Ïú¼ÇÂ¼ iµÇÂ½¼ÇÂ¼ j¹ÜÀíÔ±Ôö¼ÓÊé k¹ÜÀíÔ±¸ü¸Ä¿â´æ l¹ÜÀíÔ±×¢²á
+	char flag1;  //aå€Ÿä¹¦ bè¿˜ä¹¦ cé¢„çº¦ dç»­å€Ÿ eå–æ¶ˆé¢„çº¦ fé¢„çº¦å¤±æ•ˆ gæ³¨å†Œè®°å½• hæ³¨é”€è®°å½• iç™»é™†è®°å½• jç®¡ç†å‘˜å¢åŠ ä¹¦ kç®¡ç†å‘˜æ›´æ”¹åº“å­˜ lç®¡ç†å‘˜æ³¨å†Œ
 	char bookid[10];
 	char cardid[10];
 	int year;
 	int month;
 	int day;
-	char flag2;//ÓÃÓÚ»º³åÇø   1¶ÔÔ¤Ô¼¼ÇÂ¼±íÊ¾´ËÔ¤Ô¼Ê§Ğ§²¢ÇÒÒÑ¾­Ğ´Èë¼ÇÂ¼ÎÄ¼ş 1¶ÔĞø½è¼ÇÂ¼±íÊ¾¸ÃÊéÒÑĞø½è
-	int order;//±êÊ¶µÚ¼¸±¾Êé
+	char flag2;//ç”¨äºç¼“å†²åŒº   1å¯¹é¢„çº¦è®°å½•è¡¨ç¤ºæ­¤é¢„çº¦å¤±æ•ˆå¹¶ä¸”å·²ç»å†™å…¥è®°å½•æ–‡ä»¶ 1å¯¹ç»­å€Ÿè®°å½•è¡¨ç¤ºè¯¥ä¹¦å·²ç»­å€Ÿ
+	int order;//æ ‡è¯†ç¬¬å‡ æœ¬ä¹¦
 };
 
-//RecordÀàÄÚ²¿º¯ÊıµÄÊµÏÖ
+//Recordç±»å†…éƒ¨å‡½æ•°çš„å®ç°
 
-//11.04Ôö¼ÓÒ»¸öÈÕÆÚ±ä»¯µÄº¯Êı
+//11.04å¢åŠ ä¸€ä¸ªæ—¥æœŸå˜åŒ–çš„å‡½æ•°
 void Record::alter_Date(int addday){
 	int tempday = 0;
-	int monthday[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };//¶¨Òå³öÃ¿¸öÔÂµÄÌìÊıÒÔ·½±ãÔö¼ÓÔÂ
-	if (isLeapYear(year))monthday[1] = 29;//ÈòÄêµÄ2ÔÂ
-	else monthday[1] = 28;//·ÇÈóÄêµÄ2ÔÂ
-	tempday = day + addday;//Í¨¹ı¼õÌìÊı£¬¼ÓÔÂÊı¼ÓÄêÊıµÄ·½·¨À´»ñÈ¡ĞÂµÄÈÕÆÚ
+	int monthday[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };//å®šä¹‰å‡ºæ¯ä¸ªæœˆçš„å¤©æ•°ä»¥æ–¹ä¾¿å¢åŠ æœˆ
+	if (isLeapYear(year))monthday[1] = 29;//é—°å¹´çš„2æœˆ
+	else monthday[1] = 28;//éæ¶¦å¹´çš„2æœˆ
+	tempday = day + addday;//é€šè¿‡å‡å¤©æ•°ï¼ŒåŠ æœˆæ•°åŠ å¹´æ•°çš„æ–¹æ³•æ¥è·å–æ–°çš„æ—¥æœŸ
 	while (tempday>monthday[month - 1]){
 		tempday = tempday - monthday[month - 1];
 		month++;
@@ -954,7 +954,7 @@ void Record::alter_Date(int addday){
 	day = tempday;
 }
 
-//11.7Ôö¼Ó¹ÜÀíÔ±¸Ä±äÊé¿â´æ¼ÇÂ¼
+//11.7å¢åŠ ç®¡ç†å‘˜æ”¹å˜ä¹¦åº“å­˜è®°å½•
 void Record::admininchangestorage()
 {
 	FILE *fp_change_storage;
@@ -979,7 +979,7 @@ void Record::admininchangestorage()
 	fclose(fp_log);
 }
 
-//11.7Ôö¼Ó¹ÜÀíÔ±ĞÂÔöÊéÄ¿µÄ¼ÇÂ¼
+//11.7å¢åŠ ç®¡ç†å‘˜æ–°å¢ä¹¦ç›®çš„è®°å½•
 void Record::admininaddbook()
 {
 	FILE *fp_add_book;
@@ -1004,9 +1004,9 @@ void Record::admininaddbook()
 	fclose(fp_log);
 }
 
-//10.31½èÊé¼ÇÂ¼
+//10.31å€Ÿä¹¦è®°å½•
 
-void Record::bookLendRecord(int flag)		//½èÊé¼ÇÂ¼
+void Record::bookLendRecord(int flag)		//å€Ÿä¹¦è®°å½•
 {
 	FILE *fp_book_lend;
 	FILE *fp_log;
@@ -1101,8 +1101,8 @@ void Record::bookLendRecord(int flag)		//½èÊé¼ÇÂ¼
 
 }
 
-//11.1»¹Êé¼ÇÂ¼
-//Ïò»¹Êé¼ÇÂ¼ºÍ´ó¼ÇÂ¼ÖĞĞ´ÈëÒ»Ìõ»¹Êé¼ÇÂ¼£¬²¢ÔÚbufferÎÄ¼şÖĞÕÒ³ö¶ÔÓ¦½èÊé¼ÇÂ¼£¬½«½èÊé¼ÇÂ¼É¾³ı¡£
+//11.1è¿˜ä¹¦è®°å½•
+//å‘è¿˜ä¹¦è®°å½•å’Œå¤§è®°å½•ä¸­å†™å…¥ä¸€æ¡è¿˜ä¹¦è®°å½•ï¼Œå¹¶åœ¨bufferæ–‡ä»¶ä¸­æ‰¾å‡ºå¯¹åº”å€Ÿä¹¦è®°å½•ï¼Œå°†å€Ÿä¹¦è®°å½•åˆ é™¤ã€‚
 void Record::bookReturnRecord()
 {
 	FILE *fp_book_return;
@@ -1152,7 +1152,7 @@ void Record::bookReturnRecord()
 }
 
 
-//11.1Ô¤Ô¼¼ÇÂ¼
+//11.1é¢„çº¦è®°å½•
 void Record::bookOrderRecord()
 {
 	FILE *fp_book_order;
@@ -1187,7 +1187,7 @@ void Record::bookOrderRecord()
 	fclose(fp_buffer);
 }
 
-//11.1È¡ÏûÔ¤Ô¼¼ÇÂ¼
+//11.1å–æ¶ˆé¢„çº¦è®°å½•
 void Record::bookOrderCancelRecord()
 {
 	FILE *fp_book_order_cancel;
@@ -1236,8 +1236,8 @@ void Record::bookOrderCancelRecord()
 	fclose(fp_log);
 }
 
-//11.1Ô¤Ô¼Ê§Ğ§¼ÇÂ¼
-///Ô¤Ô¼Ê§Ğ§ºÍÈ¡ÏûÔ¤Ô¼µÄÎÄ¼şÏàÍ¬
+//11.1é¢„çº¦å¤±æ•ˆè®°å½•
+///é¢„çº¦å¤±æ•ˆå’Œå–æ¶ˆé¢„çº¦çš„æ–‡ä»¶ç›¸åŒ
 void Record::bookOrderNoRecord()
 {
 	FILE *fp_book_order_cancel;
@@ -1287,11 +1287,11 @@ void Record::bookOrderNoRecord()
 }
 
 
-//11.1Ğø½è¼ÇÂ¼
-//ÓÉÓÚÃ»ÓĞÈ¡ÏûĞø½è¹¦ÄÜ£¬ËùÒÔĞø½èÖ»´æ·ÅÔÚĞø½èÎÄ¼şºÍ´óÈÕÖ¾ÎÄ¼şÖĞ£¬²¢Î´´æ·ÅÔÚ»º´æÎÄ¼şÖĞ
+//11.1ç»­å€Ÿè®°å½•
+//ç”±äºæ²¡æœ‰å–æ¶ˆç»­å€ŸåŠŸèƒ½ï¼Œæ‰€ä»¥ç»­å€Ÿåªå­˜æ”¾åœ¨ç»­å€Ÿæ–‡ä»¶å’Œå¤§æ—¥å¿—æ–‡ä»¶ä¸­ï¼Œå¹¶æœªå­˜æ”¾åœ¨ç¼“å­˜æ–‡ä»¶ä¸­
 
-//Ğø½èÒ²ĞèÒªĞ´µ½bufferlend»º³åÎÄ¼şÀï£¬ÒòÎª»¹ÊéµÄÊ±ºòĞèÒª´ÓbufferlendÖĞ¼ìË÷³öÀ´
-//Å·°ÍËµµÄ¶¼¶ÔÀ²À²~~mua~~
+//ç»­å€Ÿä¹Ÿéœ€è¦å†™åˆ°bufferlendç¼“å†²æ–‡ä»¶é‡Œï¼Œå› ä¸ºè¿˜ä¹¦çš„æ—¶å€™éœ€è¦ä»bufferlendä¸­æ£€ç´¢å‡ºæ¥
+//æ¬§å·´è¯´çš„éƒ½å¯¹å•¦å•¦~~mua~~
 void Record::bookRenewRecord()
 {
 	FILE *fp_book_renew;
@@ -1347,8 +1347,8 @@ void Record::bookRenewRecord()
 	fclose(fp_buffer);
 }
 
-//11.1µÇÂ½¼ÇÂ¼
-//µÇÂ½¼ÇÂ¼Î´´æÔÚ»º´æÎÄ¼şÖĞ
+//11.1ç™»é™†è®°å½•
+//ç™»é™†è®°å½•æœªå­˜åœ¨ç¼“å­˜æ–‡ä»¶ä¸­
 void Record::signInRecord()
 {
 	FILE *fp_sign_in;
@@ -1373,8 +1373,8 @@ void Record::signInRecord()
 	fclose(fp_log);
 }
 
-//11.1×¢Ïú¼ÇÂ¼
-//Î´¼ÇÂ¼ÔÚ»º³åÎÄ¼şÖĞ
+//11.1æ³¨é”€è®°å½•
+//æœªè®°å½•åœ¨ç¼“å†²æ–‡ä»¶ä¸­
 void Record::signOutRecord()
 {
 	FILE *fp_sign_out;
@@ -1399,8 +1399,8 @@ void Record::signOutRecord()
 	fclose(fp_log);
 }
 
-//11.1×¢²á¼ÇÂ¼
-//Î´·Å½ø»º³åÎÄ¼şÖĞ
+//11.1æ³¨å†Œè®°å½•
+//æœªæ”¾è¿›ç¼“å†²æ–‡ä»¶ä¸­
 void Record::signUpRecord()
 {
 	FILE *fp_sign_up;
@@ -1444,69 +1444,69 @@ public:
 		//card=card1;
 		// book=book1;
 	}
-	void signInUser(char*username_PutIn, char*password_PutIn);//ÓÃ»§µÇÂ½
-	void signInAdmin(char*adminname_PutIn, char*password_PutIn);//¹ÜÀíÔ±µÇÂ½
-	void signUp(char*password, char*cardHolder, char*CID, char*CPhone);//ÓÃ»§×¢²á
-	void signOut();//ÓÃ»§×¢Ïú
-	void signOut_Admin();//¹ÜÀíÔ±×¢Ïú
-	// void matchCid();//Éí·İÖ¤IDÆ¥Åä
-	void ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2);//ÊäÈëĞÂÃÜÂëºóÖØÉèÃÜÂëĞ´ÈëÔ­Î»ÖÃ
-	void update_Order();//º¯ÊıÓÃÓÚÓÃ»§½øÈëÏµÍ³Ê± ¶Ô»º³åÇø½øĞĞ¸üĞÂ
-	void update_book();//º¯ÊıÓÃÓÚÔÚµÇÂ½ºóÅĞ¶ÏÓÃ»§µÄÒÑ½èÊé¼®ÊÇ·ñÒÑ¾­³¬ÆÚ
+	void signInUser(char*username_PutIn, char*password_PutIn);//ç”¨æˆ·ç™»é™†
+	void signInAdmin(char*adminname_PutIn, char*password_PutIn);//ç®¡ç†å‘˜ç™»é™†
+	void signUp(char*password, char*cardHolder, char*CID, char*CPhone);//ç”¨æˆ·æ³¨å†Œ
+	void signOut();//ç”¨æˆ·æ³¨é”€
+	void signOut_Admin();//ç®¡ç†å‘˜æ³¨é”€
+	// void matchCid();//èº«ä»½è¯IDåŒ¹é…
+	void ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2);//è¾“å…¥æ–°å¯†ç åé‡è®¾å¯†ç å†™å…¥åŸä½ç½®
+	void update_Order();//å‡½æ•°ç”¨äºç”¨æˆ·è¿›å…¥ç³»ç»Ÿæ—¶ å¯¹ç¼“å†²åŒºè¿›è¡Œæ›´æ–°
+	void update_book();//å‡½æ•°ç”¨äºåœ¨ç™»é™†ååˆ¤æ–­ç”¨æˆ·çš„å·²å€Ÿä¹¦ç±æ˜¯å¦å·²ç»è¶…æœŸ
 
-	void charge(double money);//³äÖµº¯Êı
-	void Rcharge();//´¦ÀíÓÃ»§Î¥Ô¼½ğ
-	// void resetCard();//¸üĞÂĞŞ¸Ä¿¨ĞÅÏ¢ ÊÖ»ú
+	void charge(double money);//å……å€¼å‡½æ•°
+	void Rcharge();//å¤„ç†ç”¨æˆ·è¿çº¦é‡‘
+	// void resetCard();//æ›´æ–°ä¿®æ”¹å¡ä¿¡æ¯ æ‰‹æœº
 
-	void Search();//²éÑ¯Êé±¾º¯Êı
+	void Search();//æŸ¥è¯¢ä¹¦æœ¬å‡½æ•°
 
 
-	void bookLend();//Ö±½Ó½øĞĞµÄ½èÊé
-	void bookLendOrder();//Í¨¹ıÔ¤Ô¼³É¹¦½èÊé
-	void bookReturn();//»¹Êé
-	void bookOrder();//Ô¤Ô¼
-	void bookOrderCancel();//Î´µ½ÆÚµÄÈ¡ÏûÔ¤Ô¼
-	void bookRenew();//Ğø½è
+	void bookLend();//ç›´æ¥è¿›è¡Œçš„å€Ÿä¹¦
+	void bookLendOrder();//é€šè¿‡é¢„çº¦æˆåŠŸå€Ÿä¹¦
+	void bookReturn();//è¿˜ä¹¦
+	void bookOrder();//é¢„çº¦
+	void bookOrderCancel();//æœªåˆ°æœŸçš„å–æ¶ˆé¢„çº¦
+	void bookRenew();//ç»­å€Ÿ
 private:
 	Book book;
 	Card card;
 	Administrator admin;
 };
 fstream iofile;
-void Library::bookLend() { //½èÊé 1.Ö±½Ó½èÊé
-	if (card.getlendedCount() == 10) {//¿É½è±¾Êı³¬¹ıÉÏÏŞ
-		cout << "¿É½è±¾ÊéÒÑ´ïµ½ÉÏÏŞ£¬ÎŞ·¨ÔÙ½øĞĞ½èÔÄ£¡" << endl;
+void Library::bookLend() { //å€Ÿä¹¦ 1.ç›´æ¥å€Ÿä¹¦
+	if (card.getlendedCount() == 10) {//å¯å€Ÿæœ¬æ•°è¶…è¿‡ä¸Šé™
+		cout << "å¯å€Ÿæœ¬ä¹¦å·²è¾¾åˆ°ä¸Šé™ï¼Œæ— æ³•å†è¿›è¡Œå€Ÿé˜…ï¼" << endl;
 	}
-	else{//¿É½è±¾ÊıÃ»ÓĞ³¬¹ıÉÏÏŞ
-		if (book.getstorage() >= 2) { //¿â´æÔÊĞí
-			cout << "½èÔÄ³É¹¦" << endl;
-			book.setstorage(book.getstorage() - 1);//¿â´æ-1
-			card.setlendedCount(card.getlendedCount() + 1);//ÒÑ½è±¾Êı+1
-			card.setlendingCount(card.getlendingCount() - 1);//¿É½è±¾Êı-1
-			int order = 1;//±êÊ¶µÚ¼¸±¾Êé
+	else{//å¯å€Ÿæœ¬æ•°æ²¡æœ‰è¶…è¿‡ä¸Šé™
+		if (book.getstorage() >= 2) { //åº“å­˜å…è®¸
+			cout << "å€Ÿé˜…æˆåŠŸ" << endl;
+			book.setstorage(book.getstorage() - 1);//åº“å­˜-1
+			card.setlendedCount(card.getlendedCount() + 1);//å·²å€Ÿæœ¬æ•°+1
+			card.setlendingCount(card.getlendingCount() - 1);//å¯å€Ÿæœ¬æ•°-1
+			int order = 1;//æ ‡è¯†ç¬¬å‡ æœ¬ä¹¦
 			int *p = book.getBooks();
-			while (!(*(p + order) == 1)) {//´ÓµÚÒ»±¾Êé¿ªÊ¼¼ìË÷¶ø²»ÊÇµÚ0±¾
+			while (!(*(p + order) == 1)) {//ä»ç¬¬ä¸€æœ¬ä¹¦å¼€å§‹æ£€ç´¢è€Œä¸æ˜¯ç¬¬0æœ¬
 				order++;
 			}
-			book.setBooksI(order, 2);//½«Õâ±¾Êé¸ÄÎªÒÑ½è³ö
-			//Éú³ÉÒ»Ìõ½èÊéµÄ¼ÇÂ¼
+			book.setBooksI(order, 2);//å°†è¿™æœ¬ä¹¦æ”¹ä¸ºå·²å€Ÿå‡º
+			//ç”Ÿæˆä¸€æ¡å€Ÿä¹¦çš„è®°å½•
 			time_t timer;
 			time(&timer);
-			tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+			tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 			int year = t_tm->tm_year + 1900;
 			int month = month = t_tm->tm_mon + 1;
 			int day = t_tm->tm_mday;
-			Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//Éú³ÉÒ»Ìõ½èÊéµÄ¼ÇÂ¼
-			record.alter_Date(30);	//¼ÓÉÏ30Ìì£¬°ÑÓ¦»¹ÈÕÆÚĞ´½ø¼ÇÂ¼
+			Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//ç”Ÿæˆä¸€æ¡å€Ÿä¹¦çš„è®°å½•
+			record.alter_Date(30);	//åŠ ä¸Š30å¤©ï¼ŒæŠŠåº”è¿˜æ—¥æœŸå†™è¿›è®°å½•
 			record.bookLendRecord(0);
-			//Ğ´»ØbookÎÄ¼ş
+			//å†™å›bookæ–‡ä»¶
 			ofstream outfile("BOOKINFORMATION", ios::binary);
 			if (!outfile)
 			{
 				cerr << "open error!" << endl;
-				abort();//ÍË³ö³ÌĞò
+				abort();//é€€å‡ºç¨‹åº
 			}
-			int number = 0;//µÚ¼¸±¾Êé
+			int number = 0;//ç¬¬å‡ æœ¬ä¹¦
 			char *p = book.getbookID();
 			for (int i = 0; i<10; i++) {
 				int a = 1;
@@ -1515,15 +1515,15 @@ void Library::bookLend() { //½èÊé 1.Ö±½Ó½èÊé
 				}
 				number += *(p + i)*a;
 			}
-			iofile.seekp(number*sizeof(book), ios::beg);  //¶¨Î»ÓÚµÚ¼¸±¾ÊéµÄ¿ªÍ·
-			iofile.write((char *)&book, sizeof(book));  //¸üĞÂµÚ¼¸±¾ÊéµÄÊı¾İ
+			iofile.seekp(number*sizeof(book), ios::beg);  //å®šä½äºç¬¬å‡ æœ¬ä¹¦çš„å¼€å¤´
+			iofile.write((char *)&book, sizeof(book));  //æ›´æ–°ç¬¬å‡ æœ¬ä¹¦çš„æ•°æ®
 			outfile.close();
 		}
-		else { //¿â´æ²»¹»
+		else { //åº“å­˜ä¸å¤Ÿ
 			int choice;
-			cout << "¿â´æ²»¹»£¬½èÔÄÊ§°Ü£¡" << endl;//½èÔÄÊ§°Ü
-			cout << "ÊÇ·ñ½øĞĞÔ¤Ô¼£¿" << endl;
-			cout << "1.ÊÇ   2.·ñ" << endl;//ÌáÊ¾¿ò¢Ù
+			cout << "åº“å­˜ä¸å¤Ÿï¼Œå€Ÿé˜…å¤±è´¥ï¼" << endl;//å€Ÿé˜…å¤±è´¥
+			cout << "æ˜¯å¦è¿›è¡Œé¢„çº¦ï¼Ÿ" << endl;
+			cout << "1.æ˜¯   2.å¦" << endl;//æç¤ºæ¡†â‘ 
 			cin >> choice;
 			while (1) {
 				if (choice == 1) {
@@ -1531,51 +1531,51 @@ void Library::bookLend() { //½èÊé 1.Ö±½Ó½èÊé
 					break;
 				}
 				else if (choice == 2) {
-					//¹Ø±ÕÌáÊ¾¿ò¢Ù·µ»Ø²éÑ¯½çÃæ
+					//å…³é—­æç¤ºæ¡†â‘ è¿”å›æŸ¥è¯¢ç•Œé¢
 					break;
 				}
 				else {
-					cout << "ÊäÈëÓĞÎó£¬ÇëÖØĞÂÊäÈë£¡" << endl;
-					cout << "ÊÇ·ñ½øĞĞÔ¤Ô¼£¿" << endl;
-					cout << "1.ÊÇ   2.·ñ" << endl;//ÌáÊ¾¿ò¢Ú
+					cout << "è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼" << endl;
+					cout << "æ˜¯å¦è¿›è¡Œé¢„çº¦ï¼Ÿ" << endl;
+					cout << "1.æ˜¯   2.å¦" << endl;//æç¤ºæ¡†â‘¡
 					cin >> choice;
-					//¹Ø±ÕÌáÊ¾¿ò¢Ú
+					//å…³é—­æç¤ºæ¡†â‘¡
 				}
 			}
 		}
 	}
 }
 
-void Library::bookLendOrder() {//2.Í¨¹ıÔ¤Ô¼³É¹¦½èÊé
+void Library::bookLendOrder() {//2.é€šè¿‡é¢„çº¦æˆåŠŸå€Ÿä¹¦
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
-	card.setlendedCount(card.getlendedCount() + 1);//ÒÑ½è±¾Êı+1
-	card.setlendingCount(card.getlendingCount() - 1);//¿É½è±¾Êı-1
-	card.setbookedCount(card.getbookedCount() - 1);//ÈËµÄÔ¤Ô¼±¾Êı-1
+	card.setlendedCount(card.getlendedCount() + 1);//å·²å€Ÿæœ¬æ•°+1
+	card.setlendingCount(card.getlendingCount() - 1);//å¯å€Ÿæœ¬æ•°-1
+	card.setbookedCount(card.getbookedCount() - 1);//äººçš„é¢„çº¦æœ¬æ•°-1
 
-	book.setbookMan(book.getbookMan() - 1);//ÊéµÄÔ¤Ô¼ÈËÊı-1
-	book.settStorage(book.gettStorage() - 1);//ÊéµÄÁÙÊ±¿â´æ-1
-	int order = 1;//±êÊ¶µÚ¼¸±¾Êé
+	book.setbookMan(book.getbookMan() - 1);//ä¹¦çš„é¢„çº¦äººæ•°-1
+	book.settStorage(book.gettStorage() - 1);//ä¹¦çš„ä¸´æ—¶åº“å­˜-1
+	int order = 1;//æ ‡è¯†ç¬¬å‡ æœ¬ä¹¦
 	int *p = book.getBooks();
-	while (!(*(p + order) == 1)) {//´ÓµÚÒ»±¾Êé¿ªÊ¼¼ìË÷
+	while (!(*(p + order) == 1)) {//ä»ç¬¬ä¸€æœ¬ä¹¦å¼€å§‹æ£€ç´¢
 		order++;
 	}
-	book.setBooksI(order, 2);//½«Õâ±¾Êé¸ÄÎªÒÑ½è³ö
-	Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//Éú³ÉÒ»Ìõ½èÊéµÄ¼ÇÂ¼
+	book.setBooksI(order, 2);//å°†è¿™æœ¬ä¹¦æ”¹ä¸ºå·²å€Ÿå‡º
+	Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//ç”Ÿæˆä¸€æ¡å€Ÿä¹¦çš„è®°å½•
 	record.alter_Date(30);
 	record.bookLendRecord(1);
-	//Ğ´»ØbookÎÄ¼ş
+	//å†™å›bookæ–‡ä»¶
 	ofstream outfile("BOOKINFORMATION", ios::binary);
 	if (!outfile)
 	{
 		cerr << "open error!" << endl;
-		abort();//ÍË³ö³ÌĞò
+		abort();//é€€å‡ºç¨‹åº
 	}
-	int number = 0;//µÚ¼¸±¾Êé
+	int number = 0;//ç¬¬å‡ æœ¬ä¹¦
 	char *p = book.getbookID();
 	for (int i = 0; i<10; i++) {
 		int a = 1;
@@ -1584,36 +1584,36 @@ void Library::bookLendOrder() {//2.Í¨¹ıÔ¤Ô¼³É¹¦½èÊé
 		}
 		number += *(p + i)*a;
 	}
-	iofile.seekp(number*sizeof(book), ios::beg);  //¶¨Î»ÓÚµÚ¼¸±¾ÊéµÄ¿ªÍ·
-	iofile.write((char *)&book, sizeof(book));  //¸üĞÂµÚ¼¸±¾ÊéµÄÊı¾İ
+	iofile.seekp(number*sizeof(book), ios::beg);  //å®šä½äºç¬¬å‡ æœ¬ä¹¦çš„å¼€å¤´
+	iofile.write((char *)&book, sizeof(book));  //æ›´æ–°ç¬¬å‡ æœ¬ä¹¦çš„æ•°æ®
 	outfile.close();
 }
 
-void Library::bookReturn(){ //»¹Êé£¨ĞèÒªÓÃµ½qt£©
-	cout << "»¹Êé³É¹¦£¡" << endl;
+void Library::bookReturn(){ //è¿˜ä¹¦ï¼ˆéœ€è¦ç”¨åˆ°qtï¼‰
+	cout << "è¿˜ä¹¦æˆåŠŸï¼" << endl;
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
-	card.setlendedCount(card.getlendedCount() - 1);//ÒÑ½è±¾Êı-1
-	card.setlendingCount(card.getlendingCount() + 1);//¿É½è±¾Êı+1
-	//1.¼ì²âÕâ±¾ÊéÊÇ·ñÓĞÈËÔ¤Ô¼
+	card.setlendedCount(card.getlendedCount() - 1);//å·²å€Ÿæœ¬æ•°-1
+	card.setlendingCount(card.getlendingCount() + 1);//å¯å€Ÿæœ¬æ•°+1
+	//1.æ£€æµ‹è¿™æœ¬ä¹¦æ˜¯å¦æœ‰äººé¢„çº¦
 	if (book.getbookMan()>0) {
-		//1.1ÈôÓĞÈËÔ¤Ô¼
-		if (book.gettStorage() == book.getbookMan()) {//¼ì²âÁÙÊ±¿â´æÊÇ·ñµÈÓÚÔ¤Ô¼ÈËÊı£¬ÈôµÈÓÚÔò¿â´æ+1
+		//1.1è‹¥æœ‰äººé¢„çº¦
+		if (book.gettStorage() == book.getbookMan()) {//æ£€æµ‹ä¸´æ—¶åº“å­˜æ˜¯å¦ç­‰äºé¢„çº¦äººæ•°ï¼Œè‹¥ç­‰äºåˆ™åº“å­˜+1
 			book.setstorage(book.getstorage() + 1);
 		}
-		else {//Èô²»µÈÓÚ£¬ÁÙÊ±¿â´æ+1
+		else {//è‹¥ä¸ç­‰äºï¼Œä¸´æ—¶åº“å­˜+1
 			book.settStorage(book.gettStorage() + 1);
 		}
 	}
 	else {
-		//1.2ÈôÎŞÈËÔ¤Ô¼£¬¿â´æ+1
+		//1.2è‹¥æ— äººé¢„çº¦ï¼Œåº“å­˜+1
 		book.setstorage(book.getstorage() + 1);
 	}
-	//½«order¸ÄÎª1¿É½è
+	//å°†orderæ”¹ä¸º1å¯å€Ÿ
 	/*
 	ifstream infile("BUFFERZONE_LEND",ios::binary);
 	if(!infile)
@@ -1621,9 +1621,9 @@ void Library::bookReturn(){ //»¹Êé£¨ĞèÒªÓÃµ½qt£©
 	cerr<<"open error!"<<endl;
 	abort( );
 	}
-	char bookID[10];//ÓÃÓÚ´¢´æ´ÓÎÄ¼şÖĞ¶Á³öµÄÊéµÄ±àºÅ
-	Record record;//recordµÄ´óĞ¡ÎÊÌâ£¬Ä¬ÈÏ¹¹Ôìº¯Êı
-	int number;//µÚ¼¸Ìõ¼ÇÂ¼
+	char bookID[10];//ç”¨äºå‚¨å­˜ä»æ–‡ä»¶ä¸­è¯»å‡ºçš„ä¹¦çš„ç¼–å·
+	Record record;//recordçš„å¤§å°é—®é¢˜ï¼Œé»˜è®¤æ„é€ å‡½æ•°
+	int number;//ç¬¬å‡ æ¡è®°å½•
 	for(number=0;;number++) {
 	iofile.seekg(i*sizeof(record,ios::beg);
 	iofile.read((char *)&bookID[10],sizeof(bookID[10]));
@@ -1635,14 +1635,14 @@ void Library::bookReturn(){ //»¹Êé£¨ĞèÒªÓÃµ½qt£©
 	iofile.read((char *)&record,sizeof(record);
 	book.setBooksI(record.getOrder(),1);
 	*/
-	//Ğ´»ØbookÎÄ¼ş
+	//å†™å›bookæ–‡ä»¶
 	ofstream outfile("BOOKINFORMATION", ios::binary);
 	if (!outfile)
 	{
 		cerr << "open error!" << endl;
-		abort();//ÍË³ö³ÌĞò
+		abort();//é€€å‡ºç¨‹åº
 	}
-	int number = 0;//µÚ¼¸±¾Êé
+	int number = 0;//ç¬¬å‡ æœ¬ä¹¦
 	char *p = book.getbookID();
 	for (int i = 0; i<10; i++) {
 		int a = 1;
@@ -1651,38 +1651,38 @@ void Library::bookReturn(){ //»¹Êé£¨ĞèÒªÓÃµ½qt£©
 		}
 		number += *(p + i)*a;
 	}
-	iofile.seekp(number*sizeof(book), ios::beg);  //¶¨Î»ÓÚµÚ¼¸±¾ÊéµÄ¿ªÍ·
-	iofile.write((char *)&book, sizeof(book));  //¸üĞÂµÚ¼¸±¾ÊéµÄÊı¾İ
+	iofile.seekp(number*sizeof(book), ios::beg);  //å®šä½äºç¬¬å‡ æœ¬ä¹¦çš„å¼€å¤´
+	iofile.write((char *)&book, sizeof(book));  //æ›´æ–°ç¬¬å‡ æœ¬ä¹¦çš„æ•°æ®
 	outfile.close();
 	Record record(book.getbookID(), card.getcardID(), year, month, day, 'b', '0');
-	record.bookReturnRecord();//Éú³ÉÒ»Ìõ»¹Êé¼ÇÂ¼
+	record.bookReturnRecord();//ç”Ÿæˆä¸€æ¡è¿˜ä¹¦è®°å½•
 }
 
-void Library::bookOrder(){//Ô¤Ô¼
+void Library::bookOrder(){//é¢„çº¦
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
 	Record record(book.getbookID(), card.getcardID(), year, month, day, 'c', '0');
 
-	//Ô¤Ô¼¼ÇÂ¼¾Í¼ÇÂ¼Ô¤Ô¼Ê±¼ä¼´¿É£¬ÒòÎªÎªÁË·½±ãÔÚupdate_orderÀïÊ¹ÓÃ
-	if (card.getbookedCount() == 5) {//Ô¤Ô¼±¾ÊıÒÑ´ïÉÏÏŞ
-		cout << "ÄúµÄÔ¤Ô¼±¾ÊıÒÑ´ïÉÏÏŞ£¬ÎŞ·¨½øĞĞÔ¤Ô¼£¡" << endl;
+	//é¢„çº¦è®°å½•å°±è®°å½•é¢„çº¦æ—¶é—´å³å¯ï¼Œå› ä¸ºä¸ºäº†æ–¹ä¾¿åœ¨update_orderé‡Œä½¿ç”¨
+	if (card.getbookedCount() == 5) {//é¢„çº¦æœ¬æ•°å·²è¾¾ä¸Šé™
+		cout << "æ‚¨çš„é¢„çº¦æœ¬æ•°å·²è¾¾ä¸Šé™ï¼Œæ— æ³•è¿›è¡Œé¢„çº¦ï¼" << endl;
 	}
 	else{
-		cout << "Ô¤Ô¼³É¹¦£¡" << endl;//ÌáÊ¾Ô¤Ô¼³É¹¦
-		book.setbookMan(book.getbookMan() + 1);//ÊéµÄÔ¤Ô¼ÈËÊı+1
-		card.setbookedCount(card.getbookedCount() + 1);//ÈËµÄÔ¤Ô¼±¾Êı+1
-		//Ğ´»ØbookÎÄ¼ş
+		cout << "é¢„çº¦æˆåŠŸï¼" << endl;//æç¤ºé¢„çº¦æˆåŠŸ
+		book.setbookMan(book.getbookMan() + 1);//ä¹¦çš„é¢„çº¦äººæ•°+1
+		card.setbookedCount(card.getbookedCount() + 1);//äººçš„é¢„çº¦æœ¬æ•°+1
+		//å†™å›bookæ–‡ä»¶
 		ofstream outfile("BOOKINFORMATION", ios::binary);
 		if (!outfile)
 		{
 			cerr << "open error!" << endl;
-			abort();//ÍË³ö³ÌĞò
+			abort();//é€€å‡ºç¨‹åº
 		}
-		int number = 0;//µÚ¼¸±¾Êé
+		int number = 0;//ç¬¬å‡ æœ¬ä¹¦
 		char *p = book.getbookID();
 		for (int i = 0; i<10; i++) {
 			int a = 1;
@@ -1691,13 +1691,13 @@ void Library::bookOrder(){//Ô¤Ô¼
 			}
 			number += *(p + i)*a;
 		}
-		iofile.seekp(number*sizeof(book), ios::beg);  //¶¨Î»ÓÚµÚ¼¸±¾ÊéµÄ¿ªÍ·
-		iofile.write((char *)&book, sizeof(book));  //¸üĞÂµÚ¼¸±¾ÊéµÄÊı¾İ
+		iofile.seekp(number*sizeof(book), ios::beg);  //å®šä½äºç¬¬å‡ æœ¬ä¹¦çš„å¼€å¤´
+		iofile.write((char *)&book, sizeof(book));  //æ›´æ–°ç¬¬å‡ æœ¬ä¹¦çš„æ•°æ®
 		outfile.close();
-		//Éú³ÉÒ»ÌõÔ¤Ô¼¼ÇÂ¼
+		//ç”Ÿæˆä¸€æ¡é¢„çº¦è®°å½•
 		time_t timer;
 		time(&timer);
-		tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+		tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 		int year = t_tm->tm_year + 1900;
 		int month = month = t_tm->tm_mon + 1;
 		int day = t_tm->tm_mday;
@@ -1706,38 +1706,38 @@ void Library::bookOrder(){//Ô¤Ô¼
 	}
 }
 
-void Library::bookOrderCancel(){//È¡ÏûÔ¤Ô¼ 1.Î´µ½ÆÚÈ¡ÏûÔ¤Ô¼
+void Library::bookOrderCancel(){//å–æ¶ˆé¢„çº¦ 1.æœªåˆ°æœŸå–æ¶ˆé¢„çº¦
 	// Record record(book.getBookID(), card.getcardID(), year, month, day, 'e', '0');
 	int choice;
-	cout << "È·¶¨È¡ÏûÔ¤Ô¼Âğ£¿" << endl;
-	cout << "1.ÊÇ 2.·ñ" << endl;
+	cout << "ç¡®å®šå–æ¶ˆé¢„çº¦å—ï¼Ÿ" << endl;
+	cout << "1.æ˜¯ 2.å¦" << endl;
 	cin >> choice;
 	while (1) {
 		if (choice == 1) {//1.
-			cout << "³É¹¦È¡ÏûÔ¤Ô¼£¡" << endl;
-			if (book.getbookMan() == book.gettStorage()) { //ÈôÈ¡ÏûÔ¤Ô¼Ê±ÁÙÊ±
-				book.settStorage(book.gettStorage() + 1);//ÁÙÊ±¿â´æ-1
-				book.setstorage(book.getstorage() + 1);//¿â´æ+1
+			cout << "æˆåŠŸå–æ¶ˆé¢„çº¦ï¼" << endl;
+			if (book.getbookMan() == book.gettStorage()) { //è‹¥å–æ¶ˆé¢„çº¦æ—¶ä¸´æ—¶
+				book.settStorage(book.gettStorage() + 1);//ä¸´æ—¶åº“å­˜-1
+				book.setstorage(book.getstorage() + 1);//åº“å­˜+1
 			}
-			book.setbookMan(book.getbookMan() - 1);//´ËÊéµÄÔ¤Ô¼ÈËÊı-1
-			card.setbookedCount(card.getbookedCount() - 1);//´ËÈËµÄÔ¤Ô¼ÊıÁ¿-1
-			//Éú³ÉÒ»ÌõÈ¡ÏûÔ¤Ô¼µÄ¼ÇÂ¼
+			book.setbookMan(book.getbookMan() - 1);//æ­¤ä¹¦çš„é¢„çº¦äººæ•°-1
+			card.setbookedCount(card.getbookedCount() - 1);//æ­¤äººçš„é¢„çº¦æ•°é‡-1
+			//ç”Ÿæˆä¸€æ¡å–æ¶ˆé¢„çº¦çš„è®°å½•
 			time_t timer;
 			time(&timer);
-			tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+			tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 			int year = t_tm->tm_year + 1900;
 			int month = month = t_tm->tm_mon + 1;
 			int day = t_tm->tm_mday;
 			Record record(book.getbookID(), card.getcardID(), year, month, day, 'e', '0');
 			record.bookOrderCancelRecord();
-			//Ğ´»ØbookÎÄ¼ş
+			//å†™å›bookæ–‡ä»¶
 			ofstream outfile("BOOKINFORMATION", ios::binary);
 			if (!outfile)
 			{
 				cerr << "open error!" << endl;
-				abort();//ÍË³ö³ÌĞò
+				abort();//é€€å‡ºç¨‹åº
 			}
-			int number = 0;//µÚ¼¸±¾Êé
+			int number = 0;//ç¬¬å‡ æœ¬ä¹¦
 			char *p = book.getbookID();
 			for (int i = 0; i<10; i++) {
 				int a = 1;
@@ -1746,69 +1746,69 @@ void Library::bookOrderCancel(){//È¡ÏûÔ¤Ô¼ 1.Î´µ½ÆÚÈ¡ÏûÔ¤Ô¼
 				}
 				number += *(p + i)*a;
 			}
-			iofile.seekp(number*sizeof(book), ios::beg);  //¶¨Î»ÓÚµÚ¼¸±¾ÊéµÄ¿ªÍ·
-			iofile.write((char *)&book, sizeof(book));  //¸üĞÂµÚ¼¸±¾ÊéµÄÊı¾İ
+			iofile.seekp(number*sizeof(book), ios::beg);  //å®šä½äºç¬¬å‡ æœ¬ä¹¦çš„å¼€å¤´
+			iofile.write((char *)&book, sizeof(book));  //æ›´æ–°ç¬¬å‡ æœ¬ä¹¦çš„æ•°æ®
 			outfile.close();
 			break;
 		}
-		else if (choice == 2) {//2.·ñ
-			//·µ»Ø½èÔÄĞÅÏ¢½çÃæ
+		else if (choice == 2) {//2.å¦
+			//è¿”å›å€Ÿé˜…ä¿¡æ¯ç•Œé¢
 			break;
 		}
-		else {//ÊäÈëÓĞÎó
-			cout << "ÊäÈëÓĞÎó£¬ÇëÖØĞÂÊäÈë£¡" << endl;
-			cout << "È·¶¨È¡ÏûÔ¤Ô¼Âğ£¿" << endl;
-			cout << "1.ÊÇ   2.·ñ" << endl;
+		else {//è¾“å…¥æœ‰è¯¯
+			cout << "è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼" << endl;
+			cout << "ç¡®å®šå–æ¶ˆé¢„çº¦å—ï¼Ÿ" << endl;
+			cout << "1.æ˜¯   2.å¦" << endl;
 			cin >> choice;
 		}
 	}
 }
 
-void Library::bookRenew(){//Í¼ÊéĞø½è£¨ĞèÒªÓÃµ½qt£©
+void Library::bookRenew(){//å›¾ä¹¦ç»­å€Ÿï¼ˆéœ€è¦ç”¨åˆ°qtï¼‰
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
 	Record record(book.getbookID(), card.getcardID(), year, month, day, 'd', '1');
-	cout << "Ğø½è³É¹¦" << endl;
-	record.alter_Date(30);		//¼ÓÉÏ30Ìì£¬½«Ó¦»¹ÈÕÆÚĞ´½ø¼ÇÂ¼
-	record.bookRenewRecord();//Éú³ÉÒ»ÌõĞø½è¼ÇÂ¼
+	cout << "ç»­å€ŸæˆåŠŸ" << endl;
+	record.alter_Date(30);		//åŠ ä¸Š30å¤©ï¼Œå°†åº”è¿˜æ—¥æœŸå†™è¿›è®°å½•
+	record.bookRenewRecord();//ç”Ÿæˆä¸€æ¡ç»­å€Ÿè®°å½•
 }
 
 
-void Library::signInUser(char*username_PutIn, char*password_PutIn){		//ÓÃ»§µÇÂ¼
-	//½«ÓÃ»§ÊäÈëµÄidºÍÃÜÂë´«µ½ĞÎ²ÎÒÔ±ã½øĞĞÕËºÅºÍÃÜÂëµÄÆ¥Åä
-	/*FILE*fpEnd = fopen("BOOKINFORMATION", "rb+");	//ÓÃÓÚ±êÖ¾ÎÄ¼şµÄÄ©Î²£¬ÒÔ¿ØÖÆ²éÕÒÊ±µÄÑ­»·±äÁ¿µÄ¿ØÖÆ¡£
+void Library::signInUser(char*username_PutIn, char*password_PutIn){		//ç”¨æˆ·ç™»å½•
+	//å°†ç”¨æˆ·è¾“å…¥çš„idå’Œå¯†ç ä¼ åˆ°å½¢å‚ä»¥ä¾¿è¿›è¡Œè´¦å·å’Œå¯†ç çš„åŒ¹é…
+	/*FILE*fpEnd = fopen("BOOKINFORMATION", "rb+");	//ç”¨äºæ ‡å¿—æ–‡ä»¶çš„æœ«å°¾ï¼Œä»¥æ§åˆ¶æŸ¥æ‰¾æ—¶çš„å¾ªç¯å˜é‡çš„æ§åˆ¶ã€‚
 	if (fpEnd == NULL) {
 	printf("file error\n");
 	exit(1);
 	}
-	fseek(fpEnd, 0, SEEK_END);		//°ÑfpEndÖ¸ÕëÒÆµ½ÎÄ¼şÄ©Î²*/
-	FILE *fp = fopen("CARDINFORMATION", "rb+");		//ÔÚÑ­»·Ê±Ã¿Ò»´ÎÍùºóÒÆ¶¯µÄÖ¸Õë
+	fseek(fpEnd, 0, SEEK_END);		//æŠŠfpEndæŒ‡é’ˆç§»åˆ°æ–‡ä»¶æœ«å°¾*/
+	FILE *fp = fopen("CARDINFORMATION", "rb+");		//åœ¨å¾ªç¯æ—¶æ¯ä¸€æ¬¡å¾€åç§»åŠ¨çš„æŒ‡é’ˆ
 	if (fp == NULL) {
 		printf("file error\n");
 		exit(1);
 	}
 	Card card_find;
 	Card card_temp;
-	int i = 0;	//Ñ­»·±äÁ¿£¬ÓÃÓÚ½«fpÏòºóÒÆ¶¯
+	int i = 0;	//å¾ªç¯å˜é‡ï¼Œç”¨äºå°†fpå‘åç§»åŠ¨
 	while (/*fp != fpEnd*/i<allcard){
 		fseek(fp, i * sizeof(Card), SEEK_SET);
 		fread(&card_temp, sizeof(Card), 1, fp);
-		if ((string)card_temp.getcardID() == (string)username_PutIn){	//Èç¹ûÕÒµ½¶ÔÓ¦µÄcard¾ÍÓÃ¸´ÖÆ¹¹Ôìº¯Êı°ÑÕÒµ½µÄÖµ¸³Öµ¸øÒ»¸öÔİÊ±µÄ±äÁ¿card_find£¬ÒÔ±ãÓÚºóÃæµÄÃÜÂëÆ¥Åä
+		if ((string)card_temp.getcardID() == (string)username_PutIn){	//å¦‚æœæ‰¾åˆ°å¯¹åº”çš„cardå°±ç”¨å¤åˆ¶æ„é€ å‡½æ•°æŠŠæ‰¾åˆ°çš„å€¼èµ‹å€¼ç»™ä¸€ä¸ªæš‚æ—¶çš„å˜é‡card_findï¼Œä»¥ä¾¿äºåé¢çš„å¯†ç åŒ¹é…
 			card_find = card_temp;
 			break;
 		}
 		i++;
 	}
 	if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn)){
-		//ÕËºÅºÍÃÜÂëÆ¥Åä³É¹¦ºó¾Í¿ÉÒÔµÇÂ¼³É¹¦ÁË£¬È»ºó¾ÍÖ±½Ó°Ñ²éÕÒµ½µÄcard_find¸³Öµ¸øË½ÓĞ³ÉÔ±card
+		//è´¦å·å’Œå¯†ç åŒ¹é…æˆåŠŸåå°±å¯ä»¥ç™»å½•æˆåŠŸäº†ï¼Œç„¶åå°±ç›´æ¥æŠŠæŸ¥æ‰¾åˆ°çš„card_findèµ‹å€¼ç»™ç§æœ‰æˆå‘˜card
 		card = card_find;
 		time_t timer;
 		time(&timer);
-		tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+		tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 		int year = t_tm->tm_year + 1900;
 		int month = month = t_tm->tm_mon + 1;
 		int day = t_tm->tm_mday;
@@ -1824,37 +1824,37 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//ÓÃ»§µÇÂ¼
 
 }
 
-void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//¹ÜÀíÔ±µÇÂ¼
-	//½«¹ÜÀíÔ±ÊäÈëµÄidºÍÃÜÂë´«µ½ĞÎ²ÎÒÔ±ã½øĞĞÕËºÅºÍÃÜÂëµÄÆ¥Åä
-	/*FILE*fpEnd = fopen("ADMININFORMATION", "rb+");	//ÓÃÓÚ±êÖ¾ÎÄ¼şµÄÄ©Î²£¬ÒÔ¿ØÖÆ²éÕÒÊ±µÄÑ­»·±äÁ¿µÄ¿ØÖÆ¡£
+void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//ç®¡ç†å‘˜ç™»å½•
+	//å°†ç®¡ç†å‘˜è¾“å…¥çš„idå’Œå¯†ç ä¼ åˆ°å½¢å‚ä»¥ä¾¿è¿›è¡Œè´¦å·å’Œå¯†ç çš„åŒ¹é…
+	/*FILE*fpEnd = fopen("ADMININFORMATION", "rb+");	//ç”¨äºæ ‡å¿—æ–‡ä»¶çš„æœ«å°¾ï¼Œä»¥æ§åˆ¶æŸ¥æ‰¾æ—¶çš„å¾ªç¯å˜é‡çš„æ§åˆ¶ã€‚
 	if (fpEnd == NULL) {
 	printf("file error\n");
 	exit(1);
 	}
-	fseek(fpEnd, 0, SEEK_END);		//°ÑfpEndÖ¸ÕëÒÆµ½ÎÄ¼şÄ©Î²*/
-	FILE*fp = fopen("ADMININFORMATION", "rb+");		//ÔÚÑ­»·Ê±Ã¿Ò»´ÎÍùºóÒÆ¶¯µÄÖ¸Õë
+	fseek(fpEnd, 0, SEEK_END);		//æŠŠfpEndæŒ‡é’ˆç§»åˆ°æ–‡ä»¶æœ«å°¾*/
+	FILE*fp = fopen("ADMININFORMATION", "rb+");		//åœ¨å¾ªç¯æ—¶æ¯ä¸€æ¬¡å¾€åç§»åŠ¨çš„æŒ‡é’ˆ
 	if (fp == NULL) {
 		printf("file error\n");
 		exit(1);
 	}
 	Administrator admin_find;
 	Administrator admin_temp;
-	int i = 0;	//Ñ­»·±äÁ¿£¬ÓÃÓÚ½«fpÏòºóÒÆ¶¯
+	int i = 0;	//å¾ªç¯å˜é‡ï¼Œç”¨äºå°†fpå‘åç§»åŠ¨
 	while (/*fp != fpEnd*/i<alladmin){
 		fseek(fp, i * sizeof(Administrator), SEEK_SET);
 		fread(&admin_temp, sizeof(Administrator), 1, fp);
-		if ((string)admin_temp.getaccount() == (string)adminname_PutIn){	//Èç¹ûÕÒµ½¶ÔÓ¦µÄadmin¾ÍÓÃ¸´ÖÆ¹¹Ôìº¯Êı°ÑÕÒµ½µÄÖµ¸³Öµ¸øÒ»¸öÔİÊ±µÄ±äÁ¿admin_find£¬ÒÔ±ãÓÚºóÃæµÄÃÜÂëÆ¥Åä
+		if ((string)admin_temp.getaccount() == (string)adminname_PutIn){	//å¦‚æœæ‰¾åˆ°å¯¹åº”çš„adminå°±ç”¨å¤åˆ¶æ„é€ å‡½æ•°æŠŠæ‰¾åˆ°çš„å€¼èµ‹å€¼ç»™ä¸€ä¸ªæš‚æ—¶çš„å˜é‡admin_findï¼Œä»¥ä¾¿äºåé¢çš„å¯†ç åŒ¹é…
 			admin_find = admin_temp;
 			break;
 		}
 		i++;
 	}
 	if (((string)admin_find.getaccount() == (string)adminname_PutIn) && ((string)admin_find.getaPassword() == (string)password_PutIn)){
-		//ÕËºÅºÍÃÜÂëÆ¥Åä³É¹¦ºó¾Í¿ÉÒÔµÇÂ¼³É¹¦ÁË£¬È»ºó¾ÍÖ±½Ó°Ñ²éÕÒµ½µÄadmin_find¸³Öµ¸øË½ÓĞ³ÉÔ±admin
+		//è´¦å·å’Œå¯†ç åŒ¹é…æˆåŠŸåå°±å¯ä»¥ç™»å½•æˆåŠŸäº†ï¼Œç„¶åå°±ç›´æ¥æŠŠæŸ¥æ‰¾åˆ°çš„admin_findèµ‹å€¼ç»™ç§æœ‰æˆå‘˜admin
 		admin = admin_find;
 		time_t timer;
 		time(&timer);
-		tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+		tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 		int year = t_tm->tm_year + 1900;
 		int month = month = t_tm->tm_mon + 1;
 		int day = t_tm->tm_mday;
@@ -1869,7 +1869,7 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn){	//¹ÜÀíÔ±µÇ
 	}
 }
 
-void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//ÓÃ»§×¢²á
+void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//ç”¨æˆ·æ³¨å†Œ
 	string account_str = to_string(1000000000 + allcard + 1);
 	char account[10];
 	strcpy(account,account_str.c_str());
@@ -1884,7 +1884,7 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//Ó
 		printf("file write error\n");
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
@@ -1895,8 +1895,8 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone){	//Ó
 	return;
 }
 
-void Library::signOut(){		//ÓÃ»§×¢Ïú
-	//°Ñ¸Õ¸ÕµÇÂ½Ê±»ñÈ¡µÄcardĞ´»ØÎÄ¼şÔ­À´µÄÎ»ÖÃ
+void Library::signOut(){		//ç”¨æˆ·æ³¨é”€
+	//æŠŠåˆšåˆšç™»é™†æ—¶è·å–çš„cardå†™å›æ–‡ä»¶åŸæ¥çš„ä½ç½®
 	FILE*fp_card;
 	if (NULL == (fp_card = fopen("CARDINFORMATION", "rb+"))){
 		fprintf(stderr, "Can not open file");
@@ -1908,23 +1908,23 @@ void Library::signOut(){		//ÓÃ»§×¢Ïú
 		printf("file write error\n");
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
 	Record record(card.getcardID(), year, month, day, 'h');
 	record.signOutRecord();
 	fclose(fp_card);
-	//°Ñcard±äÁ¿ÖØĞÂÓÃÎŞ²ÎµÄ¹¹Ôìº¯Êı¸³Öµ£¬ÊÇ·ñÄÜÓÃ£¿
+	//æŠŠcardå˜é‡é‡æ–°ç”¨æ— å‚çš„æ„é€ å‡½æ•°èµ‹å€¼ï¼Œæ˜¯å¦èƒ½ç”¨ï¼Ÿ
 	Card card_blank;
 	card = card_blank;
-	//ÊÇ·ñ½«allcard£¬allbook£¬alladminĞ´»ØÎÄ¼ş£¿
+	//æ˜¯å¦å°†allcardï¼Œallbookï¼Œalladminå†™å›æ–‡ä»¶ï¼Ÿ
 	FILE *fp_num;
 	if (NULL == (fp_num = fopen("ALLNUM", "rb+"))){
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)			//¸²¸ÇĞ´Èë?
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)			//è¦†ç›–å†™å…¥?
 		printf("file write error\n");
 	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
 		printf("file write error\n");
@@ -1933,36 +1933,36 @@ void Library::signOut(){		//ÓÃ»§×¢Ïú
 	fclose(fp_num);
 }
 
-void Library::signOut_Admin(){		//¹ÜÀíÔ±×¢Ïú
-	//°Ñ¸Õ¸ÕµÇÂ½Ê±»ñÈ¡µÄadminĞ´»ØÎÄ¼şÔ­À´µÄÎ»ÖÃ
+void Library::signOut_Admin(){		//ç®¡ç†å‘˜æ³¨é”€
+	//æŠŠåˆšåˆšç™»é™†æ—¶è·å–çš„adminå†™å›æ–‡ä»¶åŸæ¥çš„ä½ç½®
 	FILE*fp_admin;
 	if (NULL == (fp_admin = fopen("ADMININFORMATION", "rb+"))){
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	int position = atoi(card.getcardID.c_str()) - 2000 - 1;	//¹ÜÀíÔ±ÕË»§¸ñÊ½2001
+	int position = atoi(card.getcardID.c_str()) - 2000 - 1;	//ç®¡ç†å‘˜è´¦æˆ·æ ¼å¼2001
 	fseek(fp_admin, position*sizeof(Administrator), 0);
 	if (fwrite(&admin, sizeof(Administrator), 1, fp_admin) != 1)
 		printf("file write error\n");
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
 	Record record(admin.getaccount(), year, month, day, 'h');
 	record.signOutRecord();
 	fclose(fp_admin);
-	//Í¬ÓÃ»§×¢Ïúº¯Êı
+	//åŒç”¨æˆ·æ³¨é”€å‡½æ•°
 	Administrator admin_blank;
 	admin = admin_blank;
-	//ÊÇ·ñ½«allcard£¬allbook£¬alladminĞ´»ØÎÄ¼ş£¿
+	//æ˜¯å¦å°†allcardï¼Œallbookï¼Œalladminå†™å›æ–‡ä»¶ï¼Ÿ
 	FILE *fp_num;
 	if (NULL == (fp_num = fopen("ALLNUM", "rb+"))){
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)			//¸²¸ÇĞ´Èë?
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)			//è¦†ç›–å†™å…¥?
 		printf("file write error\n");
 	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
 		printf("file write error\n");
@@ -1971,11 +1971,11 @@ void Library::signOut_Admin(){		//¹ÜÀíÔ±×¢Ïú
 	fclose(fp_num);
 }
 
-/*void Library::matchCid(){		//Éí·İÖ¤IDÆ¥Åä
+/*void Library::matchCid(){		//èº«ä»½è¯IDåŒ¹é…
 
 }*/
 
-void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2){	//ÊäÈëĞÂÃÜÂëºóÖØÉèÃÜÂëĞ´ÈëÔ­Î»ÖÃ
+void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2){	//è¾“å…¥æ–°å¯†ç åé‡è®¾å¯†ç å†™å…¥åŸä½ç½®
 	if ((string)oldpassword == (string)card.getcPassword){
 		if ((string)newpassword1 == (string)newpassword2)
 			card.setcPassword(newpassword1);
@@ -1983,16 +1983,16 @@ void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpasswor
 	return;
 }
 
-void Library::update_Order(){			//º¯ÊıÓÃÓÚÓÃ»§½øÈëÏµÍ³Ê± ¶Ô»º³åÇø½øĞĞ¸üĞÂ
+void Library::update_Order(){			//å‡½æ•°ç”¨äºç”¨æˆ·è¿›å…¥ç³»ç»Ÿæ—¶ å¯¹ç¼“å†²åŒºè¿›è¡Œæ›´æ–°
 	/*
-	Æ¥Åä²é¿´Ô¤Ô¼¼ÇÂ¼ÊÇ·ñÊ§Ğ§
-	Èç¹ûÊ§Ğ§ Ğ´ÈëÏµÍ³¼ÇÂ¼ ½«¸Ã¼ÇÂ¼±êÊ¶ÖÃÎª1
-	È»ºóÕÒµ½¸ÃÊé ÁîÆäÔ¤Ô¼ÈË-1
-	Èç¹û´ËÊ±ÁÙÊ±¿â´æ>Ô¤Ô¼ÈËÊı
-	°ÑÊé·ÅÈë¿â´æ ÁÙÊ±¿â´æ-1
-	#define BUFFERZONE_ORDER bufferOrderZone//Ô¤Ô¼»º³åÇøÎÄ¼ş
-	#define BOOKINFORMATION bookInformation//È«²¿Í¼ÊéĞÅÏ¢
-	#define CARDINFORMATION cardInformation//È«²¿ÓÃ»§ĞÅÏ¢
+	åŒ¹é…æŸ¥çœ‹é¢„çº¦è®°å½•æ˜¯å¦å¤±æ•ˆ
+	å¦‚æœå¤±æ•ˆ å†™å…¥ç³»ç»Ÿè®°å½• å°†è¯¥è®°å½•æ ‡è¯†ç½®ä¸º1
+	ç„¶åæ‰¾åˆ°è¯¥ä¹¦ ä»¤å…¶é¢„çº¦äºº-1
+	å¦‚æœæ­¤æ—¶ä¸´æ—¶åº“å­˜>é¢„çº¦äººæ•°
+	æŠŠä¹¦æ”¾å…¥åº“å­˜ ä¸´æ—¶åº“å­˜-1
+	#define BUFFERZONE_ORDER bufferOrderZone//é¢„çº¦ç¼“å†²åŒºæ–‡ä»¶
+	#define BOOKINFORMATION bookInformation//å…¨éƒ¨å›¾ä¹¦ä¿¡æ¯
+	#define CARDINFORMATION cardInformation//å…¨éƒ¨ç”¨æˆ·ä¿¡æ¯
 	*/
 	FILE *fp_buffer_order = NULL;
 	FILE *fp_bookInfo = NULL;
@@ -2017,49 +2017,49 @@ void Library::update_Order(){			//º¯ÊıÓÃÓÚÓÃ»§½øÈëÏµÍ³Ê± ¶Ô»º³åÇø½øĞĞ¸üĞÂ
 	Book book_temp;
 	time_t timer;
 	time(&timer);
-	tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+	tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 	int year = t_tm->tm_year + 1900;
 	int month = month = t_tm->tm_mon + 1;
 	int day = t_tm->tm_mday;
-	while (!feof(fp_buffer_order)){//feof()º¯Êı¿ÉÒÔÓÃÀ´ÅĞ¶ÏÎÄ¼şÊÇ·ñµ½´ïÎÄ¼şÎ²£¬Èôµ½´ïÎÄ¼şÎ²£¬º¯Êı·µ»ØÖµÎª1
+	while (!feof(fp_buffer_order)){//feof()å‡½æ•°å¯ä»¥ç”¨æ¥åˆ¤æ–­æ–‡ä»¶æ˜¯å¦åˆ°è¾¾æ–‡ä»¶å°¾ï¼Œè‹¥åˆ°è¾¾æ–‡ä»¶å°¾ï¼Œå‡½æ•°è¿”å›å€¼ä¸º1
 		fread(&record_temp, sizeof(Record), 1, fp_buffer_order);
 		if (compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()) > 10){
-			//ĞŞ¸Ä¸÷¸öĞèÒªĞŞ¸ÄµÄ±äÁ¿,ÊéµÄÔ¤Ô¼ÈËÊı-1£¬±È½ÏÊéµÄÁÙÊ±¿â´æºÍÔ¤Ô¼ÈËÊıµÄ´óĞ¡£¬ÔÙ¶Ô¿â´æºÍÁÙÊ±¿â´æ×öÏàÓ¦²Ù×÷¡£ÓÃ»§µÄÔ¤Ô¼±¾Êı-1
+			//ä¿®æ”¹å„ä¸ªéœ€è¦ä¿®æ”¹çš„å˜é‡,ä¹¦çš„é¢„çº¦äººæ•°-1ï¼Œæ¯”è¾ƒä¹¦çš„ä¸´æ—¶åº“å­˜å’Œé¢„çº¦äººæ•°çš„å¤§å°ï¼Œå†å¯¹åº“å­˜å’Œä¸´æ—¶åº“å­˜åšç›¸åº”æ“ä½œã€‚ç”¨æˆ·çš„é¢„çº¦æœ¬æ•°-1
 			while (!feof(fp_bookInfo)){
 				fread(&book_temp, sizeof(Book), 1, fp_bookInfo);
 				if (strcmp(book_temp.getbookID(), record_temp.getBookid()) == 0){
 					book_temp.setbookMan(book_temp.getbookMan()-1);
-					if (book_temp.getbookMan() < book_temp.gettStorage()){//Ô¤Ô¼ÈËÊıĞ¡ÓÚÁÙÊ±¿â´æ
-						book_temp.settStorage(book_temp.gettStorage()-1);//ÁÙÊ±¿â´æ-1
-						book_temp.setstorage(book_temp.getstorage() + 1);//¿â´æ+1
+					if (book_temp.getbookMan() < book_temp.gettStorage()){//é¢„çº¦äººæ•°å°äºä¸´æ—¶åº“å­˜
+						book_temp.settStorage(book_temp.gettStorage()-1);//ä¸´æ—¶åº“å­˜-1
+						book_temp.setstorage(book_temp.getstorage() + 1);//åº“å­˜+1
 					}
-					if (fwrite(&book_temp, sizeof(Book), 1, fp_bookInfo) != 1)printf("file write error\n");//ĞŞ¸ÄÎÄ¼şÖĞµÄÄÚÈİ
+					if (fwrite(&book_temp, sizeof(Book), 1, fp_bookInfo) != 1)printf("file write error\n");//ä¿®æ”¹æ–‡ä»¶ä¸­çš„å†…å®¹
 					break;
 				}
 			}
 			while (!feof(fp_cardInfo)){
 				fread(&card_temp, sizeof(Card), 1, fp_cardInfo);
 				if (strcmp(card_temp.getcardID(), record_temp.getCardid()) == 0){
-					card_temp.setbookedCount(card_temp.getbookedCount()-1);//ÓÃ»§µÄÔ¤Ô¼±¾Êı¼õÒ»
-					if (fwrite(&card_temp, sizeof(Card), 1, fp_cardInfo) != 1)printf("file write error\n");//ĞŞ¸ÄÎÄ¼şÖĞµÄÄÚÈİ
+					card_temp.setbookedCount(card_temp.getbookedCount()-1);//ç”¨æˆ·çš„é¢„çº¦æœ¬æ•°å‡ä¸€
+					if (fwrite(&card_temp, sizeof(Card), 1, fp_cardInfo) != 1)printf("file write error\n");//ä¿®æ”¹æ–‡ä»¶ä¸­çš„å†…å®¹
 					break;
 				}
 			}
 			rewind(fp_bookInfo);
-			rewind(fp_cardInfo);//rewind()º¯ÊıÓÃÓÚ½«ÎÄ¼şÖ¸ÕëÖØĞÂÖ¸ÏòÎÄ¼şµÄ¿ªÍ·£¬Í¬Ê±Çå³ıºÍÎÄ¼şÁ÷Ïà¹ØµÄ´íÎóºÍeof±ê¼Ç£¬Ïàµ±ÓÚµ÷ÓÃfseek(stream, 0, SEEK_SET)
-			record_temp.setflag2('1');//1¶ÔÔ¤Ô¼¼ÇÂ¼±íÊ¾´ËÔ¤Ô¼Ê§Ğ§
-			if (fwrite(&record_temp, sizeof(Record), 1, fp_buffer_order) != 1)printf("file write error\n");//¸üĞÂÔ¤Ô¼»º³åÎÄ¼ş
+			rewind(fp_cardInfo);//rewind()å‡½æ•°ç”¨äºå°†æ–‡ä»¶æŒ‡é’ˆé‡æ–°æŒ‡å‘æ–‡ä»¶çš„å¼€å¤´ï¼ŒåŒæ—¶æ¸…é™¤å’Œæ–‡ä»¶æµç›¸å…³çš„é”™è¯¯å’Œeofæ ‡è®°ï¼Œç›¸å½“äºè°ƒç”¨fseek(stream, 0, SEEK_SET)
+			record_temp.setflag2('1');//1å¯¹é¢„çº¦è®°å½•è¡¨ç¤ºæ­¤é¢„çº¦å¤±æ•ˆ
+			if (fwrite(&record_temp, sizeof(Record), 1, fp_buffer_order) != 1)printf("file write error\n");//æ›´æ–°é¢„çº¦ç¼“å†²æ–‡ä»¶
 			record_temp.setflag1('f');
 			record_temp.setyear(year);
 			record_temp.setmonth(month);
-			record_temp.setday(day);//½«record_tempĞŞ¸Ä³ÉÒ»ÌõÔ¤Ô¼Ê§Ğ§¼ÇÂ¼
-			record_temp.bookOrderNoRecord();//µ÷ÓÃº¯ÊıĞ´ÈëÊ§Ğ§¼ÇÂ¼ÎÄ¼ş
+			record_temp.setday(day);//å°†record_tempä¿®æ”¹æˆä¸€æ¡é¢„çº¦å¤±æ•ˆè®°å½•
+			record_temp.bookOrderNoRecord();//è°ƒç”¨å‡½æ•°å†™å…¥å¤±æ•ˆè®°å½•æ–‡ä»¶
 		}
 	}
 	fclose(fp_buffer_order);
 }
 
-void Library::update_book(){		//º¯ÊıÓÃÓÚÔÚµÇÂ½ºóÅĞ¶ÏÓÃ»§µÄÒÑ½èÊé¼®ÊÇ·ñÒÑ¾­³¬ÆÚ
+void Library::update_book(){		//å‡½æ•°ç”¨äºåœ¨ç™»é™†ååˆ¤æ–­ç”¨æˆ·çš„å·²å€Ÿä¹¦ç±æ˜¯å¦å·²ç»è¶…æœŸ
 	FILE*fp_lendbuffer;
 	if ((fp_lendbuffer = fopen("BUFFERZONE_LEND", "rb+")) == NULL)
 	{
@@ -2071,26 +2071,26 @@ void Library::update_book(){		//º¯ÊıÓÃÓÚÔÚµÇÂ½ºóÅĞ¶ÏÓÃ»§µÄÒÑ½èÊé¼®ÊÇ·ñÒÑ¾­³¬ÆÚ
 		printf("file error\n");
 		exit(1);
 	}
-	fseek(fp_End, 0, SEEK_END);		//°ÑfpEndÖ¸ÕëÒÆµ½ÎÄ¼şÄ©Î²*/
-	Record record_temp;		//ÓÃÓÚ¶ÁÈ¡½èÊébufferÖĞµÄÃ¿Ò»Ìõ¼ÇÂ¼
+	fseek(fp_End, 0, SEEK_END);		//æŠŠfpEndæŒ‡é’ˆç§»åˆ°æ–‡ä»¶æœ«å°¾*/
+	Record record_temp;		//ç”¨äºè¯»å–å€Ÿä¹¦bufferä¸­çš„æ¯ä¸€æ¡è®°å½•
 	int i = 0;
 	fseek(fp_lendbuffer, i * sizeof(Card), SEEK_SET);
 	while (fp_lendbuffer != fp_End){
 		fread(&record_temp, sizeof(Record), 1, fp_lendbuffer);
 		if ((string)record_temp.getCardid() == (string)card.getcardID()){
-			//È·ÊµÊÇµ±Ç°ÓÃ»§½èÔÄ²¢ÇÒÎ´»¹µÄÊé¼®
+			//ç¡®å®æ˜¯å½“å‰ç”¨æˆ·å€Ÿé˜…å¹¶ä¸”æœªè¿˜çš„ä¹¦ç±
 			time_t timer;
 			time(&timer);
-			tm* t_tm = localtime(&timer);	//»ñÈ¡ÁËµ±Ç°Ê±¼ä£¬²¢ÇÒ×ª»»ÎªintÀàĞÍµÄyear£¬month£¬day
+			tm* t_tm = localtime(&timer);	//è·å–äº†å½“å‰æ—¶é—´ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºintç±»å‹çš„yearï¼Œmonthï¼Œday
 			int year = t_tm->tm_year + 1900;
 			int month = month = t_tm->tm_mon + 1;
 			int day = t_tm->tm_mday;
-			//ÅĞ¶Ïµ±Ç°Ê±¼äÓëÓ¦»¹ÈÕÆÚ
+			//åˆ¤æ–­å½“å‰æ—¶é—´ä¸åº”è¿˜æ—¥æœŸ
 			if (!(compareDate(record_temp.getyear(), record_temp.getmonth(), record_temp.getday(), year, month, day) > 0)){
-				//Èç¹ûµ±Ç°ÈÕÆÚ³¬¹ı»¹ÊéÈÕÆÚ£¬ÄÇÃ´¾Í½øĞĞÎ¥Ô¼½ğ´¦Àí£»
-				card.setoweMoney(0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//°´³¬ÆÚÒ»Ìì0.5Ôª¼ÆËã
-				if (card.getbalance() >= card.getoweMoney())Rcharge();		//Óà¶î×ã¹»
-				else card.setcardState('0');	//Óà¶î²»×ã£¬¶³½áÕËºÅ
+				//å¦‚æœå½“å‰æ—¥æœŸè¶…è¿‡è¿˜ä¹¦æ—¥æœŸï¼Œé‚£ä¹ˆå°±è¿›è¡Œè¿çº¦é‡‘å¤„ç†ï¼›
+				card.setoweMoney(0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//æŒ‰è¶…æœŸä¸€å¤©0.5å…ƒè®¡ç®—
+				if (card.getbalance() >= card.getoweMoney())Rcharge();		//ä½™é¢è¶³å¤Ÿ
+				else card.setcardState('0');	//ä½™é¢ä¸è¶³ï¼Œå†»ç»“è´¦å·
 			}
 		}
 		i++;
@@ -2100,16 +2100,16 @@ void Library::update_book(){		//º¯ÊıÓÃÓÚÔÚµÇÂ½ºóÅĞ¶ÏÓÃ»§µÄÒÑ½èÊé¼®ÊÇ·ñÒÑ¾­³¬ÆÚ
 	fclose(fp_End);
 }
 
-void Library::charge(double money){			//³äÖµº¯Êı
+void Library::charge(double money){			//å……å€¼å‡½æ•°
 	card.setbalance(card.getbalance() + money);
 }
 
-void Library::Rcharge(){		//´¦ÀíÓÃ»§Î¥Ô¼½ğ
+void Library::Rcharge(){		//å¤„ç†ç”¨æˆ·è¿çº¦é‡‘
 	double owemoney = card.getoweMoney();
 	card.setbalance(card.getbalance() - owemoney);
 }
 
-/*void Library::resetCard(){		//¸üĞÂĞŞ¸Ä¿¨ĞÅÏ¢ ÊÖ»ú
+/*void Library::resetCard(){		//æ›´æ–°ä¿®æ”¹å¡ä¿¡æ¯ æ‰‹æœº
 
 }*/
 
