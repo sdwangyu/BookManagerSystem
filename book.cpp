@@ -1786,7 +1786,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn){		//用户登录
 	exit(1);
 	}
 	fseek(fpEnd, 0, SEEK_END);		//把fpEnd指针移到文件末尾*/
-	FILE *fp = fopen("BOOKINFORMATION", "rb+");		//在循环时每一次往后移动的指针
+	FILE *fp = fopen("CARDINFORMATION", "rb+");		//在循环时每一次往后移动的指针
 	if (fp == NULL) {
 		printf("file error\n");
 		exit(1);
