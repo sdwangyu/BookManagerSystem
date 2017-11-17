@@ -363,7 +363,7 @@ public:
 		}
 		for (i = 0; i<11; i++)
 		{
-			cPhone[11] = ' ';
+			cPhone[i] = ' ';
 		}
 		lendedCount = 0;//初始已借本数为0
 		lendingCount = 10;//初始可借本数为10
@@ -467,6 +467,7 @@ private:
 	char cID[18];  //身份证号
 	char cPhone[11];//持卡人手机号
 };
+
 
 class Administrator
 {
@@ -631,6 +632,7 @@ private:
 	char aID[18];
 	char aPhone[11];
 	Book book;
+    
 };
 
 //管理员注册函数
@@ -673,17 +675,10 @@ void Administrator::searchLog()
 }
 
 //11.2管理员新加书函数
-void Administrator::addBook(char *bookID, char *bookName, char *author, char *publisher, short storage)
+void Administrator::addBook(char bookID[10], char bookName[50], char author[20], char publisher[20], short storage)
 {
 	FILE *fp_add_book;
 	FILE *fp_book;
-	char bookID[10];
-	char bookName[50];
-	char author[20];
-	char publisher[20];
-	short storage;
-	short bookMan;
-	short tStorage;
 	if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
