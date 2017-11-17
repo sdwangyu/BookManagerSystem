@@ -1268,7 +1268,7 @@ void Record::bookOrderNoRecord()
 	while (!feof(fp_noorder_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_noorder_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_noorder_buffernew);
 	}
 	fclose(fp_noorder_buffer);
