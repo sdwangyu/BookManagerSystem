@@ -1,20 +1,21 @@
 ﻿// UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
-
+/*
 int _tmain(int argc, _TCHAR* argv[])
 {
-	return 0;
+     return 0;
 }
+*/
 
 #include<iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include<windows.h>
+
 #include<sstream>
 #include <fstream>
 
@@ -92,7 +93,7 @@ int compareDate(int year1, int month1, int day1, int year2, int month2, int day2
 class Book//构造函数 复制构造函数
 {
 public:
-	Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//构造函数
+	Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], short Storage)//构造函数
 	{
 
 		for (int i = 0; i<10; i++)
@@ -362,7 +363,7 @@ public:
 		}
 		for (i = 0; i<11; i++)
 		{
-			cPhone[11] = ' ';
+			cPhone[i] = ' ';
 		}
 		lendedCount = 0;//初始已借本数为0
 		lendingCount = 10;//初始可借本数为10
@@ -466,301 +467,6 @@ private:
 	char cID[18];  //身份证号
 	char cPhone[11];//持卡人手机号
 };
-
-class Administrator
-{
-public:
-	//11.1构造函数
-	Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
-	{
-
-		for (int i = 0; i<5; i++)
-		{
-			account[i] = Account[i];
-		}
-		for (int i = 0; i<20; i++)
-		{
-			APassword[i] = aPassword[i];
-		}
-		for (int i = 0; i<10; i++)
-		{
-			AccountHolder[i] = accountHolder[i];
-		}
-		for (int i = 0; i<18; i++)
-		{
-			aID[i] = AID[i];
-		}
-		for (int i = 0; i < 11; i++)
-		{
-			aPhone[i] = APhone[i];
-		}
-	}
-	Administrator()
-	{
-		for (int i = 0; i<5; i++)
-		{
-			account[i] = ' ';
-		}
-		for (int i = 0; i<20; i++)
-		{
-			aPassword[i] = ' ';
-		}
-		for (int i = 0; i<10; i++)
-		{
-			accountHolder[i] = ' ';
-		}
-		for (int i = 0; i<18; i++)
-		{
-			aID[i] = ' ';
-		}
-		for (int i = 0; i<11; i++)
-		{
-			aPhone[i] = ' ';
-		}
-	}
-
-	//复制构造函数
-	Administrator(Administrator &administrator)
-	{
-		for (int i = 0; i<5; i++)
-		{
-			account[i] = administrator.account[i];
-		}
-		for (int i = 0; i<20; i++)
-		{
-			aPassword[i] = administrator.aPassword[i];
-		}
-		for (int i = 0; i<10; i++)
-		{
-			accountHolder[i] = administrator.accountHolder[i];
-		}
-		for (int i = 0; i<18; i++)
-		{
-			aID[i] = administrator.aID[i];
-		}
-		for (int i = 0; i<11; i++)
-		{
-			aPhone[i] = administrator.aPhone[i];
-		}
-	}
-
-	void setaccount(char newaccount[5])
-	{
-		for (int i = 0; i<5; i++)
-		{
-			account[i] = newaccount[i];
-		}
-	}
-
-	void setaPassword(char newaPassword[20])
-	{
-		for (int i = 0; i<20; i++)
-		{
-			aPassword[i] = newaPassword[i];
-		}
-	}
-
-	void setaccountHolder(char newaccountHolder[10])
-	{
-		for (int i = 0; i<10; i++)
-		{
-			accountHolder[i] = newaccountHolder[i];
-		}
-	}
-
-	void setaID(char newaID[18])
-	{
-		for (int i = 0; i<18; i++)
-		{
-			aID[i] = newaID[i];
-		}
-	}
-	void setaPhone(char newaaPhone[11])
-	{
-		for (int i = 0; i<11; i++)
-		{
-			aPhone[i] = newaaPhone[i];
-		}
-	}
-	char *getaccount()
-	{
-		return account;
-	}
-	char *getaPassword()
-	{
-		return aPassword;
-
-	}
-	char *getaccountHolder()
-	{
-		return accountHolder;
-	}
-	char *getaID()
-	{
-		return aID;
-	}
-	char *getaPhone()
-	{
-		return aPhone;
-	}
-
-	void addBook(char *bookID, char *bookName, char *author, char *publisher, short storage);//增加书
-
-	//void deleteBook(Book book);老师说不要删书
-	//void operateCard(Card card);老师说不要删卡 听老师的
-
-	void findbook(char*bookid);		//为了在修改库存之前给类中的私有成员book赋值
-	void newStorage(short storage);//新设库存
-	void addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone);
-
-	//11.9管理员所有查看行为函数
-	void searchLog();//管理员查看大日志
-	void searchLendBuffer();//管理员查看现在正借出的书
-	void serchBookInformation();//管理员查看全部图书信息
-	void searchCardInformation();//管理员查看全部用户信息
-	void searchOrder();//管理员查看所有预约记录
-	void searchCancleOrder();//管理员查看全部预约取消预约到期记录文件
-	void searchReturn();//管理员查看所有还书信息
-
-
-private:
-	char account[5];		//记得修改上面对应得数值
-	char aPassword[20];
-	char accountHolder[10];
-	char aID[18];
-	char aPhone[11];
-	Book book;
-};
-
-//管理员注册函数
-
-void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){
-	string account_str = to_string(20000 + alladmin + 1);
-	char account[5];
-	strcpy(account,account_str.c_str());
-	Administrator newadministrator(account, aPassword, accountHolder, aID, aPhone);
-	FILE*fp_admin;
-	if (NULL == (fp_admin = fopen("ADMININFORMATION", "rb+"))){
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}
-	fseek(fp_admin, 0, SEEK_END);
-	if (fwrite(&newadministrator, sizeof(Administrator), 1, fp_admin) != 1)
-		printf("file write error\n");
-	time_t timer;
-	time(&timer);
-	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	int year = t_tm->tm_year + 1900;
-	int month = month = t_tm->tm_mon + 1;
-	int day = t_tm->tm_mday;
-	Record record(newadministrator.getaID(), year, month, day, 'l');
-	record.signUpRecord();
-	fclose(fp_admin);
-	alladmin++;
-	return;
-}
-//管理员查看大日志
-void Administrator::searchLog()
-{
-	FILE *fp_log;
-	if (NULL == (fp_log = fopen("LOG", "rb+")))
-	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}
-
-}
-
-//11.2管理员新加书函数
-void Administrator::addBook(char *bookID, char *bookName, char *author, char *publisher, short storage)
-{
-	FILE *fp_add_book;
-	FILE *fp_book;
-	char bookID[10];
-	char bookName[50];
-	char author[20];
-	char publisher[20];
-	short storage;
-	short bookMan;
-	short tStorage;
-	if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
-	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}
-	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
-	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}
-	fseek(fp_add_book, 0, SEEK_END);
-	Book book(bookID, bookName, author, publisher, storage);
-	fwrite(&book, sizeof(Book), 1, fp_book);
-	allbook++;
-	time_t timer;
-	time(&timer);
-	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	int year = t_tm->tm_year + 1900;
-	int month = month = t_tm->tm_mon + 1;
-	int day = t_tm->tm_mday;
-	Record record(book.getbookID(), this->getaccount(), year, month, day, 'j', '0');
-	record.admininaddbook();
-	fclose(fp_add_book);
-	fclose(fp_book);
-
-}
-
-//在管理员修改库存之前，先让他输入要修改的书的bookid，然后调用findbook函数找到这本书，赋值给record类的私有成员book
-//然后让他输入修改后的书的总本数，点击修改库存按钮，执行newStorage函数即可
-void Administrator::findbook(char*bookid)
-{
-	FILE *fp_book;
-	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
-	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}
-	Book booktemp;
-	while (!feof(fp_book))
-	{
-		fread(&booktemp, sizeof(Book), 1, fp_book);
-		if ((string)booktemp.getbookID == (string)bookid)
-		{
-			book=booktemp;
-			break;
-		}
-	}
-}
-//11.2管理员改库存函数
-void Administrator::newStorage(short storage)
-{
-
-	time_t timer;
-	time(&timer);
-	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-	int year = t_tm->tm_year + 1900;
-	int month = month = t_tm->tm_mon + 1;
-	int day = t_tm->tm_mday;
-	int oldstorage = book.getstorage();
-	book.setstorage(storage);
-	book.books = (int *)realloc(book.books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
-	if (storage > oldstorage){			//如果库存减少了，对于books数组不用进行任何操作，但是如果库存增多了，就必须对新分配给books的内存赋值为1
-		for (int i = oldstorage; i < storage; i++)
-			book.books[i] = 1;
-	}
-	Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
-	record.admininchangestorage();
-	FILE *fp_book;
-	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
-	{
-		fprintf(stderr, "Can not open file");
-		exit(1);
-	}
-	int position = atoi(book.getbookID()) - 100000000 - 1;
-	fseek(fp_book, position * sizeof(Book), SEEK_SET);
-	if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)
-		printf("file write error\n");
-}
 
 class Record
 {
@@ -932,6 +638,297 @@ private:
 	char flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
 	int order;//标识第几本书
 };
+
+
+class Administrator
+{
+public:
+	//11.1构造函数
+	Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
+	{
+
+		for (int i = 0; i<5; i++)
+		{
+			account[i] = Account[i];
+		}
+		for (int i = 0; i<20; i++)
+		{
+			APassword[i] = aPassword[i];
+		}
+		for (int i = 0; i<10; i++)
+		{
+			AccountHolder[i] = accountHolder[i];
+		}
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = AID[i];
+		}
+		for (int i = 0; i < 11; i++)
+		{
+			aPhone[i] = APhone[i];
+		}
+	}
+	Administrator()
+	{
+		for (int i = 0; i<5; i++)
+		{
+			account[i] = ' ';
+		}
+		for (int i = 0; i<20; i++)
+		{
+			aPassword[i] = ' ';
+		}
+		for (int i = 0; i<10; i++)
+		{
+			accountHolder[i] = ' ';
+		}
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = ' ';
+		}
+		for (int i = 0; i<11; i++)
+		{
+			aPhone[i] = ' ';
+		}
+	}
+
+	//复制构造函数
+	Administrator(Administrator &administrator)
+	{
+		for (int i = 0; i<5; i++)
+		{
+			account[i] = administrator.account[i];
+		}
+		for (int i = 0; i<20; i++)
+		{
+			aPassword[i] = administrator.aPassword[i];
+		}
+		for (int i = 0; i<10; i++)
+		{
+			accountHolder[i] = administrator.accountHolder[i];
+		}
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = administrator.aID[i];
+		}
+		for (int i = 0; i<11; i++)
+		{
+			aPhone[i] = administrator.aPhone[i];
+		}
+	}
+
+	void setaccount(char newaccount[5])
+	{
+		for (int i = 0; i<5; i++)
+		{
+			account[i] = newaccount[i];
+		}
+	}
+
+	void setaPassword(char newaPassword[20])
+	{
+		for (int i = 0; i<20; i++)
+		{
+			aPassword[i] = newaPassword[i];
+		}
+	}
+
+	void setaccountHolder(char newaccountHolder[10])
+	{
+		for (int i = 0; i<10; i++)
+		{
+			accountHolder[i] = newaccountHolder[i];
+		}
+	}
+
+	void setaID(char newaID[18])
+	{
+		for (int i = 0; i<18; i++)
+		{
+			aID[i] = newaID[i];
+		}
+	}
+	void setaPhone(char newaaPhone[11])
+	{
+		for (int i = 0; i<11; i++)
+		{
+			aPhone[i] = newaaPhone[i];
+		}
+	}
+	char *getaccount()
+	{
+		return account;
+	}
+	char *getaPassword()
+	{
+		return aPassword;
+
+	}
+	char *getaccountHolder()
+	{
+		return accountHolder;
+	}
+	char *getaID()
+	{
+		return aID;
+	}
+	char *getaPhone()
+	{
+		return aPhone;
+	}
+
+	void addBook(char *bookID, char *bookName, char *author, char *publisher, short storage);//增加书
+
+	//void deleteBook(Book book);老师说不要删书
+	//void operateCard(Card card);老师说不要删卡 听老师的
+
+	void findbook(char*bookid);		//为了在修改库存之前给类中的私有成员book赋值
+	void newStorage(short storage);//新设库存
+	void addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone);
+
+	//11.9管理员所有查看行为函数
+	void searchLog();//管理员查看大日志
+	void searchLendBuffer();//管理员查看现在正借出的书
+	void serchBookInformation();//管理员查看全部图书信息
+	void searchCardInformation();//管理员查看全部用户信息
+	void searchOrder();//管理员查看所有预约记录
+	void searchCancleOrder();//管理员查看全部预约取消预约到期记录文件
+	void searchReturn();//管理员查看所有还书信息
+
+
+private:
+	char account[5];		//记得修改上面对应得数值
+	char aPassword[20];
+	char accountHolder[10];
+	char aID[18];
+	char aPhone[11];
+	Book book;
+    
+};
+
+//管理员注册函数
+
+void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone){
+	string account_str = to_string(20000 + alladmin + 1);
+	char account[5];
+	strcpy(account,account_str.c_str());
+	Administrator newadministrator(account, aPassword, accountHolder, aID, aPhone);
+	FILE*fp_admin;
+	if (NULL == (fp_admin = fopen("ADMININFORMATION", "rb+"))){
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_admin, 0, SEEK_END);
+	if (fwrite(&newadministrator, sizeof(Administrator), 1, fp_admin) != 1)
+		printf("file write error\n");
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(newadministrator.getaID(), year, month, day, 'l');
+	record.signUpRecord();
+	fclose(fp_admin);
+	alladmin++;
+	return;
+}
+//管理员查看大日志
+void Administrator::searchLog()
+{
+	FILE *fp_log;
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+
+}
+
+//11.2管理员新加书函数
+void Administrator::addBook(char bookID[10], char bookName[50], char author[20], char publisher[20], short storage)
+{
+	FILE *fp_add_book;
+	FILE *fp_book;
+	if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_add_book, 0, SEEK_END);
+	Book book(bookID, bookName, author, publisher, storage);
+	fwrite(&book, sizeof(Book), 1, fp_book);
+	allbook++;
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	Record record(book.getbookID(), this->getaccount(), year, month, day, 'j', '0');
+	record.admininaddbook();
+	fclose(fp_add_book);
+	fclose(fp_book);
+
+}
+
+//在管理员修改库存之前，先让他输入要修改的书的bookid，然后调用findbook函数找到这本书，赋值给record类的私有成员book
+//然后让他输入修改后的书的总本数，点击修改库存按钮，执行newStorage函数即可
+void Administrator::findbook(char*bookid)
+{
+	FILE *fp_book;
+	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	Book booktemp;
+	while (!feof(fp_book))
+	{
+		fread(&booktemp, sizeof(Book), 1, fp_book);
+		if ((string)booktemp.getbookID() == (string)bookid)
+		{
+			book=booktemp;
+			break;
+		}
+	}
+}
+//11.2管理员改库存函数
+void Administrator::newStorage(short storage)
+{
+
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+	int year = t_tm->tm_year + 1900;
+	int month = month = t_tm->tm_mon + 1;
+	int day = t_tm->tm_mday;
+	int oldstorage = book.getstorage();
+	book.setstorage(storage);
+	book.books = (int *)realloc(book.books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
+	if (storage > oldstorage){			//如果库存减少了，对于books数组不用进行任何操作，但是如果库存增多了，就必须对新分配给books的内存赋值为1
+		for (int i = oldstorage; i < storage; i++)
+			book.books[i] = 1;
+	}
+	Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
+	record.admininchangestorage();
+	FILE *fp_book;
+	if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	int position = atoi(book.getbookID()) - 100000000 - 1;
+	fseek(fp_book, position * sizeof(Book), SEEK_SET);
+	if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)
+		printf("file write error\n");
+}
+
 
 //Record类内部函数的实现
 
@@ -1133,7 +1130,7 @@ void Record::bookReturnRecord()
 	while (!feof(fp_lend_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_lend_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_lend_buffernew);
 	}
 	fclose(fp_lend_buffer);
@@ -1218,7 +1215,7 @@ void Record::bookOrderCancelRecord()
 	while (!feof(fp_order_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_order_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_order_buffernew);
 	}
 	fclose(fp_order_buffer);
@@ -1233,6 +1230,31 @@ void Record::bookOrderCancelRecord()
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
 	fclose(fp_book_order_cancel);
+	fclose(fp_log);
+}
+
+//新增无记录删除功能的预约记录函数
+void Record::bookOrderNoRecord_new()
+{
+	FILE *fp_book_order_no;
+	FILE *fp_log;
+	if (NULL == (fp_book_order_no = fopen("BOOK_ORDER_CANCEL_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_order_no, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	if (fwrite(this, sizeof(Record), 1, fp_book_order_no) != 1)
+		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_book_order_no);
 	fclose(fp_log);
 }
 
@@ -1268,7 +1290,7 @@ void Record::bookOrderNoRecord()
 	while (!feof(fp_noorder_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_noorder_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_noorder_buffernew);
 	}
 	fclose(fp_noorder_buffer);
@@ -1321,7 +1343,7 @@ void Record::bookRenewRecord()
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_lend);
 	}
 	fclose(fp_buffer);
@@ -1488,8 +1510,8 @@ void Library::bookLend() { //借书 1.直接借书
 			card.setlendedCount(card.getlendedCount() + 1);//已借本数+1
 			card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
 			int order = 1;//标识第几本书
-			int *p = book.getBooks();
-			while (!(*(p + order) == 1)) {//从第一本书开始检索而不是第0本
+			int *q = book.getBooks();
+			while (!(*(q + order) == 1)) {//从第一本书开始检索而不是第0本
 				order++;
 			}
 			book.setBooksI(order, 2);//将这本书改为已借出
@@ -1564,8 +1586,8 @@ void Library::bookLendOrder() {//2.通过预约成功借书
 	book.setbookMan(book.getbookMan() - 1);//书的预约人数-1
 	book.settStorage(book.gettStorage() - 1);//书的临时库存-1
 	int order = 1;//标识第几本书
-	int *p = book.getBooks();
-	while (!(*(p + order) == 1)) {//从第一本书开始检索
+	int *q = book.getBooks();
+	while (!(*(q + order) == 1)) {//从第一本书开始检索
 		order++;
 	}
 	book.setBooksI(order, 2);//将这本书改为已借出
@@ -1798,13 +1820,13 @@ void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录�
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if (record_temp->getflag2()=='1' && (string)record_temp->getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
+		if (record_temp.getflag2()=='1' && (string)record_temp.getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
             continue;
 		}
-		fwrite(&record_temp, sizeof(Record), 1, bufferzone_ordernew);
+		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_order);
 	}
 	fclose(fp_buffer);
-	fclose(fp_new_buffer_lend);
+	fclose(fp_new_buffer_order);
 	if (remove("bufferOrderZone") != 0)exit(1);
 	if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
 }
@@ -1971,7 +1993,7 @@ void Library::signOut_Admin(){		//管理员注销
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	int position = atoi(card.getcardID.c_str()) - 2000 - 1;	//管理员账户格式2001
+	int position = atoi(card.getcardID()) - 2000 - 1;	//管理员账户格式2001
 	fseek(fp_admin, position*sizeof(Administrator), 0);
 	if (fwrite(&admin, sizeof(Administrator), 1, fp_admin) != 1)
 		printf("file write error\n");
@@ -2007,7 +2029,7 @@ void Library::signOut_Admin(){		//管理员注销
 }*/
 
 void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2){	//输入新密码后重设密码写入原位置
-	if ((string)oldpassword == (string)card.getcPassword){
+	if ((string)oldpassword == (string)card.getcPassword()){
 		if ((string)newpassword1 == (string)newpassword2)
 			card.setcPassword(newpassword1);
 	}
