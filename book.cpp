@@ -1,20 +1,21 @@
-﻿// UMLtest.cpp : 定义控制台应用程序的入口点。
+// UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
-
+/*
 int _tmain(int argc, _TCHAR* argv[])
 {
-	return 0;
+     return 0;
 }
+*/
 
 #include<iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include<windows.h>
+
 #include<sstream>
 #include <fstream>
 
@@ -724,7 +725,7 @@ void Administrator::findbook(char*bookid)
 	while (!feof(fp_book))
 	{
 		fread(&booktemp, sizeof(Book), 1, fp_book);
-		if ((string)booktemp.getbookID == (string)bookid)
+		if ((string)booktemp.getbookID() == (string)bookid)
 		{
 			book=booktemp;
 			break;
@@ -1133,7 +1134,7 @@ void Record::bookReturnRecord()
 	while (!feof(fp_lend_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_lend_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_lend_buffernew);
 	}
 	fclose(fp_lend_buffer);
@@ -1218,7 +1219,7 @@ void Record::bookOrderCancelRecord()
 	while (!feof(fp_order_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_order_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_order_buffernew);
 	}
 	fclose(fp_order_buffer);
@@ -1268,7 +1269,7 @@ void Record::bookOrderNoRecord()
 	while (!feof(fp_noorder_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_noorder_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_noorder_buffernew);
 	}
 	fclose(fp_noorder_buffer);
@@ -1321,7 +1322,7 @@ void Record::bookRenewRecord()
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_lend);
 	}
 	fclose(fp_buffer);
@@ -1940,7 +1941,7 @@ void Library::signOut_Admin(){		//管理员注销
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	int position = atoi(card.getcardID.c_str()) - 2000 - 1;	//管理员账户格式2001
+	int position = atoi(card.getcardID()) - 2000 - 1;	//管理员账户格式2001
 	fseek(fp_admin, position*sizeof(Administrator), 0);
 	if (fwrite(&admin, sizeof(Administrator), 1, fp_admin) != 1)
 		printf("file write error\n");
@@ -1976,7 +1977,7 @@ void Library::signOut_Admin(){		//管理员注销
 }*/
 
 void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2){	//输入新密码后重设密码写入原位置
-	if ((string)oldpassword == (string)card.getcPassword){
+	if ((string)oldpassword == (string)card.getcPassword()){
 		if ((string)newpassword1 == (string)newpassword2)
 			card.setcPassword(newpassword1);
 	}
