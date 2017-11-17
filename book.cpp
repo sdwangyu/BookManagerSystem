@@ -1232,6 +1232,31 @@ void Record::bookOrderCancelRecord()
 	fclose(fp_log);
 }
 
+//新增无记录删除功能的预约记录函数
+void Record::bookOrderNoRecord_new()
+{
+	FILE *fp_book_order_no;
+	FILE *fp_log;
+	if (NULL == (fp_book_order_no = fopen("BOOK_ORDER_CANCEL_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_order_no, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	if (fwrite(this, sizeof(Record), 1, fp_book_order_no) != 1)
+		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_book_order_no);
+	fclose(fp_log);
+}
+
 //11.1预约失效记录
 ///预约失效和取消预约的文件相同
 void Record::bookOrderNoRecord()
