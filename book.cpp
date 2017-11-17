@@ -1484,8 +1484,8 @@ void Library::bookLend() { //借书 1.直接借书
 			card.setlendedCount(card.getlendedCount() + 1);//已借本数+1
 			card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
 			int order = 1;//标识第几本书
-			int *p = book.getBooks();
-			while (!(*(p + order) == 1)) {//从第一本书开始检索而不是第0本
+			int *q = book.getBooks();
+			while (!(*(q + order) == 1)) {//从第一本书开始检索而不是第0本
 				order++;
 			}
 			book.setBooksI(order, 2);//将这本书改为已借出
@@ -1560,8 +1560,8 @@ void Library::bookLendOrder() {//2.通过预约成功借书
 	book.setbookMan(book.getbookMan() - 1);//书的预约人数-1
 	book.settStorage(book.gettStorage() - 1);//书的临时库存-1
 	int order = 1;//标识第几本书
-	int *p = book.getBooks();
-	while (!(*(p + order) == 1)) {//从第一本书开始检索
+	int *q = book.getBooks();
+	while (!(*(q + order) == 1)) {//从第一本书开始检索
 		order++;
 	}
 	book.setBooksI(order, 2);//将这本书改为已借出
@@ -1794,13 +1794,13 @@ void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录�
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if (this->getflag2()=='1' && (string)this->getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
+		if (record_temp.getflag2()=='1' && (string)card.getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
             continue;
 		}
-		fwrite(&record_temp, sizeof(Record), 1, bufferzone_ordernew);
+		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_order);
 	}
 	fclose(fp_buffer);
-	fclose(fp_new_buffer_lend);
+	fclose(fp_new_buffer_order);
 	if (remove("bufferOrderZone") != 0)exit(1);
 	if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
 }
