@@ -1798,7 +1798,7 @@ void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录�
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if (this->getflag2()=='1' && (string)this->getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
+		if (record_temp->getflag2()=='1' && (string)record_temp->getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
             continue;
 		}
 		fwrite(&record_temp, sizeof(Record), 1, bufferzone_ordernew);
@@ -2024,6 +2024,7 @@ void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区
 	#define BUFFERZONE_ORDER bufferOrderZone//预约缓冲区文件
 	#define BOOKINFORMATION bookInformation//全部图书信息
 	#define CARDINFORMATION cardInformation//全部用户信息
+	fseek(fp_buffer_order,-1*sizeof(Record),SEEK_CUR);
 	*/
 	FILE *fp_buffer_order = NULL;
 	FILE *fp_bookInfo = NULL;
