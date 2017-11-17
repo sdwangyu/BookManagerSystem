@@ -1,20 +1,21 @@
-﻿// UMLtest.cpp : 定义控制台应用程序的入口点。
+// UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
-
+/*
 int _tmain(int argc, _TCHAR* argv[])
 {
-	return 0;
+     return 0;
 }
+*/
 
 #include<iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include<windows.h>
+
 #include<sstream>
 #include <fstream>
 
@@ -362,7 +363,7 @@ public:
 		}
 		for (i = 0; i<11; i++)
 		{
-			cPhone[11] = ' ';
+			cPhone[i] = ' ';
 		}
 		lendedCount = 0;//初始已借本数为0
 		lendingCount = 10;//初始可借本数为10
@@ -466,6 +467,7 @@ private:
 	char cID[18];  //身份证号
 	char cPhone[11];//持卡人手机号
 };
+
 
 class Administrator
 {
@@ -630,6 +632,7 @@ private:
 	char aID[18];
 	char aPhone[11];
 	Book book;
+    
 };
 
 //管理员注册函数
@@ -672,17 +675,10 @@ void Administrator::searchLog()
 }
 
 //11.2管理员新加书函数
-void Administrator::addBook(char *bookID, char *bookName, char *author, char *publisher, short storage)
+void Administrator::addBook(char bookID[10], char bookName[50], char author[20], char publisher[20], short storage)
 {
 	FILE *fp_add_book;
 	FILE *fp_book;
-	char bookID[10];
-	char bookName[50];
-	char author[20];
-	char publisher[20];
-	short storage;
-	short bookMan;
-	short tStorage;
 	if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
 	{
 		fprintf(stderr, "Can not open file");
@@ -724,7 +720,7 @@ void Administrator::findbook(char*bookid)
 	while (!feof(fp_book))
 	{
 		fread(&booktemp, sizeof(Book), 1, fp_book);
-		if ((string)booktemp.getbookID == (string)bookid)
+		if ((string)booktemp.getbookID() == (string)bookid)
 		{
 			book=booktemp;
 			break;
@@ -1133,7 +1129,7 @@ void Record::bookReturnRecord()
 	while (!feof(fp_lend_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_lend_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_lend_buffernew);
 	}
 	fclose(fp_lend_buffer);
@@ -1218,7 +1214,7 @@ void Record::bookOrderCancelRecord()
 	while (!feof(fp_order_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_order_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_order_buffernew);
 	}
 	fclose(fp_order_buffer);
@@ -1321,7 +1317,7 @@ void Record::bookRenewRecord()
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder)continue;
+		if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
 		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_lend);
 	}
 	fclose(fp_buffer);
@@ -1460,6 +1456,7 @@ public:
 
 	void Search();//查询书本函数
 
+	void deleteOrderFail();//删除orderbuffer中失效的预约记录
 
 	void bookLend();//直接进行的借书
 	void bookLendOrder();//通过预约成功借书
@@ -1487,8 +1484,8 @@ void Library::bookLend() { //借书 1.直接借书
 			card.setlendedCount(card.getlendedCount() + 1);//已借本数+1
 			card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
 			int order = 1;//标识第几本书
-			int *p = book.getBooks();
-			while (!(*(p + order) == 1)) {//从第一本书开始检索而不是第0本
+			int *q = book.getBooks();
+			while (!(*(q + order) == 1)) {//从第一本书开始检索而不是第0本
 				order++;
 			}
 			book.setBooksI(order, 2);//将这本书改为已借出
@@ -1563,8 +1560,8 @@ void Library::bookLendOrder() {//2.通过预约成功借书
 	book.setbookMan(book.getbookMan() - 1);//书的预约人数-1
 	book.settStorage(book.gettStorage() - 1);//书的临时库存-1
 	int order = 1;//标识第几本书
-	int *p = book.getBooks();
-	while (!(*(p + order) == 1)) {//从第一本书开始检索
+	int *q = book.getBooks();
+	while (!(*(q + order) == 1)) {//从第一本书开始检索
 		order++;
 	}
 	book.setBooksI(order, 2);//将这本书改为已借出
@@ -1780,7 +1777,7 @@ void Library::bookRenew(){//图书续借（需要用到qt）
 	record.bookRenewRecord();//生成一条续借记录
 }
 
-void deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
+void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
     FILE *fp_buffer;
     FILE *fp_new_buffer_order;
 	if (NULL == (fp_buffer = fopen("BUFFERZONE_ORDER", "rb+")))
@@ -1797,13 +1794,13 @@ void deleteOrderFail() {//将预约缓冲区里已标记为1的记录删除
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if (this.getflag2()=='1') {
+		if (record_temp.getflag2()=='1' && (string)card.getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
             continue;
 		}
-		fwrite(&record_temp, sizeof(Record), 1, bufferzone_ordernew);
+		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_order);
 	}
 	fclose(fp_buffer);
-	fclose(fp_new_buffer_lend);
+	fclose(fp_new_buffer_order);
 	if (remove("bufferOrderZone") != 0)exit(1);
 	if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
 }
@@ -1970,7 +1967,7 @@ void Library::signOut_Admin(){		//管理员注销
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	int position = atoi(card.getcardID.c_str()) - 2000 - 1;	//管理员账户格式2001
+	int position = atoi(card.getcardID()) - 2000 - 1;	//管理员账户格式2001
 	fseek(fp_admin, position*sizeof(Administrator), 0);
 	if (fwrite(&admin, sizeof(Administrator), 1, fp_admin) != 1)
 		printf("file write error\n");
@@ -2006,7 +2003,7 @@ void Library::signOut_Admin(){		//管理员注销
 }*/
 
 void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2){	//输入新密码后重设密码写入原位置
-	if ((string)oldpassword == (string)card.getcPassword){
+	if ((string)oldpassword == (string)card.getcPassword()){
 		if ((string)newpassword1 == (string)newpassword2)
 			card.setcPassword(newpassword1);
 	}
