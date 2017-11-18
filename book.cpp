@@ -1,4 +1,4 @@
-// UMLtest.cpp : 定义控制台应用程序的入口点。
+﻿// UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
 //#include "stdafx.h"
@@ -93,7 +93,7 @@ int compareDate(int year1, int month1, int day1, int year2, int month2, int day2
 class Book//构造函数 复制构造函数
 {
 public:
-	Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//构造函数
+	Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], short Storage)//构造函数
 	{
 
 		for (int i = 0; i<10; i++)
@@ -468,6 +468,177 @@ private:
 	char cPhone[11];//持卡人手机号
 };
 
+class Record
+{
+public:
+	//10.30 构造函数更改
+	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22)
+	{
+
+		for (int i = 0; i < 10; i++)
+		{
+			bookid[i] = bookid1[i];
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			cardid[i] = cardid1[i];
+		}
+		year = Year;
+		month = Month;
+		day = Day;
+		flag1 = flag11;
+		flag2 = flag22;
+		//获取当前系统日期 自行查询方法 读入当前year month day
+	}
+
+	Record(char*cardid1, int Year, int Month, int Day, int flag11)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			cardid[i] = cardid1[i];
+		}
+		year = Year;
+		month = Month;
+		day = Day;
+		flag1 = flag11;
+	}
+
+	//刘峰同学需要的构造函数啦啦~~
+	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22, int Order)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			bookid[i] = bookid1[i];
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			cardid[i] = cardid1[i];
+		}
+		year = Year;
+		month = Month;
+		day = Day;
+		flag1 = flag11;
+		flag2 = flag22;
+		order = Order;
+	}
+
+	//默认构造函数
+	Record()
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			bookid[i] = ' ';
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			cardid[i] = ' ';
+		}
+		year = 0;
+		month = 0;
+		day = 0;
+		flag2 = 1;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
+		order = 1;
+		flag1 = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
+	}
+	//复制构造函数
+	Record(Record &R)
+	{
+		for (int i = 0; i<10; i++)
+		{
+			bookid[i] = R.bookid[i];
+		}
+		for (int i = 0; i<10; i++)
+		{
+			cardid[i] = R.cardid[i];
+		}
+		year = R.year;
+		month = R.month;
+		day = R.day;
+		flag2 = R.flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
+		order = R.order;
+		flag1 = R.flag1;
+	}
+
+	void bookLendRecord(int flag);//借书记录
+	void bookReturnRecord();//还书记录
+	void bookOrderRecord();//预约记录
+	void bookRenewRecord();//续借记录
+	void bookOrderCancelRecord();//取消预约记录
+	void bookOrderNoRecord();//预约失效记录
+	void signInRecord();//登陆记录
+	void signOutRecord();//注销记录
+	void signUpRecord();//注册记录
+	void admininchangestorage();//管理员改变库存记录
+	void admininaddbook();//管理员增加新书记录
+	void alter_Date(int day);//增加一个日期变化的函数
+
+	char getflag1()
+	{
+		return flag1;
+	}
+	void setflag1(char newflag1)
+	{
+		flag1 = newflag1;
+	}
+	int getyear()
+	{
+		return year;
+	}
+	void setyear(int newyear)
+	{
+		year = newyear;
+	}
+	int getmonth()
+	{
+		return month;
+	}
+	void setmonth(int newmonth)
+	{
+		month = newmonth;
+	}
+	int getday()
+	{
+		return day;
+	}
+	void setday(int newday)
+	{
+		day = newday;
+	}
+	char getflag2()
+	{
+		return flag2;
+	}
+	void setflag2(char newflag2)
+	{
+		flag2 = newflag2;
+	}
+	int getorder()
+	{
+		return order;
+	}
+	void setorder(int neworder)
+	{
+		order = neworder;
+	}
+	char *getBookid()
+	{
+		return bookid;
+	}
+	char *getCardid()
+	{
+		return cardid;
+	}
+private:
+	char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存 l管理员注册
+	char bookid[10];
+	char cardid[10];
+	int year;
+	int month;
+	int day;
+	char flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
+	int order;//标识第几本书
+};
+
 
 class Administrator
 {
@@ -758,176 +929,6 @@ void Administrator::newStorage(short storage)
 		printf("file write error\n");
 }
 
-class Record
-{
-public:
-	//10.30 构造函数更改
-	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22)
-	{
-
-		for (int i = 0; i < 10; i++)
-		{
-			bookid[i] = bookid1[i];
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			cardid[i] = cardid1[i];
-		}
-		year = Year;
-		month = Month;
-		day = Day;
-		flag1 = flag11;
-		flag2 = flag22;
-		//获取当前系统日期 自行查询方法 读入当前year month day
-	}
-
-	Record(char*cardid1, int Year, int Month, int Day, int flag11)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			cardid[i] = cardid1[i];
-		}
-		year = Year;
-		month = Month;
-		day = Day;
-		flag1 = flag11;
-	}
-
-	//刘峰同学需要的构造函数啦啦~~
-	Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22, int Order)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			bookid[i] = bookid1[i];
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			cardid[i] = cardid1[i];
-		}
-		year = Year;
-		month = Month;
-		day = Day;
-		flag1 = flag11;
-		flag2 = flag22;
-		order = Order;
-	}
-
-	//默认构造函数
-	Record()
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			bookid[i] = ' ';
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			cardid[i] = ' ';
-		}
-		year = 0;
-		month = 0;
-		day = 0;
-		flag2 = 1;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
-		order = 1;
-		flag1 = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
-	}
-	//复制构造函数
-	Record(Record &R)
-	{
-		for (int i = 0; i<10; i++)
-		{
-			bookid[i] = R.bookid[i];
-		}
-		for (int i = 0; i<10; i++)
-		{
-			cardid[i] = R.cardid[i];
-		}
-		year = R.year;
-		month = R.month;
-		day = R.day;
-		flag2 = R.flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
-		order = R.order;
-		flag1 = R.flag1;
-	}
-
-	void bookLendRecord(int flag);//借书记录
-	void bookReturnRecord();//还书记录
-	void bookOrderRecord();//预约记录
-	void bookRenewRecord();//续借记录
-	void bookOrderCancelRecord();//取消预约记录
-	void bookOrderNoRecord();//预约失效记录
-	void signInRecord();//登陆记录
-	void signOutRecord();//注销记录
-	void signUpRecord();//注册记录
-	void admininchangestorage();//管理员改变库存记录
-	void admininaddbook();//管理员增加新书记录
-	void alter_Date(int day);//增加一个日期变化的函数
-
-	char getflag1()
-	{
-		return flag1;
-	}
-	void setflag1(char newflag1)
-	{
-		flag1 = newflag1;
-	}
-	int getyear()
-	{
-		return year;
-	}
-	void setyear(int newyear)
-	{
-		year = newyear;
-	}
-	int getmonth()
-	{
-		return month;
-	}
-	void setmonth(int newmonth)
-	{
-		month = newmonth;
-	}
-	int getday()
-	{
-		return day;
-	}
-	void setday(int newday)
-	{
-		day = newday;
-	}
-	char getflag2()
-	{
-		return flag2;
-	}
-	void setflag2(char newflag2)
-	{
-		flag2 = newflag2;
-	}
-	int getorder()
-	{
-		return order;
-	}
-	void setorder(int neworder)
-	{
-		order = neworder;
-	}
-	char *getBookid()
-	{
-		return bookid;
-	}
-	char *getCardid()
-	{
-		return cardid;
-	}
-private:
-	char flag1;  //a借书 b还书 c预约 d续借 e取消预约 f预约失效 g注册记录 h注销记录 i登陆记录 j管理员增加书 k管理员更改库存 l管理员注册
-	char bookid[10];
-	char cardid[10];
-	int year;
-	int month;
-	int day;
-	char flag2;//用于缓冲区   1对预约记录表示此预约失效并且已经写入记录文件 1对续借记录表示该书已续借
-	int order;//标识第几本书
-};
 
 //Record类内部函数的实现
 
@@ -1229,6 +1230,31 @@ void Record::bookOrderCancelRecord()
 	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
 		printf("file write error\n");
 	fclose(fp_book_order_cancel);
+	fclose(fp_log);
+}
+
+//新增无记录删除功能的预约记录函数
+void Record::bookOrderNoRecord_new()
+{
+	FILE *fp_book_order_no;
+	FILE *fp_log;
+	if (NULL == (fp_book_order_no = fopen("BOOK_ORDER_CANCEL_RECORD", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (NULL == (fp_log = fopen("LOG", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	fseek(fp_book_order_no, 0, SEEK_END);
+	fseek(fp_log, 0, SEEK_END);
+	if (fwrite(this, sizeof(Record), 1, fp_book_order_no) != 1)
+		printf("file write error\n");
+	if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
+		printf("file write error\n");
+	fclose(fp_book_order_no);
 	fclose(fp_log);
 }
 
@@ -1754,7 +1780,7 @@ void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录�
 	while (!feof(fp_buffer))
 	{
 		fread(&record_temp, sizeof(Record), 1, fp_buffer);
-		if (record_temp.getflag2()=='1' && (string)card.getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
+		if (record_temp.getflag2()=='1' && (string)record_temp.getcardID() == (string)card.getcardID()) {		//只能删除当前用户失效的预约记录，所以应该判断这条记录的cardID和当前用户的cardID是否一致
             continue;
 		}
 		fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_order);
@@ -1980,6 +2006,7 @@ void Library::update_Order(){			//函数用于用户进入系统时 对缓冲区
 	#define BUFFERZONE_ORDER bufferOrderZone//预约缓冲区文件
 	#define BOOKINFORMATION bookInformation//全部图书信息
 	#define CARDINFORMATION cardInformation//全部用户信息
+	fseek(fp_buffer_order,-1*sizeof(Record),SEEK_CUR);
 	*/
 	FILE *fp_buffer_order = NULL;
 	FILE *fp_bookInfo = NULL;
