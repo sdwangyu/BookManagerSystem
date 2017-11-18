@@ -1902,14 +1902,14 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn) 		//用户登
     {
         fseek(fp, i * sizeof(Card), SEEK_SET);
         fread(&card_temp, sizeof(Card), 1, fp);
-        if ((string)card_temp.getcardID() == (string)username_PutIn) 	//如果找到对应的card就用复制构造函数把找到的值赋值给一个暂时的变量card_find，以便于后面的密码匹配
+		if (strcmp(card_temp.getcardID(), username_PutIn) == 0) 	//如果找到对应的card就用复制构造函数把找到的值赋值给一个暂时的变量card_find，以便于后面的密码匹配
         {
             card_find = card_temp;
             break;
         }
         i++;
     }
-    if (((string)card_find.getcardID() == (string)username_PutIn) && ((string)card_find.getcPassword() == (string)password_PutIn))
+	if (((strcmp(card_find.getcardID(), username_PutIn) == 0 && strcmp(card_find.getcPassword(), password_PutIn) == 0))
     {
         //账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
         card = card_find;
@@ -1954,14 +1954,14 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn) 	//管理�
     {
         fseek(fp, i * sizeof(Administrator), SEEK_SET);
         fread(&admin_temp, sizeof(Administrator), 1, fp);
-        if ((string)admin_temp.getaccount() == (string)adminname_PutIn) 	//如果找到对应的admin就用复制构造函数把找到的值赋值给一个暂时的变量admin_find，以便于后面的密码匹配
+		if (strcmp(admin_temp.getaccount(), adminname_PutIn) == 0) 	//如果找到对应的admin就用复制构造函数把找到的值赋值给一个暂时的变量admin_find，以便于后面的密码匹配
         {
             admin_find = admin_temp;
             break;
         }
         i++;
     }
-    if (((string)admin_find.getaccount() == (string)adminname_PutIn) && ((string)admin_find.getaPassword() == (string)password_PutIn))
+	if ((strcmp(admin_find.getaccount(), adminname_PutIn) == 0) && (strcmp(admin_find.getaPassword(), password_PutIn) == 0))
     {
         //账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的admin_find赋值给私有成员admin
         admin = admin_find;
