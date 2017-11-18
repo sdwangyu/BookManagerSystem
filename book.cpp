@@ -285,10 +285,6 @@ private:
     char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
     //动态开辟存储空间?
     //书籍库存上限为20
-
-
-
-    friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
 class Card//构造函数  复制构造函数
 {
@@ -665,8 +661,8 @@ private:
     char accountHolder[10];
     char aID[18];
     char aPhone[11];
-    Book book;
 
+friend class Book;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
 
 //管理员注册函数
