@@ -122,6 +122,7 @@ public:
         }
         if(Storage<21)
             storage = Storage;//初始库存为10本
+        memset(books, '1', sizeof(books));
         else printf("Error,Store should <21");
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
@@ -147,6 +148,7 @@ public:
         {
             publisher[i] = ' ';
         }
+        memset(books, '1', sizeof(books));
         storage = 10;//初始库存为10本
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
@@ -262,15 +264,14 @@ public:
     {
         return books;
     }
-    void setBooks(int *bbooks)
-    {
-        for (int i = 0; i < storage; i++)
-            books[i] = bbooks[i];
-    }
+
     //11.10 新增修改Books[i]的函数
-    void setBooksI(int i, int newbooksi) //i表示第i本书，newbooksi表示新的Books[i]的值
+    void setBooksI(int i, char newbooksi) //i表示第i本书，newbooksi表示新的Books[i]的值
     {
-        books[i] = newbooksi;
+        if(i<=storage)
+            books[i] = newbooksi;
+        else
+            printf("ERROR,Out of range");
     }
 
 private:
@@ -282,7 +283,7 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
-    int books[20]= {1}; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
+    char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
     //动态开辟存储空间?
     //书籍库存上限为20
 
