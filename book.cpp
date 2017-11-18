@@ -632,7 +632,7 @@ private:
 	char aID[18];
 	char aPhone[11];
 	Book book;
-    
+
 };
 
 //管理员注册函数
@@ -1500,24 +1500,16 @@ void Library::bookLend() { //借书 1.直接借书
 			record.alter_Date(30);	//加上30天，把应还日期写进记录
 			record.bookLendRecord(0);
 			//写回book文件
-			ofstream outfile("BOOKINFORMATION", ios::binary);
-			if (!outfile)
+			fstream iofile("BOOKINFORMATION",ios::in|ios::out|ios::binary);
+			if (!iofile)
 			{
 				cerr << "open error!" << endl;
 				abort();//退出程序
 			}
-			int number = 0;//第几本书
-			char *p = book.getbookID();
-			for (int i = 0; i<10; i++) {
-				int a = 1;
-				for (int j = i; j>0; j--) {
-					a *= 10;
-				}
-				number += *(p + i)*a;
-			}
+			int number = atoi(book.getbookID())-100000000;//第几本书
 			iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
 			iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
-			outfile.close();
+			iofile.close();
 		}
 		else { //库存不够
 			int choice;
@@ -1568,25 +1560,17 @@ void Library::bookLendOrder() {//2.通过预约成功借书
 	Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//生成一条借书的记录
 	record.alter_Date(30);
 	record.bookLendRecord(1);
-	//写回book文件
-	ofstream outfile("BOOKINFORMATION", ios::binary);
-	if (!outfile)
-	{
-		cerr << "open error!" << endl;
-		abort();//退出程序
-	}
-	int number = 0;//第几本书
-	char *p = book.getbookID();
-	for (int i = 0; i<10; i++) {
-		int a = 1;
-		for (int j = i; j>0; j--) {
-			a *= 10;
-		}
-		number += *(p + i)*a;
-	}
-	iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
-	iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
-	outfile.close();
+    //写回book文件
+    fstream iofile("BOOKINFORMATION",ios::in|ios::out|ios::binary);
+    if (!iofile)
+    {
+        cerr << "open error!" << endl;
+        abort();//退出程序
+    }
+    int number = atoi(book.getbookID())-100000000;//第几本书
+    iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
+    iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
+    iofile.close();
 }
 
 void Library::bookReturn(){ //还书（需要用到qt）
@@ -1635,25 +1619,17 @@ void Library::bookReturn(){ //还书（需要用到qt）
 	iofile.read((char *)&record,sizeof(record);
 	book.setBooksI(record.getOrder(),1);
 	*/
-	//写回book文件
-	ofstream outfile("BOOKINFORMATION", ios::binary);
-	if (!outfile)
-	{
-		cerr << "open error!" << endl;
-		abort();//退出程序
-	}
-	int number = 0;//第几本书
-	char *p = book.getbookID();
-	for (int i = 0; i<10; i++) {
-		int a = 1;
-		for (int j = i; j>0; j--) {
-			a *= 10;
-		}
-		number += *(p + i)*a;
-	}
-	iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
-	iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
-	outfile.close();
+    //写回book文件
+    fstream iofile("BOOKINFORMATION",ios::in|ios::out|ios::binary);
+    if (!iofile)
+    {
+        cerr << "open error!" << endl;
+        abort();//退出程序
+    }
+    int number = atoi(book.getbookID())-100000000;//第几本书
+    iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
+    iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
+    iofile.close();
 	Record record(book.getbookID(), card.getcardID(), year, month, day, 'b', '0');
 	record.bookReturnRecord();//生成一条还书记录
 }
@@ -1675,25 +1651,17 @@ void Library::bookOrder(){//预约
 		cout << "预约成功！" << endl;//提示预约成功
 		book.setbookMan(book.getbookMan() + 1);//书的预约人数+1
 		card.setbookedCount(card.getbookedCount() + 1);//人的预约本数+1
-		//写回book文件
-		ofstream outfile("BOOKINFORMATION", ios::binary);
-		if (!outfile)
-		{
-			cerr << "open error!" << endl;
-			abort();//退出程序
-		}
-		int number = 0;//第几本书
-		char *p = book.getbookID();
-		for (int i = 0; i<10; i++) {
-			int a = 1;
-			for (int j = i; j>0; j--) {
-				a *= 10;
-			}
-			number += *(p + i)*a;
-		}
-		iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
-		iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
-		outfile.close();
+        //写回book文件
+        fstream iofile("BOOKINFORMATION",ios::in|ios::out|ios::binary);
+        if (!iofile)
+        {
+            cerr << "open error!" << endl;
+            abort();//退出程序
+        }
+        int number = atoi(book.getbookID())-100000000;//第几本书
+        iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
+        iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
+        iofile.close();
 		//生成一条预约记录
 		time_t timer;
 		time(&timer);
@@ -1731,24 +1699,16 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
 			Record record(book.getbookID(), card.getcardID(), year, month, day, 'e', '0');
 			record.bookOrderCancelRecord();
 			//写回book文件
-			ofstream outfile("BOOKINFORMATION", ios::binary);
-			if (!outfile)
+			fstream iofile("BOOKINFORMATION",ios::in|ios::out|ios::binary);
+			if (!iofile)
 			{
 				cerr << "open error!" << endl;
 				abort();//退出程序
 			}
-			int number = 0;//第几本书
-			char *p = book.getbookID();
-			for (int i = 0; i<10; i++) {
-				int a = 1;
-				for (int j = i; j>0; j--) {
-					a *= 10;
-				}
-				number += *(p + i)*a;
-			}
+			int number = atoi(book.getbookID())-100000000;//第几本书
 			iofile.seekp(number*sizeof(book), ios::beg);  //定位于第几本书的开头
 			iofile.write((char *)&book, sizeof(book));  //更新第几本书的数据
-			outfile.close();
+			iofile.close();
 			break;
 		}
 		else if (choice == 2) {//2.否
