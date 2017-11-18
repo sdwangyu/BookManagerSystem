@@ -97,7 +97,6 @@ int compareDate(int year1, int month1, int day1, int year2, int month2, int day2
     // if(days<0)exit(0);//出错则退出程序
     return days;
 }
-
 class Book//构造函数 复制构造函数
 {
 public:
@@ -122,8 +121,8 @@ public:
         }
         if(Storage<21)
             storage = Storage;//初始库存为10本
-        memset(books, '1', sizeof(books));
         else printf("Error,Store should <21");
+        memset(books, '1', sizeof(books));//把books全部初始化为1
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
         flag = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
@@ -260,7 +259,7 @@ public:
     {
         flag = newflag;
     }
-    int *getBooks()
+    char *getBooks()
     {
         return books;
     }
@@ -291,7 +290,6 @@ private:
 
     friend class Administrator;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
-
 class Card//构造函数  复制构造函数
 {
 public:
