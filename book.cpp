@@ -1935,7 +1935,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn) 		//用户登
         }
         i++;
     }
-	if (((strcmp(card_find.getcardID(), username_PutIn) == 0 && strcmp(card_find.getcPassword(), password_PutIn) == 0))
+	if (strcmp(card_find.getcardID(), username_PutIn) == 0 && strcmp(card_find.getcPassword(), password_PutIn) == 0)
     {
         //账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的card_find赋值给私有成员card
         card = card_find;
@@ -1987,7 +1987,7 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn) 	//管理�
         }
         i++;
     }
-	if ((strcmp(admin_find.getaccount(), adminname_PutIn) == 0) && (strcmp(admin_find.getaPassword(), password_PutIn) == 0))
+	if (strcmp(admin_find.getaccount(), adminname_PutIn) == 0 && strcmp(admin_find.getaPassword(), password_PutIn) == 0)
     {
         //账号和密码匹配成功后就可以登录成功了，然后就直接把查找到的admin_find赋值给私有成员admin
         admin = admin_find;
