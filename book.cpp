@@ -674,7 +674,7 @@ class Administrator
 {
 public:
     //11.1构造函数
-    Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
+    Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[12])//构造函数
     {
 
         for (int i = 0; i<5; i++)
@@ -683,17 +683,17 @@ public:
         }
         for (int i = 0; i<20; i++)
         {
-            APassword[i] = aPassword[i];
+            aPassword[i] = APassword[i];
         }
         for (int i = 0; i<10; i++)
         {
-            AccountHolder[i] = accountHolder[i];
+            accountHolder[i] = AccountHolder[i];
         }
         for (int i = 0; i<18; i++)
         {
             aID[i] = AID[i];
         }
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < 12; i++)
         {
             aPhone[i] = APhone[i];
         }
@@ -716,7 +716,7 @@ public:
         {
             aID[i] = ' ';
         }
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             aPhone[i] = ' ';
         }
@@ -741,7 +741,7 @@ public:
         {
             aID[i] = administrator.aID[i];
         }
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             aPhone[i] = administrator.aPhone[i];
         }
@@ -778,9 +778,9 @@ public:
             aID[i] = newaID[i];
         }
     }
-    void setaPhone(char newaaPhone[11])
+    void setaPhone(char newaaPhone[12])
     {
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             aPhone[i] = newaaPhone[i];
         }
@@ -831,7 +831,7 @@ private:
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
-    char aPhone[11];
+    char aPhone[12];
 
 friend class Book;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
@@ -840,7 +840,7 @@ friend class Book;//将BOOK类设为管理员类的友元类，否则管理员�
 
 void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone)
 {
-    string account_str = to_string(20000 + alladmin + 1);
+    string account_str = to_string(2000 + alladmin + 1);
     char account[5];
     strcpy(account,account_str.c_str());
     Administrator newadministrator(account, aPassword, accountHolder, aID, aPhone);
@@ -2011,7 +2011,7 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn) 	//管理�
 
 void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone) 	//用户注册
 {
-    string account_str = to_string(1000000000 + allcard + 1);
+    string account_str = to_string(10000 + allcard + 1);
     char account[10];
     strcpy(account,account_str.c_str());
     Card newcard(account, password, cardHolder, 0, CID, CPhone);
