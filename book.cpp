@@ -1,4 +1,4 @@
-﻿// UMLtest.cpp : 定义控制台应用程序的入口点。
+// UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
 //#include "stdafx.h"
@@ -880,6 +880,7 @@ void Administrator::searchLog()
 //11.2管理员新加书函数
 void Administrator::addBook(char bookID[10], char bookName[50], char author[20], char publisher[20], short storage)
 {
+    //
     FILE *fp_add_book;
     FILE *fp_book;
     if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
@@ -933,7 +934,7 @@ void Administrator::findbook(char*bookid)
 //11.2管理员改库存函数
 void Administrator::newStorage(short storage)
 {
-
+    //修改库存时输入的值应该改成增加的量或者减少的量，不能直接输入最终的库存量
     time_t timer;
     time(&timer);
     tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
@@ -942,12 +943,6 @@ void Administrator::newStorage(short storage)
     int day = t_tm->tm_mday;
     int oldstorage = book.getstorage();
     book.setstorage(storage);
-    book.books = (int *)realloc(book.books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
-    if (storage > oldstorage) 			//如果库存减少了，对于books数组不用进行任何操作，但是如果库存增多了，就必须对新分配给books的内存赋值为1
-    {
-        for (int i = oldstorage; i < storage; i++)
-            book.books[i] = 1;
-    }
     Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
     record.admininchangestorage();
     FILE *fp_book;
@@ -1551,10 +1546,7 @@ void Library::bookLend()   //借书 1.直接借书
             card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
             int order = 1;//标识第几本书
             int *p = book.getBooks();
-            while (!(*(p + order) == 1))  //从第一本书开始检索而不是第0本
-            {
-                order++;
-            }
+ 
             book.setBooksI(order, 2);//将这本书改为已借出
             //生成一条借书的记录
             time_t timer;
