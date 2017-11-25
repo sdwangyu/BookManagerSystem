@@ -634,7 +634,7 @@ public:
     void signUpRecord();//注册记录
     void admininchangestorage();//管理员改变库存记录
     void admininaddbook();//管理员增加新书记录
-    void alter_Date(int day);//增加一个日期变化的函数
+    void alter_Date(int addday);//增加一个日期变化的函数
     
     char getflag1()
     {
@@ -1453,8 +1453,8 @@ void Record::bookRenewRecord()
     fclose(fp_buffer);
 }
 
-//11.1登陆记录
-//登陆记录未存在缓存文件中
+//11.1登录记录
+//登录记录未存在缓存文件中
 void Record::signInRecord()
 {
     FILE *fp_sign_in;
@@ -2251,7 +2251,7 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone)     
 
 void Library::signOut()         //用户注销
 {
-    //把刚刚登陆时获取的card写回文件原来的位置
+    //把刚刚登录时获取的card写回文件原来的位置
     FILE*fp_card;
     if (NULL == (fp_card = fopen("CARDINFORMATION", "rb+")))
     {
@@ -2292,7 +2292,7 @@ void Library::signOut()         //用户注销
 
 void Library::signOut_Admin()         //管理员注销
 {
-    //把刚刚登陆时获取的admin写回文件原来的位置
+    //把刚刚登录时获取的admin写回文件原来的位置
     FILE*fp_admin;
     if (NULL == (fp_admin = fopen("ADMININFORMATION", "rb+")))
     {
@@ -2415,6 +2415,7 @@ void Library::update_Order()             //函数用于用户进入系统时 对
                     break;
                 }
             }
+			//将fp_bookInfo和fp_cardInfo调回文件开头，便于对下一条记录的card和book搜索
             rewind(fp_bookInfo);
             rewind(fp_cardInfo);//rewind()函数用于将文件指针重新指向文件的开头，同时清除和文件流相关的错误和eof标记，相当于调用fseek(stream, 0, SEEK_SET)
             record_temp.setflag2('1');//1对预约记录表示此预约失效
@@ -2427,10 +2428,12 @@ void Library::update_Order()             //函数用于用户进入系统时 对
             record_temp.bookOrderNoRecord_new();//调用函数写入失效记录文件
         }
     }
+	fclose(fp_bookInfo);
+	fclose(fp_cardInfo);
     fclose(fp_buffer_order);
 }
 
-void Library::update_book()         //函数用于在登陆后判断用户的已借书籍是否已经超期
+void Library::update_book()         //函数用于在登录后判断用户的已借书籍是否已经超期
 {
     FILE*fp_lendbuffer;
     if ((fp_lendbuffer = fopen("BUFFERZONE_LEND", "rb+")) == NULL)
