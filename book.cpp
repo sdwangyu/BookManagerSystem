@@ -250,7 +250,7 @@ public:
                 newstorage--;
             }
         }
-        
+
     }
     short getbookMan()
     {
@@ -1548,7 +1548,7 @@ fstream iofile;
 
 
 
-<<<<<<< HEAD
+
 void Library::bookLend() { //借书 1.直接借书
     if (card.getlendedCount() == 10) {//已借本数超过上限
 		cout << "可借本书已达到上限，无法再进行借阅！" << endl;
@@ -1578,46 +1578,6 @@ void Library::bookLend() { //借书 1.直接借书
 			//写回book文件
 			FILE *fp_book;
             if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
-=======
-void Library::bookLend()   //借书 1.直接借书
-{
-    if (card.getlendedCount() == 10)  //可借本数超过上限
-    {
-        cout << "可借本书已达到上限，无法再进行借阅！" << endl;
-    }
-    else //可借本数没有超过上限
-    {
-        if (book.getstorage() >= 2)   //库存允许
-        {
-            cout << "借阅成功" << endl;
-            book.setstorage(book.getstorage() - 1);//库存-1
-            card.setlendedCount(card.getlendedCount() + 1);//已借本数+1
-            card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
-            int order = 1;//标识第几本书
-            int *p = book.getBooks();
- 
-            book.setBooksI(order, 2);//将这本书改为已借出
-            //生成一条借书的记录
-            time_t timer;
-            time(&timer);
-            tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
-            int year = t_tm->tm_year + 1900;
-            int month = month = t_tm->tm_mon + 1;
-            int day = t_tm->tm_mday;
-            Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//生成一条借书的记录
-            record.alter_Date(30);	//加上30天，把应还日期写进记录
-            record.bookLendRecord(0);
-            //写回book文件
-            ofstream outfile("BOOKINFORMATION", ios::binary);
-            if (!outfile)
-            {
-                cerr << "open error!" << endl;
-                abort();//退出程序
-            }
-            int number = 0;//第几本书
-            char *p = book.getbookID();
-            for (int i = 0; i<10; i++)
->>>>>>> 6bc1a75c3508584ce180719e9865954711da5c44
             {
                 fprintf(stderr, "Can not open file");
                 exit(1);
