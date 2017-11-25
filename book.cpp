@@ -907,6 +907,21 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
         exit(1);
     }
     fseek(fp_add_book, 0, SEEK_END);
+    char bookid[10];
+    char bookName[100];
+    char author[20];
+    char publisher[20];
+    short storage;
+    int bookid_1= allbook + 100000000;
+    sprintf(bookid, "%d", bookid_1);
+    cout << "请输入书名" <<;
+    cin >> bookName;
+    cout << "请输入作者" <<;
+    cin >> author;
+    cout << "请输入出版社" <<;
+    cin >> publisher;
+    cout << "请输入库存" <<;
+    cin >> storage;
     Book book(bookID, bookName, author, publisher, storage);
     fwrite(&book, sizeof(Book), 1, fp_book);
     allbook++;
