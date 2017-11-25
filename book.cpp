@@ -956,20 +956,22 @@ void Administrator::newStorage(short addstor) //addstor是要增加的库存数�
     int day = t_tm->tm_mday;
     Book book;
     char bookid[10];  //qt中向此处传入bookid表示要修改哪本书的库存
+    cout << "请输入要修改书籍的id（9位）：" ;
+    cin >> bookid;
     FILE *fp_book;
     if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
     {
         fprintf(stderr, "Can not open file");
         exit(1);
     }
-    int position = atoi(bookid) - 100000000 - 1;
-    fseek(fp_book, position * sizeof(Book), SEEK_SET);
-    fread(&book, sizeof(Book), 1, fp_book);
-    book.addstorage(addstor);
-    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
+    int position = atoi(bookid) - 100000000 - 1;//书籍位置
+    fseek(fp_book, position * sizeof(Book), SEEK_SET);//定位到这本书
+    fread(&book, sizeof(Book), 1, fp_book);///取出这本书
+    book.addstorage(addstor);//增加这本书的库存 addstor是要增加的数目
+    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');//写入记录
     record.admininchangestorage();
-    fseek(fp_book, position * sizeof(Book), SEEK_SET);
-    if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)
+    fseek(fp_book, position * sizeof(Book), SEEK_SET);//重新定位
+    if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)//把修改完的book写回文件
         printf("file write error\n");
 }
 
