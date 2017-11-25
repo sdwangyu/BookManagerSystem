@@ -119,10 +119,16 @@ public:
         {
             publisher[i] = Publisher[i];
         }
+        memset(books, '3', sizeof(books));//把books全部初始化为3
         if(Storage<21)
+        {
             storage = Storage;//初始库存为10本
+            for(int i = 0; i < Storage; i++)
+            {
+                books[i] = '1';  //把前storage本书置为1 表示可借
+            }
+        }
         else printf("Error,Store should <21");
-        memset(books, '1', sizeof(books));//把books全部初始化为1
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
         flag = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
@@ -147,8 +153,8 @@ public:
         {
             publisher[i] = ' ';
         }
-        memset(books, '1', sizeof(books));
-        storage = 10;//初始库存为10本
+        memset(books, '3', sizeof(books));
+        storage = 0;//初始库存为10本
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
         flag = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
@@ -229,11 +235,22 @@ public:
     {
         return storage;
     }
-    void setstorage(short newstorage)
+    void addstorage(short newstorage)
     {
-        if(newstorage<21)
-            storage = newstorage;//初始库存为10本
-        else printf("Error,Store should <21");
+        int i=0;
+        while(books[i] != '3') i++; //i为目前的库存
+        if(i + newstorage >20) //如果增加库存后超过20 提示越界 拒绝修改
+            cout << "Out of range, should < " << 20 - i << endl;
+        else
+        {
+            storage += newstorage; //新库存
+            while(newstorage != 0)
+            {
+                books[i + newstorage - 1] == '1';
+                newstorage--;
+            }
+        }
+        
     }
     short getbookMan()
     {
@@ -263,14 +280,10 @@ public:
     {
         return books;
     }
-
     //11.10 新增修改Books[i]的函数
     void setBooksI(int i, char newbooksi) //i表示第i本书，newbooksi表示新的Books[i]的值
     {
-        if(i<=storage)
             books[i] = newbooksi;
-        else
-            printf("ERROR,Out of range");
     }
 
 private:
@@ -282,7 +295,7 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
-    char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
+    char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出 3.表示初始化值，这本书还不可以用
     //动态开辟存储空间?
     //书籍库存上限为20
 };
@@ -932,7 +945,7 @@ void Administrator::findbook(char*bookid)
     }
 }
 //11.2管理员改库存函数
-void Administrator::newStorage(short storage)
+void Administrator::newStorage(short addstor) //addstor是要增加的库存数目
 {
     //修改库存时输入的值应该改成增加的量或者减少的量，不能直接输入最终的库存量
     time_t timer;
@@ -941,17 +954,20 @@ void Administrator::newStorage(short storage)
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    int oldstorage = book.getstorage();
-    book.setstorage(storage);
-    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
-    record.admininchangestorage();
+    Book book;
+    char bookid[10];  //qt中向此处传入bookid表示要修改哪本书的库存
     FILE *fp_book;
     if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
     {
         fprintf(stderr, "Can not open file");
         exit(1);
     }
-    int position = atoi(book.getbookID()) - 100000000 - 1;
+    int position = atoi(bookid) - 100000000 - 1;
+    fseek(fp_book, position * sizeof(Book), SEEK_SET);
+    fread(&book, sizeof(Book), 1, fp_book);
+    book.addstorage(addstor);
+    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
+    record.admininchangestorage();
     fseek(fp_book, position * sizeof(Book), SEEK_SET);
     if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)
         printf("file write error\n");
