@@ -100,6 +100,8 @@ int compareDate(int year1, int month1, int day1, int year2, int month2, int day2
 class Book//构造函数 复制构造函数
 {
 public:
+    friend class Administrator;
+    friend class Record;
     Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//构造函数
     {
 
@@ -306,6 +308,7 @@ private:
 class Card//构造函数  复制构造函数
 {
 public:
+    friend class Record;
     Card(char CardID[10], char CPassword[20], char CardHolder[10], double Balance, char CID[18], char CPhone[11]) //构造函数
     {
         for (int i = 0; i<10; i++)
