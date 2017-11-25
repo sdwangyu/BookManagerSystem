@@ -235,6 +235,10 @@ public:
     {
         return storage;
     }
+    void setstorage(short newstorage)
+    {
+            storage = newstorage;
+    }
     void addstorage(short newstorage)
     {
         int i=0;
@@ -1544,9 +1548,6 @@ private:
     Card card;
     Administrator admin;
 };
-fstream iofile;
-
-
 
 
 void Library::bookLend() { //借书 1.直接借书
@@ -1752,7 +1753,7 @@ void Library::bookOrder(){//预约
 	}
 }
 
-void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
+void Library::bookOrderCancel(){//取消预约 （未到期取消预约）
 	// Record record(book.getBookID(), card.getcardID(), year, month, day, 'e', '0');
 	int choice;
 	cout << "确定取消预约吗？" << endl;
