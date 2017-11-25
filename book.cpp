@@ -251,6 +251,10 @@ public:
     {
         return storage;
     }
+    void setstorage(short newstorage)
+    {
+            storage = newstorage;
+    }
     void addstorage(short newstorage)
     {
         int i=0;
@@ -2254,7 +2258,7 @@ void Library::signOut()         //用户注销
         fprintf(stderr, "Can not open file");
         exit(1);
     }
-    int position = atoi(card.getcardID()) - 1000000000 - 1;
+    int position = atoi(card.getcardID()) - 10000 - 1;
     fseek(fp_card, position*sizeof(Card), 0);
     if (fwrite(&card, sizeof(Card), 1, fp_card) != 1)
         printf("file write error\n");
