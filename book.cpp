@@ -1,4 +1,4 @@
-﻿// UMLtest.cpp : 定义控制台应用程序的入口点。
+// UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
 //#include "stdafx.h"
@@ -119,10 +119,16 @@ public:
         {
             publisher[i] = Publisher[i];
         }
+        memset(books, '3', sizeof(books));//把books全部初始化为3
         if(Storage<21)
+        {
             storage = Storage;//初始库存为10本
+            for(int i = 0; i < Storage; i++)
+            {
+                books[i] = '1';  //把前storage本书置为1 表示可借
+            }
+        }
         else printf("Error,Store should <21");
-        memset(books, '1', sizeof(books));//把books全部初始化为1
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
         flag = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
@@ -147,8 +153,8 @@ public:
         {
             publisher[i] = ' ';
         }
-        memset(books, '1', sizeof(books));
-        storage = 10;//初始库存为10本
+        memset(books, '3', sizeof(books));
+        storage = 0;//初始库存为10本
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
         flag = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
@@ -229,11 +235,22 @@ public:
     {
         return storage;
     }
-    void setstorage(short newstorage)
+    void addstorage(short newstorage)
     {
-        if(newstorage<21)
-            storage = newstorage;//初始库存为10本
-        else printf("Error,Store should <21");
+        int i=0;
+        while(books[i] != '3') i++; //i为目前的库存
+        if(i + newstorage >20) //如果增加库存后超过20 提示越界 拒绝修改
+            cout << "Out of range, should < " << 20 - i << endl;
+        else
+        {
+            storage += newstorage; //新库存
+            while(newstorage != 0)
+            {
+                books[i + newstorage - 1] == '1';
+                newstorage--;
+            }
+        }
+        
     }
     short getbookMan()
     {
@@ -263,14 +280,10 @@ public:
     {
         return books;
     }
-
     //11.10 新增修改Books[i]的函数
     void setBooksI(int i, char newbooksi) //i表示第i本书，newbooksi表示新的Books[i]的值
     {
-        if(i<=storage)
             books[i] = newbooksi;
-        else
-            printf("ERROR,Out of range");
     }
 
 private:
@@ -282,7 +295,7 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
-    char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出		初始值全部设为1
+    char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出 3.表示初始化值，这本书还不可以用
     //动态开辟存储空间?
     //书籍库存上限为20
 };
@@ -674,7 +687,7 @@ class Administrator
 {
 public:
     //11.1构造函数
-    Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[11])//构造函数
+    Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[12])//构造函数
     {
 
         for (int i = 0; i<5; i++)
@@ -683,17 +696,17 @@ public:
         }
         for (int i = 0; i<20; i++)
         {
-            APassword[i] = aPassword[i];
+            aPassword[i] = APassword[i];
         }
         for (int i = 0; i<10; i++)
         {
-            AccountHolder[i] = accountHolder[i];
+            accountHolder[i] = AccountHolder[i];
         }
         for (int i = 0; i<18; i++)
         {
             aID[i] = AID[i];
         }
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < 12; i++)
         {
             aPhone[i] = APhone[i];
         }
@@ -716,7 +729,7 @@ public:
         {
             aID[i] = ' ';
         }
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             aPhone[i] = ' ';
         }
@@ -741,7 +754,7 @@ public:
         {
             aID[i] = administrator.aID[i];
         }
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             aPhone[i] = administrator.aPhone[i];
         }
@@ -778,9 +791,9 @@ public:
             aID[i] = newaID[i];
         }
     }
-    void setaPhone(char newaaPhone[11])
+    void setaPhone(char newaaPhone[12])
     {
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             aPhone[i] = newaaPhone[i];
         }
@@ -831,7 +844,7 @@ private:
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
-    char aPhone[11];
+    char aPhone[12];
 
 friend class Book;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
@@ -840,7 +853,7 @@ friend class Book;//将BOOK类设为管理员类的友元类，否则管理员�
 
 void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone)
 {
-    string account_str = to_string(20000 + alladmin + 1);
+    string account_str = to_string(2000 + alladmin + 1);
     char account[5];
     strcpy(account,account_str.c_str());
     Administrator newadministrator(account, aPassword, accountHolder, aID, aPhone);
@@ -880,6 +893,7 @@ void Administrator::searchLog()
 //11.2管理员新加书函数
 void Administrator::addBook(char bookID[10], char bookName[50], char author[20], char publisher[20], short storage)
 {
+    //
     FILE *fp_add_book;
     FILE *fp_book;
     if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
@@ -931,34 +945,33 @@ void Administrator::findbook(char*bookid)
     }
 }
 //11.2管理员改库存函数
-void Administrator::newStorage(short storage)
+void Administrator::newStorage(short addstor) //addstor是要增加的库存数目
 {
-
+    //修改库存时输入的值应该改成增加的量或者减少的量，不能直接输入最终的库存量
     time_t timer;
     time(&timer);
     tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    int oldstorage = book.getstorage();
-    book.setstorage(storage);
-    book.books = (int *)realloc(book.books, storage*sizeof(int));		//修改库存之后需要重新给books动态分配内存
-    if (storage > oldstorage) 			//如果库存减少了，对于books数组不用进行任何操作，但是如果库存增多了，就必须对新分配给books的内存赋值为1
-    {
-        for (int i = oldstorage; i < storage; i++)
-            book.books[i] = 1;
-    }
-    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');
-    record.admininchangestorage();
+    Book book;
+    char bookid[10];  //qt中向此处传入bookid表示要修改哪本书的库存
+    cout << "请输入要修改书籍的id（9位）：" ;
+    cin >> bookid;
     FILE *fp_book;
     if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
     {
         fprintf(stderr, "Can not open file");
         exit(1);
     }
-    int position = atoi(book.getbookID()) - 100000000 - 1;
-    fseek(fp_book, position * sizeof(Book), SEEK_SET);
-    if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)
+    int position = atoi(bookid) - 100000000 - 1;//书籍位置
+    fseek(fp_book, position * sizeof(Book), SEEK_SET);//定位到这本书
+    fread(&book, sizeof(Book), 1, fp_book);///取出这本书
+    book.addstorage(addstor);//增加这本书的库存 addstor是要增加的数目
+    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');//写入记录
+    record.admininchangestorage();
+    fseek(fp_book, position * sizeof(Book), SEEK_SET);//重新定位
+    if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)//把修改完的book写回文件
         printf("file write error\n");
 }
 
@@ -1535,6 +1548,7 @@ fstream iofile;
 
 
 
+<<<<<<< HEAD
 void Library::bookLend() { //借书 1.直接借书
     if (card.getlendedCount() == 10) {//已借本数超过上限
 		cout << "可借本书已达到上限，无法再进行借阅！" << endl;
@@ -1564,6 +1578,46 @@ void Library::bookLend() { //借书 1.直接借书
 			//写回book文件
 			FILE *fp_book;
             if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
+=======
+void Library::bookLend()   //借书 1.直接借书
+{
+    if (card.getlendedCount() == 10)  //可借本数超过上限
+    {
+        cout << "可借本书已达到上限，无法再进行借阅！" << endl;
+    }
+    else //可借本数没有超过上限
+    {
+        if (book.getstorage() >= 2)   //库存允许
+        {
+            cout << "借阅成功" << endl;
+            book.setstorage(book.getstorage() - 1);//库存-1
+            card.setlendedCount(card.getlendedCount() + 1);//已借本数+1
+            card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
+            int order = 1;//标识第几本书
+            int *p = book.getBooks();
+ 
+            book.setBooksI(order, 2);//将这本书改为已借出
+            //生成一条借书的记录
+            time_t timer;
+            time(&timer);
+            tm* t_tm = localtime(&timer);	//获取了当前时间，并且转换为int类型的year，month，day
+            int year = t_tm->tm_year + 1900;
+            int month = month = t_tm->tm_mon + 1;
+            int day = t_tm->tm_mday;
+            Record record(book.getbookID(), card.getcardID(), year, month, day, 'a', '0', order);//生成一条借书的记录
+            record.alter_Date(30);	//加上30天，把应还日期写进记录
+            record.bookLendRecord(0);
+            //写回book文件
+            ofstream outfile("BOOKINFORMATION", ios::binary);
+            if (!outfile)
+            {
+                cerr << "open error!" << endl;
+                abort();//退出程序
+            }
+            int number = 0;//第几本书
+            char *p = book.getbookID();
+            for (int i = 0; i<10; i++)
+>>>>>>> 6bc1a75c3508584ce180719e9865954711da5c44
             {
                 fprintf(stderr, "Can not open file");
                 exit(1);
@@ -1936,7 +1990,7 @@ void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn) 	//管理�
 
 void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone) 	//用户注册
 {
-    string account_str = to_string(1000000000 + allcard + 1);
+    string account_str = to_string(10000 + allcard + 1);
     char account[10];
     strcpy(account,account_str.c_str());
     Card newcard(account, password, cardHolder, 0, CID, CPhone);
