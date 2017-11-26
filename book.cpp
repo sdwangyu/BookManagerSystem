@@ -136,7 +136,8 @@ public:
             publisher[i] = Publisher[i];
         }
         memset(books, '3', sizeof(books));//把books全部初始化为3
-        if(Storage<21)
+        books[20] = '\0';
+        if(Storage < 21)
         {
             storage = Storage;//初始库存为10本
             for(int i = 0; i < Storage; i++)
@@ -169,7 +170,8 @@ public:
         {
             publisher[i] = ' ';
         }
-        memset(books, '3', sizeof(books));
+        memset(books, '3', sizeof(books));//把books全部初始化为3
+        books[20] = '\0';
         storage = 0;//初始库存为10本
         bookMan = 0;//初始预约人数为0
         tStorage = 0;//初始预约该书的人数为0
@@ -198,7 +200,7 @@ public:
         bookMan = book.bookMan;
         tStorage = book.tStorage;
         flag = book.flag;
-        for (int i = 0; i < storage; i++)
+        for (int i = 0; i < 21; i++)
         {
             books[i] = book.books[i];
         }
@@ -253,7 +255,7 @@ public:
     }
     void setstorage(short newstorage)
     {
-            storage = newstorage;
+        storage = newstorage;
     }
     void addstorage(short newstorage)
     {
@@ -315,10 +317,13 @@ private:
     short bookMan; //预约人数
     short tStorage;  //临时库存
     char flag;  //图书是否存在
-    char books[20]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出 3.表示初始化值，这本书还不可以用
+    char books[21]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出 3.表示初始化值，这本书还不可以用
     //动态开辟存储空间?
     //书籍库存上限为20
+friend class Administrator;
 };
+
+
 class Card//构造函数  复制构造函数
 {
 public:
@@ -865,8 +870,6 @@ private:
     char accountHolder[10];
     char aID[18];
     char aPhone[12];
-
-    friend class Book;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
 
 //管理员注册函数
