@@ -116,6 +116,8 @@ int compareDate(int year1, int month1, int day1, int year2, int month2, int day2
 class Book//构造函数 复制构造函数
 {
 public:
+    friend class Administrator;
+    friend class Record;
     Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//构造函数
     {
 
@@ -327,6 +329,7 @@ friend class Administrator;
 class Card//构造函数  复制构造函数
 {
 public:
+    friend class Record;
     Card(char CardID[10], char CPassword[20], char CardHolder[10], double Balance, char CID[18], char CPhone[11]) //构造函数
     {
         for (int i = 0; i<10; i++)
@@ -930,22 +933,22 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
         exit(1);
     }
     fseek(fp_add_book, 0, SEEK_END);
-    char bookid[10];
-    char bookName[100];
-    char author[20];
-    char publisher[20];
-    short storage;
+    char bookID1[10];
+    char bookName1[100];
+    char author1[20];
+    char publisher1[20];
+    short storage1;
     int bookid_1= allbook + 100000000;
-    sprintf(bookid, "%d", bookid_1);
-    cout << "请输入书名" <<;
-    cin >> bookName;
-    cout << "请输入作者" <<;
-    cin >> author;
-    cout << "请输入出版社" <<;
-    cin >> publisher;
-    cout << "请输入库存" <<;
-    cin >> storage;
-    Book book(bookID, bookName, author, publisher, storage);
+    sprintf(bookID1, "%d", bookid_1);
+    cout << "请输入书名：";
+    cin >> bookName1;
+    cout << "请输入作者：";
+    cin >> author1;
+    cout << "请输入出版社：" ;
+    cin >> publisher1;
+    cout << "请输入库存：" ;
+    cin >> storage1;
+    Book book(bookID1, bookName1, author1, publisher1, storage1);
     fwrite(&book, sizeof(Book), 1, fp_book);
     allbook++;
     time_t timer;
