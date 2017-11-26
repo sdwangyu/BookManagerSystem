@@ -266,7 +266,7 @@ public:
             storage += newstorage; //新库存
             while(newstorage != 0)
             {
-                books[i + newstorage - 1] == '1';
+                books[i + newstorage - 1] = '1';
                 newstorage--;
             }
         }
