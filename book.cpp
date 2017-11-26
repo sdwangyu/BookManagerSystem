@@ -118,7 +118,7 @@ class Book//构造函数 复制构造函数
 public:
     Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//构造函数
     {
-        
+
         for (int i = 0; i<10; i++)
         {
             bookID[i] = BookID[i];
@@ -175,7 +175,7 @@ public:
         tStorage = 0;//初始预约该书的人数为0
         flag = '1';   //所有标记 0表示不存在 1表示存在//此处，1表示书可借
     }
-    
+
     Book(Book &book) //复制构造函数
     {
         for (int i = 0; i<10; i++)
@@ -266,11 +266,11 @@ public:
             storage += newstorage; //新库存
             while(newstorage != 0)
             {
-                books[i + newstorage - 1] == '1';
+                books[i + newstorage - 1] = '1';
                 newstorage--;
             }
         }
-        
+
     }
     short getbookMan()
     {
@@ -305,7 +305,7 @@ public:
     {
         books[i] = newbooksi;
     }
-    
+
 private:
     char bookID[10];//图书编号
     char bookName[100];//书名
@@ -328,12 +328,12 @@ public:
         {
             cardID[i] = CardID[i];
         }
-        
+
         for (int i = 0; i<20; i++)
         {
             cPassword[i] = CPassword[i];
         }
-        
+
         for (int i = 0; i<10; i++)
         {
             cardHolder[i] = CardHolder[i];
@@ -412,7 +412,7 @@ public:
         oweMoney = 0;
         bookedCount = 0;//初始预约本数为0
     }
-    
+
     char *getcardID()
     {
         return cardID;
@@ -517,7 +517,7 @@ public:
         }
     }
 private:
-    
+
     char cardID[10];//卡号
     char cPassword[20];//密码
     short lendedCount;//已借本数（不能超过10）
@@ -537,7 +537,7 @@ public:
     //10.30 构造函数更改
     Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22)
     {
-        
+
         for (int i = 0; i < 10; i++)
         {
             bookid[i] = bookid1[i];
@@ -553,7 +553,7 @@ public:
         flag2 = flag22;
         //获取当前系统日期 自行查询方法 读入当前year month day
     }
-    
+
     Record(char*cardid1, int Year, int Month, int Day, int flag11)
     {
         for (int i = 0; i < 10; i++)
@@ -565,7 +565,7 @@ public:
         day = Day;
         flag1 = flag11;
     }
-    
+
     //刘峰同学需要的构造函数啦啦~~
     Record(char*bookid1, char*cardid1, int Year, int Month, int Day, char flag11, char flag22, int Order)
     {
@@ -584,7 +584,7 @@ public:
         flag2 = flag22;
         order = Order;
     }
-    
+
     //默认构造函数
     Record()
     {
@@ -621,7 +621,7 @@ public:
         order = R.order;
         flag1 = R.flag1;
     }
-    
+
     void bookLendRecord(int flag);//借书记录
     void bookReturnRecord();//还书记录
     void bookOrderRecord();//预约记录
@@ -635,7 +635,7 @@ public:
     void admininchangestorage();//管理员改变库存记录
     void admininaddbook();//管理员增加新书记录
     void alter_Date(int addday);//增加一个日期变化的函数
-    
+
     char getflag1()
     {
         return flag1;
@@ -709,7 +709,7 @@ public:
     //11.1构造函数
     Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[12])//构造函数
     {
-        
+
         for (int i = 0; i<5; i++)
         {
             account[i] = Account[i];
@@ -754,7 +754,7 @@ public:
             aPhone[i] = ' ';
         }
     }
-    
+
     //复制构造函数
     Administrator(Administrator &administrator)
     {
@@ -779,7 +779,7 @@ public:
             aPhone[i] = administrator.aPhone[i];
         }
     }
-    
+
     void setaccount(char newaccount[5])
     {
         for (int i = 0; i<5; i++)
@@ -787,7 +787,7 @@ public:
             account[i] = newaccount[i];
         }
     }
-    
+
     void setaPassword(char newaPassword[20])
     {
         for (int i = 0; i<20; i++)
@@ -795,7 +795,7 @@ public:
             aPassword[i] = newaPassword[i];
         }
     }
-    
+
     void setaccountHolder(char newaccountHolder[10])
     {
         for (int i = 0; i<10; i++)
@@ -803,7 +803,7 @@ public:
             accountHolder[i] = newaccountHolder[i];
         }
     }
-    
+
     void setaID(char newaID[18])
     {
         for (int i = 0; i<18; i++)
@@ -825,7 +825,7 @@ public:
     char *getaPassword()
     {
         return aPassword;
-        
+
     }
     char *getaccountHolder()
     {
@@ -839,16 +839,16 @@ public:
     {
         return aPhone;
     }
-    
+
     void addBook(char *bookID, char *bookName, char *author, char *publisher, short storage);//增加书
-    
+
     //void deleteBook(Book book);老师说不要删书
     //void operateCard(Card card);老师说不要删卡 听老师的
-    
+
     void findbook(char*bookid);        //为了在修改库存之前给类中的私有成员book赋值
     void newStorage(short storage);//新设库存
     void addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone);
-    
+
     //11.9管理员所有查看行为函数
     void searchLog();//管理员查看大日志
     void searchLendBuffer();//管理员查看现在正借出的书
@@ -857,15 +857,15 @@ public:
     void searchOrder();//管理员查看所有预约记录
     void searchCancleOrder();//管理员查看全部预约取消预约到期记录文件
     void searchReturn();//管理员查看所有还书信息
-    
-    
+
+
 private:
     char account[5];        //记得修改上面对应得数值
     char aPassword[20];
     char accountHolder[10];
     char aID[18];
     char aPhone[12];
-    
+
     friend class Book;//将BOOK类设为管理员类的友元类，否则管理员类中的改库存函数无法访问tStorage私有变量
 };
 
@@ -907,7 +907,7 @@ void Administrator::searchLog()
         fprintf(stderr, "Can not open file");
         exit(1);
     }
-    
+
 }
 
 //11.2管理员新加书函数
@@ -955,7 +955,7 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
     record.admininaddbook();
     fclose(fp_add_book);
     fclose(fp_book);
-    
+
 }
 
 //在管理员修改库存之前，先让他输入要修改的书的bookid，然后调用findbook函数找到这本书，赋值给record类的私有成员book
@@ -1127,8 +1127,8 @@ void Record::bookLendRecord(int flag)        //借书记录
     }
     else if (flag == 1)
     {
-        
-        
+
+
         if (NULL == (fp_book_lend = fopen("BOOK_LEND_RECORD", "rb+")))
         {
             fprintf(stderr, "Can not open file");
@@ -1156,7 +1156,7 @@ void Record::bookLendRecord(int flag)        //借书记录
         fclose(fp_book_lend);
         fclose(fp_log);
         fclose(fp_buffer);
-        
+
         if (NULL == (fp_order = fopen("BUFFERZONE_ORDER", "rb+")))
         {
             fprintf(stderr, "Can not open file");
@@ -1178,9 +1178,9 @@ void Record::bookLendRecord(int flag)        //借书记录
         fclose(fp_new_order);
         if (remove("bufferOrderZone") != 0)exit(1);
         if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
-        
+
     }
-    
+
 }
 
 //11.1还书记录
@@ -1230,7 +1230,7 @@ void Record::bookReturnRecord()
         printf("file write error\n");
     fclose(fp_book_return);
     fclose(fp_log);
-    
+
 }
 
 
@@ -1307,7 +1307,7 @@ void Record::bookOrderCancelRecord()
     fclose(fp_order_buffernew);
     if (remove("bufferOrderZone") != 0)exit(1);
     if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
-    
+
     fseek(fp_book_order_cancel, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
     if (fwrite(this, sizeof(Record), 1, fp_book_order_cancel) != 1)
@@ -1381,7 +1381,7 @@ void Record::bookOrderNoRecord()
     fclose(fp_noorder_buffernew);
     if (remove("bufferLendZone") != 0)exit(1);
     if (rename("bufferzone_lendnew", "bufferLendZone") != 0) exit(1);
-    
+
     fseek(fp_book_order_cancel, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
     if (fwrite(this, sizeof(Record), 1, fp_book_order_cancel) != 1)
@@ -1549,7 +1549,7 @@ public:
         //Card card1;
         //card=card1;
         // book=book1;
-        
+
     }
     void signInUser(char*username_PutIn, char*password_PutIn);//用户登陆
     void signInAdmin(char*adminname_PutIn, char*password_PutIn);//管理员登陆
@@ -1560,15 +1560,15 @@ public:
     void ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2);//输入新密码后重设密码写入原位置
     void update_Order();//函数用于用户进入系统时 对缓冲区进行更新
     void update_book();//函数用于在登陆后判断用户的已借书籍是否已经超期
-    
+
     void charge(double money);//充值函数
     void Rcharge();//处理用户违约金
     // void resetCard();//更新修改卡信息 手机
-    
+
     void Search(int select);//查询书本函数
-    
+
     void deleteOrderFail();//删除orderbuffer中失效的预约记录
-    
+
     void bookLend();//直接进行的借书
     void bookLendOrder();//通过预约成功借书
     void bookReturn();//还书
@@ -1635,10 +1635,10 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
         cin >> number;
         fseek(fp2,a[number].b*sizeof(Book),0);
         fread(&book,sizeof(Book),1,fp2);
-        
+
         fclose (fp1);
         fclose (fp2);
-        
+
     }
     else if(select == 2)
     {
@@ -1726,7 +1726,7 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                 d[i][0] = i;
             for(j = 0; j <= arraytargetlength; j++)
                 d[0][j] = j;
-            
+
             for(i = 1; i <= arraysourcelength; i++)
             {
                 for(j = 1; j <= arraytargetlength; j++)
@@ -1776,10 +1776,10 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
         cin >> number;
         fseek(fp2,a[number].b*sizeof(Book),0);
         fread(&book,sizeof(Book),1,fp2);
-        
+
         fclose (fp1);
         fclose (fp2);
-        
+
     }
     else
     {
@@ -1899,7 +1899,7 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     card.setlendedCount(card.getlendedCount() + 1);//已借本数+1
     card.setlendingCount(card.getlendingCount() - 1);//可借本数-1
     card.setbookedCount(card.getbookedCount() - 1);//人的预约本数-1
-    
+
     book.setbookMan(book.getbookMan() - 1);//书的预约人数-1
     book.settStorage(book.gettStorage() - 1);//书的临时库存-1
     int order = 1;//标识第几本书
@@ -2167,7 +2167,7 @@ void Library::signInUser(char*username_PutIn, char*password_PutIn)         //用
         fclose(fp);
         return;
     }
-    
+
 }
 
 void Library::signInAdmin(char*adminname_PutIn, char*password_PutIn)     //管理员登录
@@ -2332,7 +2332,7 @@ void Library::signOut_Admin()         //管理员注销
 }
 
 /*void Library::matchCid(){        //身份证ID匹配
- 
+
  }*/
 
 void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2)     //输入新密码后重设密码写入原位置
@@ -2491,6 +2491,6 @@ void Library::Rcharge()         //处理用户违约金
 }
 
 /*void Library::resetCard(){        //更新修改卡信息 手机
- 
+
  }*/
 
