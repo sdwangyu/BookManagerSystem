@@ -853,7 +853,7 @@ public:
     //void deleteBook(Book book);老师说不要删书
     //void operateCard(Card card);老师说不要删卡 听老师的
 
-    void findbook(char*bookid);        //为了在修改库存之前给类中的私有成员book赋值
+    //void findbook(char*bookid);        //为了在修改库存之前给类中的私有成员book赋值
     void newStorage(short storage);//新设库存
     void addadmin(char*aPassword, char*accountHolder, char*aID, char*aPhone);
 
@@ -966,7 +966,7 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
 
 //在管理员修改库存之前，先让他输入要修改的书的bookid，然后调用findbook函数找到这本书，赋值给record类的私有成员book
 //然后让他输入修改后的书的总本数，点击修改库存按钮，执行newStorage函数即可
-void Administrator::findbook(char*bookid)
+/*void Administrator::findbook(char*bookid)
 {
     FILE *fp_book;
     if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
@@ -984,7 +984,7 @@ void Administrator::findbook(char*bookid)
             break;
         }
     }
-}
+}*/
 //11.2管理员改库存函数
 void Administrator::newStorage(short addstor) //addstor是要增加的库存数目
 {
