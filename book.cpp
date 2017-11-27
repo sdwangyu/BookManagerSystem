@@ -351,7 +351,7 @@ public:
         cardState = '1';//1表示未冻结
         balance = Balance;
         oweMoney = 0;
-        bookedCount = lendingCount - lendedCount;//初始预约本数为0
+        bookedCount = 0;//初始预约本数为0
         for (int i = 0; i<18; i++)
         {
             cID[i] = CID[i];
