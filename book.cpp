@@ -957,7 +957,7 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    Record record(book.getbookID(), this->getaccount(), year, month, day, 'j', '0');
+    Record record(book.getbookID(), this->getaccount(), year, month, day, 'j', '0');		//这个this是可以用的，因为调用的时候指向的也是一个具体的Administrator对象
     record.admininaddbook();
     fclose(fp_add_book);
     fclose(fp_book);
@@ -1009,7 +1009,7 @@ void Administrator::newStorage(short addstor) //addstor是要增加的库存数�
     fseek(fp_book, position * sizeof(Book), SEEK_SET);//定位到这本书
     fread(&book, sizeof(Book), 1, fp_book);///取出这本书
     book.addstorage(addstor);//增加这本书的库存 addstor是要增加的数目
-    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');//写入记录
+    Record record(book.getbookID(), this->getaccount(), year, month, day, 'k', '0');//写入记录	//这个this也是可以用的，理由同上
     record.admininchangestorage();
     fseek(fp_book, position * sizeof(Book), SEEK_SET);//重新定位
     if (fwrite(&book, sizeof(Book), 1, fp_book) != 1)//把修改完的book写回文件
@@ -1059,7 +1059,7 @@ void Record::admininchangestorage()
     }
     fseek(fp_change_storage, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
-    if (fwrite(this, sizeof(Record), 1, fp_change_storage) != 1)
+    if (fwrite(this, sizeof(Record), 1, fp_change_storage) != 1)	//这两处的this也是可以用的，指向的是一个Record对象
         printf("file write error\n");
     if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
         printf("file write error\n");
@@ -1084,7 +1084,7 @@ void Record::admininaddbook()
     }
     fseek(fp_add_book, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
-    if (fwrite(this, sizeof(Record), 1, fp_add_book) != 1)
+    if (fwrite(this, sizeof(Record), 1, fp_add_book) != 1)	//这两处也是可以用的，理由同上
         printf("file write error\n");
     if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
         printf("file write error\n");
@@ -1121,7 +1121,7 @@ void Record::bookLendRecord(int flag)        //借书记录
         fseek(fp_book_lend, 0, SEEK_END);
         fseek(fp_log, 0, SEEK_END);
         fseek(fp_buffer, 0, SEEK_END);
-        if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)
+        if (fwrite(this, sizeof(Record), 1, fp_book_lend) != 1)	//this可用
             printf("file write error\n");
         if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
             printf("file write error\n");
