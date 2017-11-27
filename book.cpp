@@ -330,7 +330,7 @@ class Card//构造函数  复制构造函数
 {
 public:
     friend class Record;
-    Card(char CardID[10], char CPassword[20], char CardHolder[10], double Balance, char CID[18], char CPhone[11]) //构造函数
+    Card(char CardID[10], char CPassword[20], char CardHolder[10], double Balance, char CID[19], char CPhone[12]) //构造函数
     {
         for (int i = 0; i<10; i++)
         {
@@ -352,11 +352,11 @@ public:
         balance = Balance;
         oweMoney = 0;
         bookedCount = 0;//初始预约本数为0
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             cID[i] = CID[i];
         }
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             cPhone[i] = CPhone[i];
         }
@@ -381,11 +381,11 @@ public:
         balance = card.balance;
         oweMoney = card.oweMoney;
         bookedCount = card.bookedCount;
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             cID[i] = card.cID[i];
         }
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             cPhone[i] = card.cPhone[i];
         }
@@ -406,11 +406,11 @@ public:
             cardHolder[i] = ' ';
         }
         balance = 0;
-        for (i = 0; i<18; i++)
+        for (i = 0; i<19; i++)
         {
             cID[i] = ' ';
         }
-        for (i = 0; i<11; i++)
+        for (i = 0; i<12; i++)
         {
             cPhone[i] = ' ';
         }
@@ -506,9 +506,9 @@ public:
     {
         return cID;
     }
-    void setcID(char newcID[18])
+    void setcID(char newcID[19])
     {
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             cID[i] = newcID[i];
         }
@@ -517,9 +517,9 @@ public:
     {
         return cPhone;
     }
-    void setcPhone(char newcPhone[11])
+    void setcPhone(char newcPhone[12])
     {
-        for (int i = 0; i<11; i++)
+        for (int i = 0; i<12; i++)
         {
             cPhone[i] = newcPhone[i];
         }
@@ -535,8 +535,8 @@ private:
     double balance;//余额
     double oweMoney;   //违约金
     short bookedCount;//已经预约的本数
-    char cID[18];  //身份证号
-    char cPhone[11];//持卡人手机号
+    char cID[19];  //身份证号
+    char cPhone[12];//持卡人手机号
 };
 
 class Record
