@@ -902,6 +902,19 @@ void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*
     record.signUpRecord();
     fclose(fp_admin);
     alladmin++;
+	FILE *fp_num;
+	if (NULL == (fp_num = fopen("ALLNUM", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)            //覆盖写入?
+		printf("file write error\n");
+	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	if (fwrite(&alladmin, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	fclose(fp_num);
     return;
 }
 //管理员查看大日志
@@ -2251,6 +2264,19 @@ void Library::signUp(char*password, char*cardHolder, char*CID, char*CPhone)     
     record.signUpRecord();
     fclose(fp_card);
     allcard++;
+	FILE *fp_num;
+	if (NULL == (fp_num = fopen("ALLNUM", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)            //覆盖写入?
+		printf("file write error\n");
+	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	if (fwrite(&alladmin, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	fclose(fp_num);
     return;
 }
 
