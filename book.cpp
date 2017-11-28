@@ -951,7 +951,7 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
     char author1[20];
     char publisher1[20];
     short storage1;
-    int bookid_1= allbook + 100000000;
+	int bookid_1 = allbook + 100000000 + 1;
     sprintf(bookID1, "%d", bookid_1);
     cout << "请输入书名：";
     cin >> bookName1;
@@ -962,6 +962,7 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
     cout << "请输入库存：" ;
     cin >> storage1;
     Book book(bookID1, bookName1, author1, publisher1, storage1);
+	fseek(fp_book, 0, SEEK_END);
     fwrite(&book, sizeof(Book), 1, fp_book);
     allbook++;
     time_t timer;
@@ -974,7 +975,19 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
     record.admininaddbook();
     fclose(fp_add_book);
     fclose(fp_book);
-
+	FILE *fp_num;
+	if (NULL == (fp_num = fopen("ALLNUM", "rb+")))
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	if (fwrite(&allcard, sizeof(int), 1, fp_num) != 1)            //覆盖写入?
+		printf("file write error\n");
+	if (fwrite(&allbook, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	if (fwrite(&alladmin, sizeof(int), 1, fp_num) != 1)
+		printf("file write error\n");
+	fclose(fp_num);
 }
 
 //在管理员修改库存之前，先让他输入要修改的书的bookid，然后调用findbook函数找到这本书，赋值给record类的私有成员book
