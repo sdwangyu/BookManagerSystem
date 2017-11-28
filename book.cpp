@@ -730,7 +730,7 @@ public:
         {
             accountHolder[i] = AccountHolder[i];
         }
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             aID[i] = AID[i];
         }
@@ -753,7 +753,7 @@ public:
         {
             accountHolder[i] = ' ';
         }
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             aID[i] = ' ';
         }
@@ -778,7 +778,7 @@ public:
         {
             accountHolder[i] = administrator.accountHolder[i];
         }
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             aID[i] = administrator.aID[i];
         }
@@ -812,9 +812,9 @@ public:
         }
     }
 
-    void setaID(char newaID[18])
+    void setaID(char newaID[19])
     {
-        for (int i = 0; i<18; i++)
+        for (int i = 0; i<19; i++)
         {
             aID[i] = newaID[i];
         }
@@ -871,7 +871,7 @@ private:
     char account[5];        //记得修改上面对应得数值
     char aPassword[20];
     char accountHolder[10];
-    char aID[18];
+    char aID[19];
     char aPhone[12];
 };
 
