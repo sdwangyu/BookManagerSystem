@@ -1,4 +1,4 @@
-// UMLtest.cpp : 定义控制台应用程序的入口点。
+﻿UMLtest.cpp : 定义控制台应用程序的入口点。
 //
 
 //#include "stdafx.h"
@@ -715,7 +715,7 @@ class Administrator
 {
 public:
     //11.1构造函数
-    Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[18], char APhone[12])//构造函数
+    Administrator(char Account[5], char APassword[20], char AccountHolder[10], char AID[19], char APhone[12])//构造函数
     {
 
         for (int i = 0; i<5; i++)
@@ -738,6 +738,8 @@ public:
         {
             aPhone[i] = APhone[i];
         }
+        aID[18]='\0';
+        aPhone[11]='\0';
     }
     Administrator()
     {
@@ -761,6 +763,8 @@ public:
         {
             aPhone[i] = ' ';
         }
+        aID[18]='\0';
+        aPhone[11]='\0';
     }
 
     //复制构造函数
