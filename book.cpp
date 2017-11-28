@@ -898,7 +898,7 @@ void Administrator::addadmin(char*aPassword, char*accountHolder, char*aID, char*
     int year = t_tm->tm_year + 1900;
     int month = month = t_tm->tm_mon + 1;
     int day = t_tm->tm_mday;
-    Record record(newadministrator.getaID(), year, month, day, 'l');
+    Record record(newadministrator.getaccount(), year, month, day, 'l');
     record.signUpRecord();
     fclose(fp_admin);
     alladmin++;
@@ -1529,7 +1529,6 @@ void Record::signUpRecord()
     }
     fseek(fp_sign_up, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
-    this->setflag1('g');
     if (fwrite(this, sizeof(Record), 1, fp_sign_up) != 1)
         printf("file write error\n");
     if (fwrite(this, sizeof(Record), 1, fp_log) != 1)
