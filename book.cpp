@@ -1610,6 +1610,8 @@ public:
     void bookOrder();//预约
     void bookOrderCancel();//未到期的取消预约
     void bookRenew();//续借
+
+	Administrator getAdmin();
 private:
     Book book;
     Card card;
