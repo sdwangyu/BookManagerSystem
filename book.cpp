@@ -2469,7 +2469,8 @@ void Library::update_Order()             //函数用于用户进入系统时 对
             rewind(fp_bookInfo);
             rewind(fp_cardInfo);//rewind()函数用于将文件指针重新指向文件的开头，同时清除和文件流相关的错误和eof标记，相当于调用fseek(stream, 0, SEEK_SET)
             record_temp.setflag2('1');//1对预约记录表示此预约失效
-            fseek(fp_buffer_order,-sizeof(Record),SEEK_CUR);//由于fread函数使用后会使指针后移，所以在重写当前位置时要将指针向前移动一个单位，SEEK_CUR表示从当前位置
+			int size = sizeof(Record);
+            fseek(fp_buffer_order,-size,SEEK_CUR);//由于fread函数使用后会使指针后移，所以在重写当前位置时要将指针向前移动一个单位，SEEK_CUR表示从当前位置
             if (fwrite(&record_temp, sizeof(Record), 1, fp_buffer_order) != 1)printf("file write error\n");//更新预约缓冲文件
             record_temp.setflag1('f');
             record_temp.setyear(year);
