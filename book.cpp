@@ -1212,8 +1212,8 @@ void Record::bookLendRecord(int flag)        //借书记录
         }
         fclose(fp_order);
         fclose(fp_new_order);
-        if (remove("bufferOrderZone") != 0)exit(1);
-        if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+        if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+        if (rename("bufferzone_ordernew", "BUFFERZONE_ORDER") != 0)exit(1);
 
     }
 
@@ -1256,8 +1256,8 @@ void Record::bookReturnRecord()
     }
     fclose(fp_lend_buffer);
     fclose(fp_lend_buffernew);
-    if (remove("bufferLendZone") != 0)exit(1);
-    if (rename("bufferzone_lendnew", "bufferLendZone") != 0)exit(1);
+    if (remove("BUFFERZONE_LEND") != 0)exit(1);
+    if (rename("bufferzone_lendnew", "BUFFERZONE_LEND") != 0)exit(1);
     fseek(fp_book_return, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
     if (fwrite(this, sizeof(Record), 1, fp_book_return) != 1)
@@ -1341,8 +1341,8 @@ void Record::bookOrderCancelRecord()
     }
     fclose(fp_order_buffer);
     fclose(fp_order_buffernew);
-    if (remove("bufferOrderZone") != 0)exit(1);
-    if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+    if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+    if (rename("bufferzone_ordernew", "BUFFERZONE_ORDER") != 0)exit(1);
 
     fseek(fp_book_order_cancel, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
@@ -1415,8 +1415,8 @@ void Record::bookOrderNoRecord()
     }
     fclose(fp_noorder_buffer);
     fclose(fp_noorder_buffernew);
-    if (remove("bufferLendZone") != 0)exit(1);
-    if (rename("bufferzone_lendnew", "bufferLendZone") != 0) exit(1);
+    if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+    if (rename("bufferzone_lendnew", "BUFFERZONE_ORDER") != 0) exit(1);
 
     fseek(fp_book_order_cancel, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
@@ -1468,8 +1468,8 @@ void Record::bookRenewRecord()
     }
     fclose(fp_buffer);
     fclose(fp_new_buffer_lend);
-    if (remove("bufferLendZone") != 0)exit(1);
-    if (rename("bufferzone_lendnew", "bufferLendZone") != 0)exit(1);
+    if (remove("BUFFERZONE_LEND") != 0)exit(1);
+    if (rename("bufferzone_lendnew", "BUFFERZONE_LEND") != 0)exit(1);
     if (NULL == (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
     {
         fprintf(stderr, "Can not open file");
@@ -2151,8 +2151,8 @@ void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录�
     }
     fclose(fp_buffer);
     fclose(fp_new_buffer_order);
-    if (remove("bufferOrderZone") != 0)exit(1);
-    if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+    if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+    if (rename("bufferzone_ordernew", "BUFFERZONE_ORDER") != 0)exit(1);
 }
 
 void Library::signInUser(char*username_PutIn, char*password_PutIn)         //用户登录
