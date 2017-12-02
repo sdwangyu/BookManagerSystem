@@ -935,7 +935,7 @@ void Administrator::addBook(char bookID[10], char bookName[50], char author[20],
     //
     FILE *fp_add_book;
     FILE *fp_book;
-    if (NULL == (fp_add_book = fopen("ADMINI_ADD_BOOK", "rb+")))
+    if (NULL == (fp_add_book = fopen("ADMININ_ADD_BOOK", "rb+")))
     {
         fprintf(stderr, "Can not open file");
         exit(1);
