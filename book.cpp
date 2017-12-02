@@ -2529,7 +2529,7 @@ void Library::charge(double money)             //充值函数
     card.setbalance(card.getbalance() + money);
 	if (card.getbalance() > card.getoweMoney() && card.getcardState() == '0'){
 		card.setcardState('1');
-		
+
 	}
 }
 
