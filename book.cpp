@@ -1603,13 +1603,15 @@ public:
     void Search(int select);//查询书本函数
 
     void deleteOrderFail();//删除orderbuffer中失效的预约记录
-
+    void setbook(Book book1) {//对需要操作的书进行赋值
+        book = book1;
+    }
     void bookLend();//直接进行的借书
     void bookLendOrder();//通过预约成功借书
-    void bookReturn();//还书
+    void bookReturn(Record record1);//还书
     void bookOrder();//预约
     void bookOrderCancel();//未到期的取消预约
-    void bookRenew();//续借
+    void bookRenew(Record record1);//续借
 
 	Administrator getAdmin();
 private:
@@ -1964,7 +1966,7 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     fclose(fp_book);
 }
 
-void Library::bookReturn(){ //还书（需要用到qt）
+void Library::bookReturn(Record record1){ //还书（需要用到qt）
     cout << "还书成功！" << endl;
     time_t timer;
     time(&timer);
@@ -1989,27 +1991,7 @@ void Library::bookReturn(){ //还书（需要用到qt）
         book.setstorage(book.getstorage() + 1);
     }
     //将order改为1可借
-    /*
-     ifstream infile("BUFFERZONE_LEND",ios::binary);
-     if(!infile)
-     {
-     cerr<<"open error!"<<endl;
-     abort( );
-     }
-     char bookID[10];//用于储存从文件中读出的书的编号
-     Record record;//record的大小问题，默认构造函数
-     int number;//第几条记录
-     for(number=0;;number++) {
-     iofile.seekg(i*sizeof(record,ios::beg);
-     iofile.read((char *)&bookID[10],sizeof(bookID[10]));
-     if(strcmp(book.getbookID(),bookID)==0) {
-     break;
-     }
-     }
-     iofile.seekg(number*sizeof(record,ios::beg);
-     iofile.read((char *)&record,sizeof(record);
-     book.setBooksI(record.getOrder(),1);
-     */
+    book.setBooksI(record1.getorder(),'1');
     //写回book文件
     FILE *fp_book;
     if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
@@ -2024,8 +2006,16 @@ void Library::bookReturn(){ //还书（需要用到qt）
     }
     fclose(fp_book);
     //生成一条还书记录
-    Record record(book.getbookID(), card.getcardID(), year, month, day, 'b', '0');
+    Record record(book.getbookID(), card.getcardID(), year, month, day, 'b', '0',record1.getorder());
     record.bookReturnRecord();
+    //用户超期处理
+    if (!(compareDate(record1.getyear(), record1.getmonth(), record1.getday(), year, month, day) > 0) )
+    {
+          double money = 0.5*compareDate(year, month, day, record1.getyear(), record1.getmonth(), record1.getday());
+          card.setbalance(card.getbalance()-money);
+          card.setoweMoney(card.getoweMoney()-money);
+          cout << "扣除" << money <<"元违约金" <<endl;
+    }
 }
 
 void Library::bookOrder(){//预约
@@ -2114,14 +2104,12 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
     }
 }
 
-void Library::bookRenew(){//图书续借（需要用到qt）
-    time_t timer;
-    time(&timer);
-    tm* t_tm = localtime(&timer);    //获取了当前时间，并且转换为int类型的year，month，day
-    int year = t_tm->tm_year + 1900;
-    int month = month = t_tm->tm_mon + 1;
-    int day = t_tm->tm_mday;
-    Record record(book.getbookID(), card.getcardID(), year, month, day, 'd', '1');
+void Library::bookRenew(Record record1){//图书续借（需要用到qt）
+   //获取借书的应还书时间
+    int year = record1.getyear();
+    int month = record1.getmonth();
+    int day = record1.getday();
+    Record record(book.getbookID(), card.getcardID(), year, month, day, 'd', '1',record1.getorder());
     cout << "续借成功" << endl;
     record.alter_Date(30);        //加上30天，将应还日期写进记录
     record.bookRenewRecord();//生成一条续借记录
