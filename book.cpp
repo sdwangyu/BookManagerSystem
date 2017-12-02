@@ -2480,43 +2480,48 @@ void Library::update_book()         //函数用于在登录后判断用户的已
 		fprintf(stderr, "Can not open file");
 		exit(1);
 	}
-	FILE*fp_End = fopen("BUFFERZONE_LEND", "rb+");
+	/*FILE*fp_End = fopen("BUFFERZONE_LEND", "rb+");
 	if (fp_End == NULL)
 	{
-		printf("file error\n");
-		exit(1);
-	}
-	fseek(fp_End, 0, SEEK_END);        //把fpEnd指针移到文件末尾*/
+	printf("file error\n");
+	exit(1);
+	}*/
+	//fseek(fp_End, 0, SEEK_END);        //把fpEnd指针移到文件末尾*/
 	Record record_temp;        //用于读取借书buffer中的每一条记录
 	int i = 0;
 	fseek(fp_lendbuffer, i * sizeof(Record), SEEK_SET);
 	card.setoweMoney(0);	//每次登陆时重新计算超期违约金
-	while (fp_lendbuffer != fp_End)
+	while (!feof(fp_lendbuffer))
 	{
-		fread(&record_temp, sizeof(Record), 1, fp_lendbuffer);
-		if ((string)record_temp.getCardid() == (string)card.getcardID())
-		{
-			//确实是当前用户借阅并且未还的书籍
-			time_t timer;
-			time(&timer);
-			tm* t_tm = localtime(&timer);    //获取了当前时间，并且转换为int类型的year，month，day
-			int year = t_tm->tm_year + 1900;
-			int month = month = t_tm->tm_mon + 1;
-			int day = t_tm->tm_mday;
-			//判断当前时间与应还日期
-			if (!(compareDate(record_temp.getyear(), record_temp.getmonth(), record_temp.getday(), year, month, day) > 0))
+		if (fread(&record_temp, sizeof(Record), 1, fp_lendbuffer)){
+			if ((string)record_temp.getCardid() == (string)card.getcardID())
 			{
-				//如果当前日期超过还书日期，那么就进行违约金处理；
+				//确实是当前用户借阅并且未还的书籍
+				cout << record_temp.getBookid() << " " << record_temp.getCardid() << " " << record_temp.getyear() << " " << record_temp.getmonth() << " " << record_temp.getday() << " " << record_temp.getflag1() << " " << record_temp.getorder() << endl;
+				time_t timer;
+				time(&timer);
+				tm* t_tm = localtime(&timer);    //获取了当前时间，并且转换为int类型的year，month，day
+				int year = t_tm->tm_year + 1900;
+				int month = month = t_tm->tm_mon + 1;
+				int day = t_tm->tm_mday;
+				//判断当前时间与应还日期
+				if (!(compareDate(record_temp.getyear(), record_temp.getmonth(), record_temp.getday(), year, month, day) > 0))
+				{
+					//如果当前日期超过还书日期，那么就进行违约金处理；
 
-				card.setoweMoney(card.getoweMoney() + 0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//按超期一天0.5元计算
-				if (card.getbalance() < card.getoweMoney())card.setcardState('0');        //余额不足冻结账号
+					card.setoweMoney(card.getoweMoney() + 0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//按超期一天0.5元计算
+					if (card.getbalance() < card.getoweMoney())card.setcardState('0');        //余额不足冻结账号
+					cout << "违约金为：" << card.getoweMoney() << endl;
+				}
 			}
+			//i++;
+			//fseek(fp_lendbuffer, i * sizeof(Record), SEEK_SET);
+			cout << endl;
 		}
-		i++;
-		fseek(fp_lendbuffer, i * sizeof(Record), SEEK_SET);
 	}
 	fclose(fp_lendbuffer);
-	fclose(fp_End);
+	//fclose(fp_End);
+	cout << "更新结束" << endl;
 }
 
 void Library::charge(double money)             //充值函数
