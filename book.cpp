@@ -1,16 +1,4 @@
-﻿UMLtest.cpp : 定义控制台应用程序的入口点。
-//
-
-//#include "stdafx.h"
-
-/*
- int _tmain(int argc, _TCHAR* argv[])
- {
- return 0;
- }
- */
-
-#include<iostream>
+﻿#include<iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -52,15 +40,24 @@ int alladmin;//全部管理员，新的管理员增加时++
 
 fstream iofile;//文件流
 
-struct so
+struct so_1
 {
     int a;//记录长度or相似度
     int b;//记录数组下标
 };
-
-bool comp(const so &x,const so &y)
+struct so_2
 {
-    return x.a<y.a;
+    double a;
+    int b;
+};
+
+bool comp_1(const so_1 &x, const so_1 &y)
+{
+    return x.a < y.a;
+}
+bool comp_2(const so_2 &x, const so_2 &y)
+{
+    return x.a > y.a;
 }
 
 int isLeapYear(int year) //判断是否是闰年,返回1为闰年，返回0不是闰年
@@ -118,7 +115,7 @@ class Book//构造函数 复制构造函数
 public:
     friend class Administrator;
     friend class Record;
-    Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], char Storage)//构造函数
+    Book(char BookID[10], char BookName[100], char Author[20], char Publisher[20], short Storage)//构造函数
     {
 
         for (int i = 0; i<10; i++)
@@ -1624,61 +1621,66 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
     FILE *fp2;
     Book tc;
     char source[100];
+    cout << "Please enter the search Information:";
     cin >> source;
     char target[100];
-    int i,j;
-    int n=0;
-    int num=0;
-    vector<so> a;
-    a.reserve(1000);
+    int i, j;
+    int n = 0;
+    int num = 0;
     if (NULL == (fp1 = fopen("bookInformation", "rb")))
     {
         fprintf(stderr, "Can not open file bookInformation");
     }
-    if (NULL == (fp2= fopen("searchResult", "wb+")))
+    if (NULL == (fp2 = fopen("searchResult", "wb+")))
     {
         fprintf(stderr, "Can not open file searchResult");
     }
-    if(select == 1)
+    if (select == 1)
     {
-        while (n!= allbook)
+        vector<so_1> sou_1;
+        sou_1.reserve(10000);
+        while (n != albook)
         {
-            fread(&tc,sizeof(Book),1,fp1);
+            fread(&tc, sizeof(Book), 1, fp1);
             size_t position;
-            string target=tc.getbookName();
+            string target = tc.getbookName();
             position = target.find(source);
             if (position == 0)
             {
-                if(fwrite(&tc,sizeof(Book),1,fp2)!=1)
+                if (fwrite(&tc, sizeof(Book), 1, fp2) != 1)
                     printf("file write error\n");
-                so soo;
-                soo.b=num;
-                soo.a=strlen(tc.getbookName());
-                a.push_back(soo);
+                so_1 temp;
+                temp.b = num;
+                temp.a = strlen(tc.getbookName());
+                sou_1.push_back(temp);
                 num++;
             }
             n++;
         }
         //num 为查找出来的书籍总数量
-        sort(a.begin(),a.end(),comp);
+        sort(sou_1.begin(), sou_1.end(), comp_1);
         Book abc;   //打印书的信息，测试的时候只打印前十本，方便测试
-        for(i=0; i<10; i++)
+        for (i = 0; i < num; i++)
         {
-            fseek(fp2,a[i].b*sizeof(Book),0);
-            fread(&abc,sizeof(Book),1,fp2);
+            fseek(fp2, sou_1[i].b*sizeof(Book), 0);
+            fread(&abc, sizeof(Book), 1, fp2);
+            cout << i + 1 << " " << abc.getbookID() << " " << abc.getbookName() << " " << abc.getauthor() << " " << abc.getpublisher() << abc.getstorage()<< endl;
         }
         //选择第number本书，把该书取出来放入book
         int number;
+        cout<<"Please input the num:";
         cin >> number;
-        fseek(fp2,a[number].b*sizeof(Book),0);
-        fread(&book,sizeof(Book),1,fp2);
-
-        fclose (fp1);
-        fclose (fp2);
+        fseek(fp2, sou_1[number-1].b*sizeof(Book), 0);
+        fread(&book, sizeof(Book), 1, fp2);
+        cout<<book.getbookName()<< " 已选中" <<endl;
+        fclose(fp1);
+        fclose(fp2);
 
     }
-    else if(select == 2)
+    else if (select == 2)
     {
+        vector<so_2> sou_2;
+        sou_2.reserve(10000);
         while (n!= allbook)
         {
             double same=0,different=0;
@@ -1686,9 +1688,6 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
             fread(&tc,sizeof(Book),1,fp1);
             strcpy(target,tc.getbookName());
             int d[100][100] = { 0 };
-            //printf("%d\n",strlen(source));
-            //printf("%d\n",strlen(target));
-            //target数组转换
             int arraytarget[50];
             int arraytargetlength=0;//target数组长度
             for(int i = 0; i < strlen(target); ++i)
@@ -1703,13 +1702,6 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                     if(itemp >= 170 && itemp <= 254)
                     {
                         arraytarget[arraytargetlength]=target[i]*256+target[i+1];
-                        /*char * pchar = new char[3];
-                         pchar[2] = '/0';
-                         pchar[0] = target[i];
-                         pchar[1] = target[i+1]; */
-                        //cout << pchar;
-                        //stoWrite += pchar;
-                        //delete [] pchar;
                     }
                     // 此时（ch < 0）两个char表示一个汉字，所以跳过第二个char
                     ++i;
@@ -1717,8 +1709,6 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                 }
                 else if( (ch >= 97 && ch <= 122) || (ch >= 48 && ch <= 57))
                 {
-                    //cout << target[i];
-                    //stoWrite += target[i];
                     arraytarget[arraytargetlength]=ch;
                     arraytargetlength++;
                 }
@@ -1738,13 +1728,6 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                     if(itemp >= 170 && itemp <= 254)
                     {
                         arraysource[arraysourcelength]=source[i]*256+source[i+1];
-                        /*char * pchar = new char[3];
-                         pchar[2] = '/0';
-                         pchar[0] = source[i];
-                         pchar[1] = source[i+1]; */
-                        //cout << pchar;
-                        //stoWrite += pchar;
-                        //delete [] pchar;
                     }
                     // 此时（ch < 0）两个char表示一个汉字，所以跳过第二个char
                     ++i;
@@ -1752,8 +1735,6 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                 }
                 else if( (ch >= 97 && ch <= 122) || (ch >= 48 && ch <= 57))
                 {
-                    //cout << target[i];
-                    //stoWrite += target[i];
                     arraysource[arraysourcelength]=ch;
                     arraysourcelength++;
                 }
@@ -1779,7 +1760,6 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                         int edDel = d[i - 1][j] + 1; //source 删除字符
                         int edRep = d[i - 1][j - 1] + 1; //source 替换字符
                         d[i][j] = min(min(edIns, edDel), edRep);
-                        //different=different+1;
                     }
                 }
             }
@@ -1788,43 +1768,43 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
             // printf("转换次数%d\n", d[strlen(source)][strlen(target)]);
             if(Jaccardindex>0)
             {
-                //cout<<target<<endl;
                 if(fwrite(&tc,sizeof(Book),1,fp2)!=1)
                     printf("file write error\n");
-                so soo;
-                soo.b=num;
-                soo.a=Jaccardindex;
-                a.push_back(soo);
+                so_2 temp;
+                temp.b=num;
+                temp.a=Jaccardindex;
+                sou_2.push_back(temp);
                 num++;
             }
             memset(target,0,50);
             n++;
         }
-        //num 为查找出来的书籍总数量
-        sort(a.begin(),a.end(),comp);
-        Book abc;   //打印书的信息，测试的时候只打印前十本，方便测试
-        for(i=0; i<10; i++)
+        sort(sou_2.begin(),sou_2.end(),comp_2);
+        Book abc;
+        for(i=0; i<num; i++)
         {
-            fseek(fp2,a[i].b*sizeof(Book),0);
+            fseek(fp2,sou_2[i].b*sizeof(Book),0);
             fread(&abc,sizeof(Book),1,fp2);
+            cout << i + 1 << " " << abc.getbookID() << " " << abc.getbookName() << " " << abc.getauthor() << " " << abc.getpublisher()<< abc.getstorage() << endl;
         }
-        //选择第number本书，把该书取出来放入book
         int number;
+        cout<<"Please input the num:";
         cin >> number;
-        fseek(fp2,a[number].b*sizeof(Book),0);
-        fread(&book,sizeof(Book),1,fp2);
-
-        fclose (fp1);
-        fclose (fp2);
-
+        fseek(fp2, sou_2[number-1].b*sizeof(Book), 0);
+        fread(&book, sizeof(Book), 1, fp2);
+        cout<<book.getbookName()<< " 已选中" <<endl;
+        fclose(fp1);
+        fclose(fp2);
     }
     else
     {
-        if(select == 3) //与作者进行匹配
+        if (select == 3) //与作者进行匹配
         {
-            while (n != allbook) {
+            while (n != allbook)
+            {
                 fread(&tc, sizeof(Book), 1, fp1);
-                if (strcmp(source, tc.getauthor()) == 0) {
+                if (strcmp(source, tc.getauthor()) == 0)
+                {
                     if (fwrite(&tc, sizeof(Book), 1, fp2) != 1)
                         printf("file write error\n");
                     num++;
@@ -1832,11 +1812,13 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                 n++;
             }
         }
-        if(select == 4) //与出版社进行匹配
+        if (select == 4) //与出版社进行匹配
         {
-            while (n != allbook) {
+            while (n != allbook)
+            {
                 fread(&tc, sizeof(Book), 1, fp1);
-                if (strcmp(source, tc.getpublisher()) == 0) {
+                if (strcmp(source, tc.getpublisher()) == 0)
+                {
                     if (fwrite(&tc, sizeof(Book), 1, fp2) != 1)
                         printf("file write error\n");
                     num++;
@@ -1844,19 +1826,20 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                 n++;
             }
         }
-        fseek(fp2,0,0);
-        for(i = 0; i < 10; i++ )
+        fseek(fp2, 0, SEEK_SET);
+        for (i = 0; i < num; i++)
         {
-            fread(&tc,sizeof(Book),1,fp1);
-            cout << i+1 << tc.getbookID() << tc.getbookName() << tc.getauthor() << tc.getpublisher() << endl;
+            fread(&tc, sizeof(Book), 1, fp2);
+            cout << i + 1 << " " << tc.getbookID() << " " << tc.getbookName() << " " << tc.getauthor() << " " << tc.getpublisher() << tc.getstorage() << endl;
         }
         int number;
-        cout << "输入第i本书:" << endl;
+        cout<<"Please input the num:";
         cin >> number;
-        fseek(fp2,number * sizeof(Book),0);
+        fseek(fp2, (number-1) * sizeof(Book), 0);
         fread(&book, sizeof(Book), 1, fp2);
-        fclose (fp1);
-        fclose (fp2);
+        cout << book.getbookName() << " 已选中" << endl;
+        fclose(fp1);
+        fclose(fp2);
     }
 }
 void Library::bookLend() { //借书 1.直接借书
