@@ -1,4 +1,4 @@
-﻿#include<iostream>
+#include<iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -9,7 +9,6 @@
 #include<sstream>
 #include <fstream>
 
-#define N  20000
 #define ALLNUM allNum//存放allcard和allbook
 #define BOOKINFORMATION bookInformation//全部图书信息
 #define CARDINFORMATION cardInformation//全部用户信息
@@ -1209,8 +1208,8 @@ void Record::bookLendRecord(int flag)        //借书记录
         }
         fclose(fp_order);
         fclose(fp_new_order);
-        if (remove("bufferOrderZone") != 0)exit(1);
-        if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+        if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+        if (rename("bufferzone_ordernew", "BUFFERZONE_ORDER") != 0)exit(1);
 
     }
 
@@ -1253,8 +1252,8 @@ void Record::bookReturnRecord()
     }
     fclose(fp_lend_buffer);
     fclose(fp_lend_buffernew);
-    if (remove("bufferLendZone") != 0)exit(1);
-    if (rename("bufferzone_lendnew", "bufferLendZone") != 0)exit(1);
+    if (remove("BUFFERZONE_LEND") != 0)exit(1);
+    if (rename("bufferzone_lendnew", "BUFFERZONE_LEND") != 0)exit(1);
     fseek(fp_book_return, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
     if (fwrite(this, sizeof(Record), 1, fp_book_return) != 1)
@@ -1338,8 +1337,8 @@ void Record::bookOrderCancelRecord()
     }
     fclose(fp_order_buffer);
     fclose(fp_order_buffernew);
-    if (remove("bufferOrderZone") != 0)exit(1);
-    if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+    if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+    if (rename("bufferzone_ordernew", "BUFFERZONE_ORDER") != 0)exit(1);
 
     fseek(fp_book_order_cancel, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
@@ -1412,8 +1411,8 @@ void Record::bookOrderNoRecord()
     }
     fclose(fp_noorder_buffer);
     fclose(fp_noorder_buffernew);
-    if (remove("bufferLendZone") != 0)exit(1);
-    if (rename("bufferzone_lendnew", "bufferLendZone") != 0) exit(1);
+    if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+    if (rename("bufferzone_lendnew", "BUFFERZONE_ORDER") != 0) exit(1);
 
     fseek(fp_book_order_cancel, 0, SEEK_END);
     fseek(fp_log, 0, SEEK_END);
@@ -1465,8 +1464,8 @@ void Record::bookRenewRecord()
     }
     fclose(fp_buffer);
     fclose(fp_new_buffer_lend);
-    if (remove("bufferLendZone") != 0)exit(1);
-    if (rename("bufferzone_lendnew", "bufferLendZone") != 0)exit(1);
+    if (remove("BUFFERZONE_LEND") != 0)exit(1);
+    if (rename("bufferzone_lendnew", "BUFFERZONE_LEND") != 0)exit(1);
     if (NULL == (fp_buffer = fopen("BUFFERZONE_LEND", "rb+")))
     {
         fprintf(stderr, "Can not open file");
@@ -1600,13 +1599,15 @@ public:
     void Search(int select);//查询书本函数
 
     void deleteOrderFail();//删除orderbuffer中失效的预约记录
-
+    void setbook(Book book1) {//对需要操作的书进行赋值
+        book = book1;
+    }
     void bookLend();//直接进行的借书
     void bookLendOrder();//通过预约成功借书
-    void bookReturn();//还书
+    void bookReturn(Record record1);//还书
     void bookOrder();//预约
     void bookOrderCancel();//未到期的取消预约
-    void bookRenew();//续借
+    void bookRenew(Record record1);//续借
 
 	Administrator getAdmin();
 private:
@@ -1947,7 +1948,7 @@ void Library::bookLendOrder() {//2.通过预约成功借书
     fclose(fp_book);
 }
 
-void Library::bookReturn(){ //还书（需要用到qt）
+void Library::bookReturn(Record record1){ //还书（需要用到qt）
     cout << "还书成功！" << endl;
     time_t timer;
     time(&timer);
@@ -1972,27 +1973,7 @@ void Library::bookReturn(){ //还书（需要用到qt）
         book.setstorage(book.getstorage() + 1);
     }
     //将order改为1可借
-    /*
-     ifstream infile("BUFFERZONE_LEND",ios::binary);
-     if(!infile)
-     {
-     cerr<<"open error!"<<endl;
-     abort( );
-     }
-     char bookID[10];//用于储存从文件中读出的书的编号
-     Record record;//record的大小问题，默认构造函数
-     int number;//第几条记录
-     for(number=0;;number++) {
-     iofile.seekg(i*sizeof(record,ios::beg);
-     iofile.read((char *)&bookID[10],sizeof(bookID[10]));
-     if(strcmp(book.getbookID(),bookID)==0) {
-     break;
-     }
-     }
-     iofile.seekg(number*sizeof(record,ios::beg);
-     iofile.read((char *)&record,sizeof(record);
-     book.setBooksI(record.getOrder(),1);
-     */
+    book.setBooksI(record1.getorder(),'1');
     //写回book文件
     FILE *fp_book;
     if (NULL == (fp_book = fopen("BOOKINFORMATION", "rb+")))
@@ -2007,8 +1988,16 @@ void Library::bookReturn(){ //还书（需要用到qt）
     }
     fclose(fp_book);
     //生成一条还书记录
-    Record record(book.getbookID(), card.getcardID(), year, month, day, 'b', '0');
+    Record record(book.getbookID(), card.getcardID(), year, month, day, 'b', '0',record1.getorder());
     record.bookReturnRecord();
+    //用户超期处理
+    if (!(compareDate(record1.getyear(), record1.getmonth(), record1.getday(), year, month, day) > 0) )
+    {
+          double money = 0.5*compareDate(year, month, day, record1.getyear(), record1.getmonth(), record1.getday());
+          card.setbalance(card.getbalance()-money);
+          card.setoweMoney(card.getoweMoney()-money);
+          cout << "扣除" << money <<"元违约金" <<endl;
+    }
 }
 
 void Library::bookOrder(){//预约
@@ -2097,14 +2086,12 @@ void Library::bookOrderCancel(){//取消预约 1.未到期取消预约
     }
 }
 
-void Library::bookRenew(){//图书续借（需要用到qt）
-    time_t timer;
-    time(&timer);
-    tm* t_tm = localtime(&timer);    //获取了当前时间，并且转换为int类型的year，month，day
-    int year = t_tm->tm_year + 1900;
-    int month = month = t_tm->tm_mon + 1;
-    int day = t_tm->tm_mday;
-    Record record(book.getbookID(), card.getcardID(), year, month, day, 'd', '1');
+void Library::bookRenew(Record record1){//图书续借（需要用到qt）
+   //获取借书的应还书时间
+    int year = record1.getyear();
+    int month = record1.getmonth();
+    int day = record1.getday();
+    Record record(book.getbookID(), card.getcardID(), year, month, day, 'd', '1',record1.getorder());
     cout << "续借成功" << endl;
     record.alter_Date(30);        //加上30天，将应还日期写进记录
     record.bookRenewRecord();//生成一条续借记录
@@ -2134,8 +2121,8 @@ void Library::deleteOrderFail() {//将预约缓冲区里已标记为1的记录�
     }
     fclose(fp_buffer);
     fclose(fp_new_buffer_order);
-    if (remove("bufferOrderZone") != 0)exit(1);
-    if (rename("bufferzone_ordernew", "bufferOrderZone") != 0)exit(1);
+    if (remove("BUFFERZONE_ORDER") != 0)exit(1);
+    if (rename("bufferzone_ordernew", "BUFFERZONE_ORDER") != 0)exit(1);
 }
 
 void Library::signInUser(char*username_PutIn, char*password_PutIn)         //用户登录
@@ -2452,7 +2439,8 @@ void Library::update_Order()             //函数用于用户进入系统时 对
             rewind(fp_bookInfo);
             rewind(fp_cardInfo);//rewind()函数用于将文件指针重新指向文件的开头，同时清除和文件流相关的错误和eof标记，相当于调用fseek(stream, 0, SEEK_SET)
             record_temp.setflag2('1');//1对预约记录表示此预约失效
-            fseek(fp_buffer_order,-sizeof(Record),SEEK_CUR);//由于fread函数使用后会使指针后移，所以在重写当前位置时要将指针向前移动一个单位，SEEK_CUR表示从当前位置
+			int size = sizeof(Record);
+            fseek(fp_buffer_order,-size,SEEK_CUR);//由于fread函数使用后会使指针后移，所以在重写当前位置时要将指针向前移动一个单位，SEEK_CUR表示从当前位置
             if (fwrite(&record_temp, sizeof(Record), 1, fp_buffer_order) != 1)printf("file write error\n");//更新预约缓冲文件
             record_temp.setflag1('f');
             record_temp.setyear(year);
@@ -2468,53 +2456,63 @@ void Library::update_Order()             //函数用于用户进入系统时 对
 
 void Library::update_book()         //函数用于在登录后判断用户的已借书籍是否已经超期
 {
-    FILE*fp_lendbuffer;
-    if ((fp_lendbuffer = fopen("BUFFERZONE_LEND", "rb+")) == NULL)
-    {
-        fprintf(stderr, "Can not open file");
-        exit(1);
-    }
-    FILE*fp_End = fopen("BUFFERZONE_LEND", "rb+");
-    if (fp_End == NULL)
-    {
-        printf("file error\n");
-        exit(1);
-    }
-    fseek(fp_End, 0, SEEK_END);        //把fpEnd指针移到文件末尾*/
-    Record record_temp;        //用于读取借书buffer中的每一条记录
-    int i = 0;
-    fseek(fp_lendbuffer, i * sizeof(Card), SEEK_SET);
-    while (fp_lendbuffer != fp_End)
-    {
-        fread(&record_temp, sizeof(Record), 1, fp_lendbuffer);
-        if ((string)record_temp.getCardid() == (string)card.getcardID())
-        {
-            //确实是当前用户借阅并且未还的书籍
-            time_t timer;
-            time(&timer);
-            tm* t_tm = localtime(&timer);    //获取了当前时间，并且转换为int类型的year，month，day
-            int year = t_tm->tm_year + 1900;
-            int month = month = t_tm->tm_mon + 1;
-            int day = t_tm->tm_mday;
-            //判断当前时间与应还日期
-            if (!(compareDate(record_temp.getyear(), record_temp.getmonth(), record_temp.getday(), year, month, day) > 0))
-            {
-                //如果当前日期超过还书日期，那么就进行违约金处理；
-                card.setoweMoney(0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//按超期一天0.5元计算
-                if (card.getbalance() >= card.getoweMoney())Rcharge();        //余额足够
-                else card.setcardState('0');    //余额不足，冻结账号
-            }
-        }
-        i++;
-        fseek(fp_lendbuffer, i * sizeof(Card), SEEK_SET);
-    }
-    fclose(fp_lendbuffer);
-    fclose(fp_End);
+	FILE*fp_lendbuffer;
+	if ((fp_lendbuffer = fopen("BUFFERZONE_LEND", "rb+")) == NULL)
+	{
+		fprintf(stderr, "Can not open file");
+		exit(1);
+	}
+	/*FILE*fp_End = fopen("BUFFERZONE_LEND", "rb+");
+	if (fp_End == NULL)
+	{
+	printf("file error\n");
+	exit(1);
+	}*/
+	//fseek(fp_End, 0, SEEK_END);        //把fpEnd指针移到文件末尾*/
+	Record record_temp;        //用于读取借书buffer中的每一条记录
+	int i = 0;
+	fseek(fp_lendbuffer, i * sizeof(Record), SEEK_SET);
+	card.setoweMoney(0);	//每次登陆时重新计算超期违约金
+	while (!feof(fp_lendbuffer))
+	{
+		if (fread(&record_temp, sizeof(Record), 1, fp_lendbuffer)){
+			if ((string)record_temp.getCardid() == (string)card.getcardID())
+			{
+				//确实是当前用户借阅并且未还的书籍
+				cout << record_temp.getBookid() << " " << record_temp.getCardid() << " " << record_temp.getyear() << " " << record_temp.getmonth() << " " << record_temp.getday() << " " << record_temp.getflag1() << " " << record_temp.getorder() << endl;
+				time_t timer;
+				time(&timer);
+				tm* t_tm = localtime(&timer);    //获取了当前时间，并且转换为int类型的year，month，day
+				int year = t_tm->tm_year + 1900;
+				int month = month = t_tm->tm_mon + 1;
+				int day = t_tm->tm_mday;
+				//判断当前时间与应还日期
+				if (!(compareDate(record_temp.getyear(), record_temp.getmonth(), record_temp.getday(), year, month, day) > 0))
+				{
+					//如果当前日期超过还书日期，那么就进行违约金处理；
+
+					card.setoweMoney(card.getoweMoney() + 0.5*compareDate(year, month, day, record_temp.getyear(), record_temp.getmonth(), record_temp.getday()));//按超期一天0.5元计算
+					if (card.getbalance() < card.getoweMoney())card.setcardState('0');        //余额不足冻结账号
+					cout << "违约金为：" << card.getoweMoney() << endl;
+				}
+			}
+			//i++;
+			//fseek(fp_lendbuffer, i * sizeof(Record), SEEK_SET);
+			cout << endl;
+		}
+	}
+	fclose(fp_lendbuffer);
+	//fclose(fp_End);
+	cout << "更新结束" << endl;
 }
 
 void Library::charge(double money)             //充值函数
 {
     card.setbalance(card.getbalance() + money);
+	if (card.getbalance() > card.getoweMoney() && card.getcardState() == '0'){
+		card.setcardState('1');
+
+	}
 }
 
 void Library::Rcharge()         //处理用户违约金
