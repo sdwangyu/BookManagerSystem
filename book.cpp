@@ -1665,7 +1665,7 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
         {
             fseek(fp2, sou_1[i].b*sizeof(Book), 0);
             fread(&abc, sizeof(Book), 1, fp2);
-            cout << i + 1 << " " << abc.getbookID() << " " << abc.getbookName() << " " << abc.getauthor() << " " << abc.getpublisher() << abc.getstorage()<< endl;
+            cout << i + 1 << " " << abc.getbookID() << " " << abc.getbookName() << " " << abc.getauthor() << " " << abc.getpublisher() << " " << abc.getstorage()<< endl;
         }
         //选择第number本书，把该书取出来放入book
         int number;
@@ -1786,7 +1786,7 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
         {
             fseek(fp2,sou_2[i].b*sizeof(Book),0);
             fread(&abc,sizeof(Book),1,fp2);
-            cout << i + 1 << " " << abc.getbookID() << " " << abc.getbookName() << " " << abc.getauthor() << " " << abc.getpublisher()<< abc.getstorage() << endl;
+            cout << i + 1 << " " << abc.getbookID() << " " << abc.getbookName() << " " << abc.getauthor() << " " << abc.getpublisher()<< " " << abc.getstorage() << endl;
         }
         int number;
         cout<<"Please input the num:";
@@ -1831,7 +1831,7 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
         for (i = 0; i < num; i++)
         {
             fread(&tc, sizeof(Book), 1, fp2);
-            cout << i + 1 << " " << tc.getbookID() << " " << tc.getbookName() << " " << tc.getauthor() << " " << tc.getpublisher() << tc.getstorage() << endl;
+            cout << i + 1 << " " << tc.getbookID() << " " << tc.getbookName() << " " << tc.getauthor() << " " << tc.getpublisher() << " " << tc.getstorage() << endl;
         }
         int number;
         cout<<"Please input the num:";
