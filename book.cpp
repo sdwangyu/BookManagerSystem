@@ -1640,7 +1640,7 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
     {
         vector<so_1> sou_1;
         sou_1.reserve(10000);
-        while (n != albook)
+        while (n != allbook)
         {
             fread(&tc, sizeof(Book), 1, fp1);
             size_t position;
