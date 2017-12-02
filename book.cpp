@@ -318,7 +318,6 @@ private:
     char books[21]; //数组中每一项用来表示具体某一本的状态，0：损坏 1：可借 2：借出 3.表示初始化值，这本书还不可以用
     //动态开辟存储空间?
     //书籍库存上限为20
-friend class Administrator;
 };
 
 
@@ -1640,7 +1639,7 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
     {
         vector<so_1> sou_1;
         sou_1.reserve(10000);
-        while (n != albook)
+        while (n != allbook)
         {
             fread(&tc, sizeof(Book), 1, fp1);
             size_t position;
