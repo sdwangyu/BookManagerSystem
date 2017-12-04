@@ -114,22 +114,22 @@ class Book//构造函数 复制构造函数
 public:
     friend class Administrator;
     friend class Record;
-    Book(char BookID[10], char BookName[150], char Author[150], char Publisher[150], short Storage)//构造函数
+    Book(char BookID[10], char BookName[100], char Author[50], char Publisher[50], short Storage)//构造函数
     {
 
         for (int i = 0; i<10; i++)
         {
             bookID[i] = BookID[i];
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<100; i++)
         {
             bookName[i] = BookName[i];
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             author[i] = Author[i];
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             publisher[i] = Publisher[i];
         }
@@ -156,15 +156,15 @@ public:
         {
             bookID[i] = ' ';
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<100; i++)
         {
             bookName[i] = ' ';
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             author[i] = ' ';
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             publisher[i] = ' ';
         }
@@ -182,15 +182,15 @@ public:
         {
             bookID[i] = book.bookID[i];
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<100; i++)
         {
             bookName[i] = book.bookName[i];
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             author[i] = book.author[i];
         }
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             publisher[i] = book.publisher[i];
         }
@@ -218,9 +218,9 @@ public:
     {
         return bookName;
     }
-    void setbookName(char newbookName[150])
+    void setbookName(char newbookName[100])
     {
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<100; i++)
         {
             bookName[i] = newbookName[i];
         }
@@ -229,9 +229,9 @@ public:
     {
         return author;
     }
-    void setauthor(char newauthor[150])
+    void setauthor(char newauthor[50])
     {
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             author[i] = newauthor[i];
         }
@@ -240,9 +240,9 @@ public:
     {
         return publisher;
     }
-    void setpublisher(char newpublisher[150])
+    void setpublisher(char newpublisher[50])
     {
-        for (int i = 0; i<150; i++)
+        for (int i = 0; i<50; i++)
         {
             publisher[i] = newpublisher[i];
         }
@@ -308,9 +308,9 @@ public:
 
 private:
     char bookID[10];//图书编号
-    char bookName[150];//书名
-    char author[150];//作者
-    char publisher[150];//出版商
+    char bookName[100];//书名
+    char author[50];//作者
+    char publisher[50];//出版商
     short storage; //库存
     short bookMan; //预约人数
     short tStorage;  //临时库存
@@ -929,7 +929,7 @@ void Administrator::searchLog()
 }
 
 //11.2管理员新加书函数
-void Administrator::addBook(char bookID[10], char bookName[150], char author[150], char publisher[150], short storage)
+void Administrator::addBook(char bookID[10], char bookName[100], char author[50], char publisher[50], short storage)
 {
     //
     FILE *fp_add_book;
@@ -946,9 +946,9 @@ void Administrator::addBook(char bookID[10], char bookName[150], char author[150
     }
     fseek(fp_add_book, 0, SEEK_END);
     char bookID1[10];
-    char bookName1[150];
-    char author1[150];
-    char publisher1[150];
+    char bookName1[100];
+    char author1[50];
+    char publisher1[50];
     short storage1;
 	int bookid_1 = allbook + 100000000 + 1;
     sprintf(bookID1, "%d", bookid_1);
