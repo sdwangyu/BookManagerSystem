@@ -2378,13 +2378,10 @@ void Library::signOut_Admin()         //管理员注销
 
  }*/
 
-void Library::ResetPassword(char*oldpassword, char*newpassword1, char*newpassword2)     //输入新密码后重设密码写入原位置
+void Library::ResetPassword(char*newpassword1, char*newpassword2)     //输入新密码后重设密码写入原位置
 {
-    if ((string)oldpassword == (string)card.getcPassword())
-    {
-        if ((string)newpassword1 == (string)newpassword2)
-            card.setcPassword(newpassword1);
-    }
+    if ((string)newpassword1 == (string)newpassword2)
+		card.setcPassword(newpassword1);
     return;
 }
 
