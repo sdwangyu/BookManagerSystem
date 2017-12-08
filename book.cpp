@@ -114,7 +114,7 @@ class Book//构造函数 复制构造函数
 public:
     friend class Administrator;
     friend class Record;
-    Book(char BookID[10], char BookName[100], char Author[50], char Publisher[50], short Storage)//构造函数
+    Book(char BookID[10], char BookName[100], char Author[50], char Publisher[50], char BOOKISBN[20], short Storage)//构造函数
     {
 
         for (int i = 0; i<10; i++)
@@ -132,6 +132,10 @@ public:
         for (int i = 0; i<50; i++)
         {
             publisher[i] = Publisher[i];
+        }
+        for (int i = 0; i < 20 ; i++ )
+        {
+        	bookisbn[i] = BOOKISBN[i];
         }
         memset(books, '3', sizeof(books));//把books全部初始化为3
         books[20] = '\0';
@@ -168,6 +172,10 @@ public:
         {
             publisher[i] = ' ';
         }
+        for (int i = 0; i < 20 ; i++ )
+        {
+        	bookisbn[i] = ' ';
+        }
         memset(books, '3', sizeof(books));//把books全部初始化为3
         books[20] = '\0';
         storage = 0;//初始库存为10本
@@ -193,6 +201,10 @@ public:
         for (int i = 0; i<50; i++)
         {
             publisher[i] = book.publisher[i];
+        }
+        for (int i = 0; i < 20 ; i++ )
+        {
+        	bookisbn[i] = book.bookisbn[i];
         }
         storage = book.storage;
         bookMan = book.bookMan;
@@ -246,6 +258,17 @@ public:
         {
             publisher[i] = newpublisher[i];
         }
+    }
+    char *getbookisbn()
+    {
+    	return bookisbn;
+    }
+    void setbookisbn(char BOOKISBN[20])
+    {
+    	for(int i=0;i<20;i++)
+    	{
+    		bookisbn[i]=BOOKISBN[i];
+    	}
     }
     short getstorage()
     {
@@ -311,6 +334,7 @@ private:
     char bookName[100];//书名
     char author[50];//作者
     char publisher[50];//出版商
+    char bookisbn[20];
     short storage; //库存
     short bookMan; //预约人数
     short tStorage;  //临时库存
