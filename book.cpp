@@ -1625,9 +1625,9 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
     cout << "Please enter the search Information:";
     cin >> source;
     char target[100];
-    int i, j;
-    int n = 0;
-    int num = 0;
+    unsigned int i, j;
+    unsigned int n = 0;
+    unsigned int num = 0;
     if (NULL == (fp1 = fopen("bookInformation", "rb")))
     {
         fprintf(stderr, "Can not open file bookInformation");
@@ -1689,9 +1689,9 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
             fread(&tc,sizeof(Book),1,fp1);
             strcpy(target,tc.getbookName());
             int d[100][100] = { 0 };
-            int arraytarget[50];
-            int arraytargetlength=0;//target数组长度
-            for(int i = 0; i < strlen(target); ++i)
+            unsigned int arraytarget[50];
+            unsigned int arraytargetlength=0;//target数组长度
+            for(i = 0; i < strlen(target); ++i)
             {
                 int ch = target[i];
                 if(ch < 0)
@@ -1715,9 +1715,9 @@ void Library::Search(int select) //select 1表示前方一致（书名） 2表�
                 }
             }
             //source数组转换
-            int arraysource[50];
-            int arraysourcelength=0;//source数组长度
-            for(int i = 0,t=0; i < strlen(source); ++i)
+            unsigned int arraysource[50];
+            unsigned int arraysourcelength=0;//source数组长度
+            for(i = 0,t=0; i < strlen(source); ++i)
             {
                 int ch = source[i];
                 if(ch < 0)
