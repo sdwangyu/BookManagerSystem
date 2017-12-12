@@ -1481,9 +1481,10 @@ void Record::bookRenewRecord()
     Record record_temp;
     while (!feof(fp_buffer))
     {
-        fread(&record_temp, sizeof(Record), 1, fp_buffer);
-        if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
-        fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_lend);
+		if (fread(&record_temp, sizeof(Record), 1, fp_buffer)){
+			if ((string)record_temp.getBookid() == (string)this->getBookid() && (string)record_temp.getCardid() == (string)this->getCardid() && record_temp.getorder() == this->getorder())continue;
+			fwrite(&record_temp, sizeof(Record), 1, fp_new_buffer_lend);
+		}
     }
     fclose(fp_buffer);
     fclose(fp_new_buffer_lend);
